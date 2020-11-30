@@ -86,7 +86,7 @@ Problem lahko zapišemo z naslednjimi rekurzivnimi zvezami:
 \begin{equation}
     \tag*{}
     \begin{matrix}
-    \bar{z}(d, s, j) = max\{ \bar{z}(d, s, j), \bar{z}(d - \hat{w}_j, s- 1, j - 1) + p_j\} \\
+    \bar{z}(d, s, j) = max\{ \bar{z}(d, s, j - 1), \bar{z}(d - \hat{w}_j, s- 1, j - 1) + p_j\} \\
     \text{za} \; \; d = 0,…, c; \; s = 1,…, \Gamma \;\text{in} \;j = 1,…, n. \\ 
     \\
     z(d, j) = max\{z(d, j - 1), z (d - w_j, j - 1) + p_j\} \\
