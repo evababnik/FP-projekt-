@@ -1,5 +1,5 @@
 """
-Robustni problem nahrbtinka
+Robustni Problem Nahrbtinka
 """
 
 def matrika(m,n):
