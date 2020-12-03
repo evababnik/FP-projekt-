@@ -22,8 +22,8 @@ def RKP(N, lamda, c, w, p, maks_w):
                 if z[d - maks_w[j]][s - 1] + p[j] > z[d][s]:
                     z[d][s] = z[d - maks_w[j]][s - 1] + p[j]
     z_zvedica = max([max(l) for l in z])
-    print(z)
     return (z_zvedica)
+
 
 def solve_KP(N, c, w, p):  
     n = len(N)
@@ -38,5 +38,5 @@ def solve_KP(N, c, w, p):
                 z[j][d] = z[j-1][d] 
     return z[n][c] 
 
-
-#RKP({1,2,3}, 2, 6, [2,2,3], [4, 5, 6], [40, 40, 50])
+# primer:
+# print(RKP({1,2,3,4,5}, 2, 15, [2,2,3,4,5], [4, 5, 6, 4, 2], [4, 4, 3, 6, 6]))
