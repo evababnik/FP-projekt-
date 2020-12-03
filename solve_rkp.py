@@ -25,7 +25,18 @@ def RKP(N, lamda, c, w, p, maks_w):
     print(z)
     return (z_zvedica)
 
-
+def solve_KP(N, c, w, p):  
+    n = len(N)
+    z = matrika(c, n)
+    for j in range(n + 1): 
+        for d in range(c + 1): 
+            if j == 0 or d == 0: 
+                z[j][d] = 0
+            elif w[j-1] <= d: 
+                z[j][d] = max(p[j-1] + z[j-1][d-w[j-1]],  z[j-1][d]) 
+            else: 
+                z[j][d] = z[j-1][d] 
+    return z[n][c] 
 
 #Gre za robustni problem nahrbtnika, torej zanima nas katere predmete naj pospravimo v nahbrtnik 
 # ki imajo teže W[j] in vrednost p[j] na tak način da bomo dobili čimvečjo vrednost. Ampak od teh
