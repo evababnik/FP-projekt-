@@ -3,30 +3,24 @@ Robustni problem nahrbtinka
 """
 
 def matrika(m,n):
-    M=[]
-    for j in range(n + 1):
-        l=[]
-        for k in range(m):
-            l.append(0)
-        M.append(l)
-    return M
+    return [[0] * (m+1) for _ in range(n+1)]
 
 
 def RKP(N, lamda, c, w, p, maks_w):
     z = matrika(lamda,c)
     for d in range(c + 1):
-        for s in range(lamda):
+        for s in range(lamda + 1):
             z[d][s]= float("-inf")
     z[0][0] = 0
 
-    for j in range(1, len(N) + 1):
-        for d in range(c, w[j - 1], -1): # prva zanka
-            if z[d - 1 - w[j - 1]][lamda - 1] + p[j - 1] > z[d-1][lamda - 1]: 
-                z[d - 1][lamda - 1] = z[d - 1 - w[j - 1]][lamda - 1] + p[j - 1]
+    for j in range(len(N)):
+        for d in range(c, w[j]-1, -1): # prva zanka
+            if z[d - w[j]][lamda] + p[j] > z[d][lamda]:
+                z[d][lamda] = z[d - w[j]][lamda] + p[j]
         for s in range(lamda, 0, -1):
-            for d in range(c, maks_w[j - 1] - 1, -1):
-                if z[d - 1 - maks_w[j - 1]][s - 2] + p[j - 1] > z[d - 1][s - 1]:
-                    z[d - 1][s - 1] = z[d - 1 -  maks_w[j - 1]][s - 2] + p[j - 1] 
+            for d in range(c, maks_w[j] - 1, -1):
+                if z[d - maks_w[j]][s - 1] + p[j] > z[d][s]:
+                    z[d][s] = z[d - maks_w[j]][s - 1] + p[j]
     z_zvedica = max([max(l) for l in z])
     print(z)
     return (z_zvedica)
