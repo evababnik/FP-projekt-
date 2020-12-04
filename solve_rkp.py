@@ -33,21 +33,23 @@ def RKP(N, lamda, c, w, p, maks_w):
 
 
 
-def solve_KP(N, c, w, p):  
+def solve_KP(N, c, w, p, k):  
     n = len(N)
     z = matrika(c, n)
+    k = 0
     for j in range(n + 1): 
         for d in range(c + 1): 
             if j == 0 or d == 0: 
                 z[j][d] = 0
             elif w[j-1] <= d: 
-                z[j][d] = max(p[j-1] + z[j-1][d-w[j-1]], z[j-1][d]) 
+                z[j][d] = max(p[j-1] + z[j-1][d-w[j-1]], z[j-1][d])
+
             else: 
                 z[j][d] = z[j-1][d] 
     return z[n][c] 
 
-#print(RKP({1,2,3}, 2, 6, [2,2,3], [4, 5, 6], [40, 40, 50]))
+#print(RKP({1,2,3}, 1, 6, [2,2,3], [4, 5, 6], [40, 40, 50]))
 
-print(RKP({0,1, 2}, 1, 30 , [7, 4, 4], [10, 5, 4], [10, 8, 6]))
+print(RKP({0,1, 2}, 2, 30 , [7, 4, 4], [10, 5, 4], [10, 8, 6]))
 # primer:
 # print(RKP({1,2,3,4,5}, 2, 15, [2,2,3,4,5], [4, 5, 6, 4, 2], [4, 4, 3, 6, 6]))
