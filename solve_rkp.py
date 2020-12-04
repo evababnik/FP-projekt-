@@ -32,6 +32,7 @@ def RKP(N, lamda, c, w, p, maks_w):
     return (z_zvedica, c_zvezdica)
 
 
+
 def solve_KP(N, c, w, p):  
     n = len(N)
     z = matrika(c, n)
@@ -48,3 +49,5 @@ def solve_KP(N, c, w, p):
 #print(RKP({1,2,3}, 2, 6, [2,2,3], [4, 5, 6], [40, 40, 50]))
 
 print(RKP({0,1, 2}, 1, 30 , [7, 4, 4], [10, 5, 4], [10, 8, 6]))
+# primer:
+# print(RKP({1,2,3,4,5}, 2, 15, [2,2,3,4,5], [4, 5, 6, 4, 2], [4, 4, 3, 6, 6]))
