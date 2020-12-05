@@ -108,7 +108,35 @@ def solve_KP(N, c, w, p):
             c -= w[i - 1]
     return [seznam_stvari, z_zvezdica]
 
+def solve_eKkP(N, c, w, p, k):
+    n = len(N)
+    z = [[[0 for col in range(k + 1)] for col in range(c + 1)] for row in range(n + 1)]
+    for j in range(n + 1): 
+        for d in range(c + 1):
+            for m in range(k + 1): 
+                if j == 0 or d == 0 or m == 0: 
+                    z[j][d][m] = 0
+                elif w[j-1] <= d: 
+                    z[j][d][m] = max(p[j-1] + z[j-1][d-w[j-1]][m - 1], z[j-1][d][m])         
+                else: 
+                    z[j][d][m]= z[j-1][d][m]
+    z_zvezdica = z[n][c][k]
+    z_zvezdica1 = z[n][c][k]
+    c_zvezdica = 0
+    seznam_stvari = []
+    for i in range(n, 0, -1):
+        if z_zvezdica1 <= 0:
+            break
+        elif z_zvezdica1 == z[i - 1][c][k]:
+            continue
+        else:
+            seznam_stvari.append((w[i - 1], p[i - 1]))
+            c_zvezdica += w[i - 1]
+            z_zvezdica1 -= p[i - 1]
+            c -= w[i - 1]
+    return([seznam_stvari, z_zvezdica])
 
+print(solve_eKkP([1, 2, 3, 4], 10,[2, 3, 6, 4], [1, 2, 5, 3], 2))
 #print(RKP({1,2,3}, 2, 6, [2,2,3], [4, 5, 6], [40, 40, 50]))
 
 print(RKP({0,1, 2}, 2, 30 , [7, 4, 4], [10, 5, 4], [10, 8, 6]))
