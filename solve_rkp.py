@@ -143,39 +143,38 @@ print(RKP({0,1, 2}, 2, 30 , [7, 4, 4], [10, 5, 4], [10, 8, 6]))
 # primer:
 # print(RKP({1,2,3,4,5, 6}, 2, 15, [2,2,3,4,5, 6], [4, 5, 6, 4, 2, 5], [4, 4, 3, 6, 6, 6]))
 
-def rekurzija(z_zvedica, k_zvezdica, c_zvezdica, lamda, n, w, maks_w, p):
-    if len(N) = 1:
-        if lamda != 0:
-            if maks_w[0] <= c_zvezdica:
-                return N
-            else:
-                print("V nahrbtnik ne moremo dati nobene stvari.")
-        else:
-            if w[0] <= c_zvezdica:
-                return N
-            else:
-                print(" V nahrbtnik ne moremo dati nobene stvari.")
-    else:
-        n = len(N)  #N razdelimo na N1 in N2
-        a = int((n / 2 ))
-        N1 = N[:a]
-        N2 = N[a:]
-        w1 = w[:a]
-        w2 = w[a:] 
-        w_maks1 = w_maks[a:]
-        w_maks2 = w_maks[:a]
-        p1 = p[:a]
-        p2 = p[a:]
-        if k_zvezdica >= lamda:
-            z1_c_zvezdica = RKP(N1, lamda, c_zvezdica, w1, p1, maks_w1)[0]
-            z2_c_zvezdica = solve_KP(N2, c_zvezdica, w2)
-            for c_1 in range(c_zvezdica + 1):
-                z1_c_1 = RKP(N1, lamda, c_1, w1, p1, maks_w1)[0]
-                z2_c_2 = solve_KP(N2, c_zvezdica - c_1, w2, p2)[-1]
-                if z1_c_1 + z2_c_2 = z_zvezdica:
-                    z2_c2 = z2_c_2
-                    z1_c1 = z1_c_1
-                    c1 = c_1
-                    c2 = c_zvezdica - c1
-            seznam_stvari = solve_KP(N2, c2, w2, p2)[0]
+#def rekurzija(z_zvedica, k_zvezdica, c_zvezdica, lamda, n, w, maks_w, p):
+ #   if len(N) == 1:
+  #      if lamda != 0:
+   #         if maks_w[0] <= c_zvezdica:
+    #            return N
+     #       else:
+      #          print("V nahrbtnik ne moremo dati nobene stvari.")
+       # else:
+        #    if w[0] <= c_zvezdica:
+         #       return N
+          #  else:
+           #     print(" V nahrbtnik ne moremo dati nobene stvari.")
+    #else:
+     #   n = len(N)  #N razdelimo na N1 in N2
+      #  a = int((n / 2 ))
+       # N1 = N[:a]
+        #N2 = N[a:]
+        #w1 = w[:a]
+        #w2 = w[a:] 
+        #w_maks1 = w_maks[a:]
+        #_maks2 = w_maks[:a]
+        #p1 = p[:a]
+        #p2 = p[a:]
+        #if k_zvezdica >= lamda:
+         #   z1_c_zvezdica = RKP(N1, lamda, c_zvezdica, w1, p1, maks_w1)[0]
+          #  z2_c_zvezdica = solve_KP(N2, c_zvezdica, w2)
+           # for c_1 in range(c_zvezdica + 1):
+            #   z2_c_2 = solve_KP(N2, c_zvezdica - c_1, w2, p2)[-1]
+             #  if z1_c_1 + z2_c_2 == z_zvezdica:
+                    #z2_c2 = z2_c_2
+                    #z1_c1 = z1_c_1
+                    #c1 = c_1
+                    #c2 = c_zvezdica - c1
+            #seznam_stvari = solve_KP(N2, c2, w2, p2)[0]
        
