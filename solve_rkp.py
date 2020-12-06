@@ -109,22 +109,10 @@ def RKP(N, c, w, p, lamda = None,  maks_w = None):
     g_zvezdica = k_zvezdica - g1 #g_zvezdica = št.elementov v N1, k_zvezdica = št. vseh elementov
     
     return (z_zvedica, c_zvezdica, k_zvezdica, g_zvezdica)
-# N = [1, 2, 3, 4]
-# w = [5, 3, 1, 6]
-# w_maks = [5, 7, 4, 8]
-# lamda = 1
-# c = 5
-# p = [11, 10, 5, 9]
-# print(RKP(N, c, w, p, lamda, w_maks))
-# print(podatki(w, p, w_maks))
-
 
 # primer:
-# print(RKP({1,2,3,4,5}, 15, [2,2,3,4,5], [4, 5, 6, 4, 2], 4, [4, 4, 3, 6, 6]))
 # print(RKP({1,2,3}, 7, [2,2,3], [4, 5, 6], 2, [4, 4, 3]))
 # print(RKP({1,2,3,4,5,6,7,8,9,10,11,12}, 20, [2,2,3,40,5,2, 2,3,4,5, 1,14], [4, 5, 6, 4, 2, 4, 5, 6, 4, 2, 2,15]))
-# RKP({1,2,3,4,5}, 17, [2,2,3,4,5], [4, 5, 6, 4, 2])
-# RKP({1,2,3,4,5}, 4, [2,2,3,4,5], [4, 5, 6, 4, 2])
 # RKP({1,2,3,4,5,6}, 10, [1,1,1,2,3,1], [2,3,4,5,5,3], 6, [3,3,3,3,3,3])
 # RKP({1,2,3,4,5,6}, 6, [1,1,1,2,3,9])
 
@@ -189,17 +177,10 @@ def solve_eKkP(N, c, w, p, k):
 
 # primer
 #print(solve_eKkP([1, 2, 3, 4], 10,[2, 3, 6, 4], [1, 2, 5, 3], 2))
-
 #print(solve_eKkP([1, 2, 3, 4], 10,[2, 3, 6, 4], [1, 2, 5, 3], 2))
-#print(RKP({1,2,3}, 2, 6, [2,2,3], [4, 5, 6], [40, 40, 50]))
-
-#print(RKP({0,1, 2}, 2, 30 , [7, 4, 4], [10, 5, 4], [10, 8, 6]))
-# primer:
-# print(RKP({1,2,3,4,5, 6}, 2, 15, [2,2,3,4,5, 6], [4, 5, 6, 4, 2, 5], [4, 4, 3, 6, 6, 6]))
 
 
-
-def rekurzija(N, z_zvezdica, k_zvezdica, c_zvezdica, lamda, w, maks_w, p, c):
+def rekurzija(N, z_zvezdica, k_zvezdica, c_zvezdica, lamda, w, maks_w, p):
     if len(N) == 1:
         if lamda != 0:
             if maks_w[0] <= c_zvezdica:
@@ -213,42 +194,41 @@ def rekurzija(N, z_zvezdica, k_zvezdica, c_zvezdica, lamda, w, maks_w, p, c):
                 print(" V nahrbtnik ne moremo dati nobene stvari.")
     else:
         n = len(N)  #N razdelimo na N1 in N2
-        a = int((n / 2 ))
-        N1 = N[:a]
-        N2 = N[a:]
-        w1 = w[:a]
-        w2 = w[a:] 
-        maks_w1 = maks_w[a:]
-        maks_w2 = maks_w[:a]
-        p1 = p[:a]
-        p2 = p[a:]
+        polovica = int((n / 2 ))
+        N1 = N[:polovica]
+        N2 = N[polovica:]
+        w1 = w[:polovica]
+        w2 = w[polovica:] 
+        maks_w1 = maks_w[polovica:]
+        maks_w2 = maks_w[:polovica]
+        p1 = p[:polovica]
+        p2 = p[polovica:]
     
         if k_zvezdica >= lamda:
             z1_c_zvezdica = RKP(N1, c_zvezdica, w1, p1, lamda, maks_w1)[0]
             z2_c_zvezdica = solve_KP(N2, c_zvezdica, w2, p2)[1] # tu ko boma dodala v RKP da naredi seznam še lahk kličema kr RKP
-            solution_set_kp = set()
             for c_1 in range(c_zvezdica + 1):
-                z1_c_1 = RKP(N1, c_zvezdica, w1, p1, lamda, maks_w1)[0]
+                z1_c_1 = RKP(N1, c_1, w1, p1, lamda, maks_w1)[0]
                 z2_c_2 = solve_KP(N2, c_zvezdica - c_1, w2, p2)[1]
                 if z1_c_1 + z2_c_2 == z_zvezdica:
                     z2_c2 = z2_c_2
                     z1_c1 = z1_c_1
                     c1 = c_1
                     c2 = c_zvezdica - c1
-                    solution_set_kp.add(solve_KP(N2, c2, w2, p2)[1])
-            k1_zvezdica = RKP(N1, c1, w1, p1, lamda, maks_w1)[2]
-            rekurzija(N1, RKP(N1, c, w1, p1,lamda, maks_w1) , k1_zvezdica, c1,lamda, w1, maks_w1, p1)        
+                    solution_set_kp = solve_KP(N2, z2_c2, w2, p2)
+                k1_zvezdica = RKP(N1, z1_c1, w1, p1, lamda, maks_w1)[3]
+                rekurzija(N1, z1_c1 , k1_zvezdica, c1, lamda, w1, maks_w1, p1)        
         else: 
-            z1_c_zvezdica = solve_eKkP(N1,c_zvezdica, maks_w1, k_zvezdica,k_zvezdica)[1]
-            z2_c_zvezdica = RKP(N2, c_zvezdica, w2, p2, lamda - k_zvezdica, maks_w2)[0]
+            z1_c_zvezdica = solve_eKkP(N1, c_zvezdica, maks_w1, p1, k_zvezdica)[1]
+            z2_c_zvezdica = RKP(N2, c_zvezdica,w2, p2, lamda - k_zvezdica, maks_w2)[0]
             for c_1 in range(c_zvezdica + 1):
-                z1_c_1 = RKP(N1, c_zvezdica, w, p, lamda, maks_w)[0]
-                z2_c_2 = solve_KP(N2, c_zvezdica - c_1, w, p)[-1]
+                z1_c_1 = RKP(N1, c_1, w1, p1, lamda, maks_w1)[0]
+                z2_c_2 = solve_KP(N2, c_zvezdica - c_1, w2, p2)[1]
                 if z1_c_1 + z2_c_2 == z_zvezdica:
                     z2_c2 = z2_c_2
                     z1_c1 = z1_c_1
                     c1 = c_1
                     c2 = c_zvezdica - c1
-            solution_set_eKkP = solve_eKkP(z2_c2, c, w, p)[0]
-            # k2_zvezdica 
-            rekurzija(N1, z2_c2, k2_zvezdica, c2,lamda - k_zvezdica, w, maks_w, p)
+                solution_set_eKkP = solve_eKkP(N2, z2_c2, w, p, k_zvezdica)[0]
+                k2_zvezdica = RKP(N1, z2_c2, w1, p1, lamda, maks_w1)[3]
+                rekurzija(N2, z2_c2, k2_zvezdica, c_zvezdica,lamda - k_zvezdica, w, maks_w, p)
