@@ -12,6 +12,7 @@ def v_seznam(N):
     N = N0
     return N
 
+# funkcija, ki podatke razvrsti padajoče po maks_w(j)
 def podatki(N, w, p, maks_w = None):
     N = v_seznam(N)
     if maks_w is None:
@@ -37,13 +38,10 @@ def podatki(N, w, p, maks_w = None):
 # print(podatki({1,2,3,4,5,6,7},[20,19,18,17,16,15,14],[20,10,14,13,11,2,24],[10,10,10,10,10,10,10]))
 
 
-
+# množico razdeli na dva enako velika seznama
 def particija(N):
     n = len(N)
-    N0 = []
-    for i in N:
-        N0 += [i]
-    print(N0)
+    N = v_seznam(N)
     N1 = []
     N2 = []
     for el in N:
@@ -53,6 +51,7 @@ def particija(N):
             N2.append(el)
     return N1, N2
 
+# funkcija RKP vrne optimalno vrednost, optimalno težo pri tej vrednosti, koliko predmetov uporabimo in koliko predmetov uporabimo iz N1 (prve polovice predmetov)
 def RKP(N, c, w, p, lamda = None,  maks_w = None):
     # slovar predmetov spremenimo v seznam predmetov
     N = v_seznam(N)
@@ -129,7 +128,6 @@ def RKP(N, c, w, p, lamda = None,  maks_w = None):
     g1 = g[c_zvezdica][stevilo_predmetov_s_povecano_tezo]
     k_zvezdica = k[c_zvezdica][stevilo_predmetov_s_povecano_tezo]
     g_zvezdica = k_zvezdica - g1 #g_zvezdica = št.elementov v N1, k_zvezdica = št. vseh elementov
-    
     return (z_zvedica, c_zvezdica, k_zvezdica, g_zvezdica)
 
 # primer:
@@ -139,7 +137,7 @@ def RKP(N, c, w, p, lamda = None,  maks_w = None):
 # RKP({1,2,3,4,5,6}, 10, [1,1,1,2,3,1], [2,3,4,5,5,3], 6, [3,3,3,3,3,3])
 # RKP({1,2,3,4,5,6}, 6, [1,1,1,2,3,9],[2,3,4,5,5,3])
 
-
+# Solve_KP vrne seznam predmetov in optimalno vrednost, če je lamda = 0, torej to je navadni problem nahrbtnika
 def solve_KP(N, c, w, p):  
     n = len(N)
     z = matrika(c, n)
@@ -155,7 +153,6 @@ def solve_KP(N, c, w, p):
     z_zvezdica = z[n][c]
     z_zvezdica1 = z[n][c]
     c_zvezdica = 0
-    c_zvezdica = 0
     seznam_stvari = []
     for i in range(n, 0, -1):
         if z_zvezdica1 <= 0:
@@ -169,9 +166,9 @@ def solve_KP(N, c, w, p):
             c -= w[i - 1]
     return (seznam_stvari, z_zvezdica)
 
-solve_KP([1,2,3], 2, [1,1,1], [3,4,3])
+#solve_KP([1,2,3], 2, [1,1,1], [3,4,3])
 
-
+# solve_eKkP vrne seznam vseh predmetov in optimalno vrednost, če dodatno omejimo maksimalno števio uporabljenih predmetov s k 
 def solve_eKkP(N, c, w, p, k):
     n = len(N)
     z = [[[0 for col in range(k + 1)] for col in range(c + 1)] for row in range(n + 1)]
