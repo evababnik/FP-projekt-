@@ -256,9 +256,19 @@ def rekurzija(N, z_zvezdica, k_zvezdica, c_zvezdica, lamda, w, maks_w, p, seznam
             else:
                 print("V nahrbtnik ne moremo dati nobene stvari.")
     elif len(N) == 1 and seznam != []:
-        seznam.append(N[0])
-        print(seznam)
-        return(seznam)
+        if lamda != 0:
+            if maks_w[0] <= c_zvezdica:
+                seznam.append(N[0])
+                print(seznam)
+                return(seznam)
+            else: 
+                print(seznam)
+                return(seznam)
+        else:
+            if w[0] <= c_zvezdica:
+                seznam.append(N[0])
+                print(seznam)
+                return(seznam)
     else:
         N = v_seznam(N)
         N, w, p, maks_w = podatki(N, w, p, maks_w)
