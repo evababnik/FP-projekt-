@@ -63,12 +63,16 @@ def RKP(N, c, w, p, lamda = None,  maks_w = None):
     N = v_seznam(N)
     # uporabiva funkcijo podatki, ki podatke spremeni v pravo obliko
     if len(N) == 1:
-        resitev = []
-        resitev.append(p[0])
-        resitev.append(w[0])
-        resitev.append(1)
-        resitev.append(0)
-        return resitev
+        if lamda != 0:
+            if maks_w[0] <= c:
+                return [p[0], maks_w[0], 1, 0]   
+            else:
+                return [0, 0, 0, 0]
+        else:
+            if w[0] <= c:
+                return [p[0], w[0], 1, 0]
+            else:
+                return [0, 0, 0, 0]
     else:
         if maks_w is not None:
             pravilni_podatki = podatki(N, w, p, maks_w)
@@ -142,7 +146,7 @@ def RKP(N, c, w, p, lamda = None,  maks_w = None):
         g1 = g[c_zvezdica][stevilo_predmetov_s_povecano_tezo]
         k_zvezdica = k[c_zvezdica][stevilo_predmetov_s_povecano_tezo]
         g_zvezdica = k_zvezdica - g1 #g_zvezdica = št.elementov v N1, k_zvezdica = št. vseh elementov
-        return (z_zvedica, c_zvezdica, k_zvezdica, g_zvezdica)
+        return [z_zvedica, c_zvezdica, k_zvezdica, g_zvezdica]
 
 # primer:
 # print(RKP({1,2,3}, 7, [2,2,3], [4, 5, 6], 2, [4, 4, 3]))
@@ -154,64 +158,84 @@ def RKP(N, c, w, p, lamda = None,  maks_w = None):
 # Solve_KP vrne seznam predmetov in optimalno vrednost, če je lamda = 0, torej to je navadni problem nahrbtnika
 def solve_KP(N, c, w, p):  
     n = len(N)
-    z = matrika(c, n)
-    for j in range(n + 1): 
-        for d in range(c + 1): 
-            if j == 0 or d == 0: 
-                z[j][d] = 0
-            elif w[j-1] <= d: 
-                z[j][d] = max(p[j-1] + z[j-1][d-w[j-1]], z[j-1][d]) 
-                z[j][d] == p[j-1] + z[j-1][d-w[j-1]]
-            else: 
-                z[j][d] = z[j-1][d] 
-    z_zvezdica = z[n][c]
-    z_zvezdica1 = z[n][c]
-    c_zvezdica = 0
-    seznam_stvari = []
-    for i in range(n, 0, -1):
-        if z_zvezdica1 <= 0:
-            break
-        if z_zvezdica1 == z[i - 1][c]:
-            continue
+    if n == 1:
+        if w[0] <= c:
+            return [N[0], p[0]]
         else:
-            element = N[i - 1]
-            seznam_stvari.append([element, w[i - 1], p[i - 1]])
-            c_zvezdica += w[i - 1]
-            z_zvezdica1 -= p[i - 1]
-            c -= w[i - 1]
-    return (seznam_stvari, z_zvezdica)
+            return [0, 0]
+    
+    else:
+        z = matrika(c, n)
+        for j in range(n + 1): 
+            for d in range(c + 1): 
+                if j == 0 or d == 0: 
+                    z[j][d] = 0
+                elif w[j-1] <= d: 
+                    z[j][d] = max(p[j-1] + z[j-1][d-w[j-1]], z[j-1][d]) 
+                    z[j][d] == p[j-1] + z[j-1][d-w[j-1]]
+                else: 
+                    z[j][d] = z[j-1][d] 
+        z_zvezdica = z[n][c]
+        z_zvezdica1 = z[n][c]
+        c_zvezdica = 0
+        seznam_stvari = []
+        set_stvari = []
+        for i in range(n, 0, -1):
+            if z_zvezdica1 <= 0:
+                break
+            if z_zvezdica1 == z[i - 1][c]:
+                continue
+            else:
+                element = N[i - 1]
+                set_stvari.append([element, w[i - 1], p[i - 1]])
+                seznam_stvari.append(element)
+                c_zvezdica += w[i - 1]
+                z_zvezdica1 -= p[i - 1]
+                c -= w[i - 1]
+        return [seznam_stvari, z_zvezdica]
 
 #solve_KP([1,2,3], 2, [1,1,1], [3,4,3])
 
 # solve_eKkP vrne seznam vseh predmetov in optimalno vrednost, če dodatno omejimo maksimalno števio uporabljenih predmetov s k 
 def solve_eKkP(N, c, w, p, k):
     n = len(N)
-    z = [[[0 for col in range(k + 1)] for col in range(c + 1)] for row in range(n + 1)]
-    for j in range(n + 1): 
-        for d in range(c + 1):
-            for m in range(k + 1): 
-                if j == 0 or d == 0 or m == 0: 
-                    z[j][d][m] = 0
-                elif w[j-1] <= d: 
-                    z[j][d][m] = max(p[j-1] + z[j-1][d-w[j-1]][m - 1], z[j-1][d][m])         
-                else: 
-                    z[j][d][m]= z[j-1][d][m]
-    z_zvezdica = z[n][c][k]
-    z_zvezdica1 = z[n][c][k]
-    c_zvezdica = 0
-    seznam_stvari = []
-    for i in range(n, 0, -1):
-        if z_zvezdica1 <= 0:
-            break
-        elif z_zvezdica1 == z[i - 1][c][k]:
-            continue
-        else:
-            element = N[i - 1]
-            seznam_stvari.append([element, w[i - 1], p[i - 1]])
-            c_zvezdica += w[i - 1]
-            z_zvezdica1 -= p[i - 1]
-            c -= w[i - 1]
-    return(seznam_stvari, z_zvezdica)
+    if n == 1:
+        if k == 0:
+            return [0, 0]
+        else: 
+            if w[0] <= c:
+                return [N[0], p[0]]
+            else:
+                return [0, 0]
+    else:
+        z = [[[0 for col in range(k + 1)] for col in range(c + 1)] for row in range(n + 1)]
+        for j in range(n + 1): 
+            for d in range(c + 1):
+                for m in range(k + 1): 
+                    if j == 0 or d == 0 or m == 0: 
+                        z[j][d][m] = 0
+                    elif w[j-1] <= d: 
+                        z[j][d][m] = max(p[j-1] + z[j-1][d-w[j-1]][m - 1], z[j-1][d][m])         
+                    else: 
+                        z[j][d][m]= z[j-1][d][m]
+        z_zvezdica = z[n][c][k]
+        z_zvezdica1 = z[n][c][k]
+        c_zvezdica = 0
+        set_stvari = []
+        seznam_stvari = []
+        for i in range(n, 0, -1):
+            if z_zvezdica1 <= 0:
+                break
+            elif z_zvezdica1 == z[i - 1][c][k]:
+                continue
+            else:
+                element = N[i - 1]
+                #set_stvari.append([element, w[i - 1], p[i - 1]])
+                seznam_stvari.append(element)
+                c_zvezdica += w[i - 1]
+                z_zvezdica1 -= p[i - 1]
+                c -= w[i - 1]
+        return(seznam_stvari, z_zvezdica)
 
 # primer
 #print(solve_eKkP([1, 2, 3, 4], 10,[2, 3, 6, 4], [1, 2, 5, 3], 2))
@@ -219,22 +243,22 @@ def solve_eKkP(N, c, w, p, k):
 
 
 def rekurzija(N, z_zvezdica, k_zvezdica, c_zvezdica, lamda, w, maks_w, p, seznam=[]):
-    if len(N) == 1:
-        #if lamda != 0:
-            #if maks_w[0] <= c_zvezdica
-        sez1 = []
-        sez1.append(N)
-        sez1.append(w)
-        sez1.append(p)
-        print(sez1, seznam)
-        return sez1, seznam
-            #else:
-              #  print("V nahrbtnik ne moremo dati nobene stvari.")
-        #else:
-         #   if w[0] <= c_zvezdica:
-            #    return N
-            #else:
-              #  print("V nahrbtnik ne moremo dati nobene stvari.")
+    if len(N) == 1 and seznam == []:
+        if lamda != 0:
+            if maks_w[0] <= c_zvezdica:
+                print(N)
+                return N
+            else:
+                print("V nahrbtnik ne moremo dati nobene stvari.")
+        else:
+            if w[0] <= c_zvezdica:
+                return N
+            else:
+                print("V nahrbtnik ne moremo dati nobene stvari.")
+    elif len(N) == 1 and seznam != []:
+        seznam.append(N[0])
+        print(seznam)
+        return(seznam)
     else:
         N = v_seznam(N)
         N, w, p, maks_w = podatki(N, w, p, maks_w)
@@ -261,11 +285,11 @@ def rekurzija(N, z_zvezdica, k_zvezdica, c_zvezdica, lamda, w, maks_w, p, seznam
                 else:
                     z1_c_1 = RKP(N1, c_1, w1, p1, lamda, maks_w1)[0]
                     z2_c_2 = solve_KP(N2, c_zvezdica - c_1, w2, p2)[1]
-                if z1_c_1 + z2_c_2 == z_zvezdica:
-                    z2_c2 = z2_c_2
-                    z1_c1 = z1_c_1
-                    c1 = c_1
-                    c2 = c_zvezdica - c1
+                    if z1_c_1 + z2_c_2 == z_zvezdica:
+                        z2_c2 = z2_c_2
+                        z1_c1 = z1_c_1
+                        c1 = c_1
+                        c2 = c_zvezdica - c1
             solution_set_kp = solve_KP(N2, z2_c2, w2, p2)[0]
             seznam.append(solution_set_kp)
             k1_zvezdica = RKP(N1, z1_c1, w1, p1, lamda, maks_w1)[3]
@@ -276,18 +300,18 @@ def rekurzija(N, z_zvezdica, k_zvezdica, c_zvezdica, lamda, w, maks_w, p, seznam
             for c_1 in range(c_zvezdica + 1):
                 if c_1 == 0:
                     z1_c_1 = 0
-                    z2_c_2 = solve_KP(N2, c_zvezdica, w2, p2)[1]
+                    z2_c_2 = RKP(N2, c_zvezdica, w2, p2, lamda - k_zvezdica, maks_w2)[0] 
                 elif c_1 == c_zvezdica:
                     z2_c_2 = 0
-                    z1_c_1 = RKP(N1, c_zvezdica, w1, p1, lamda, maks_w1)[0]                    
+                    z1_c_1 = solve_eKkP(N1, c_zvezdica, w1, p1, k_zvezdica)[1]                    
                 else:
-                    z1_c_1 = RKP(N1, c_1, w1, p1, lamda, maks_w1)[0]
-                    z2_c_2 = solve_KP(N2, c_zvezdica - c_1, w2, p2)[1]
-                if z1_c_1 + z2_c_2 == z_zvezdica:
-                    z2_c2 = z2_c_2
-                    z1_c1 = z1_c_1
-                    c1 = c_1
-                    c2 = c_zvezdica - c1
+                    z2_c_2 = RKP(N2, c_zvezdica - c_1, w2, p2, lamda - k_zvezdica, maks_w2)[0]
+                    z1_c_1 = solve_eKkP(N1, c_1, w1, p1, k_zvezdica)[1]
+                    if z1_c_1 + z2_c_2 == z_zvezdica:
+                        z2_c2 = z2_c_2
+                        z1_c1 = z1_c_1
+                        c1 = c_1
+                        c2 = c_zvezdica - c1
             solution_set_eKkP = solve_eKkP(N1, z1_c1, w1, p1, k_zvezdica)[0]
             seznam.append(solution_set_eKkP)
             k2_zvezdica = RKP(N2, z2_c2, w2, p2, lamda - k_zvezdica, maks_w2)[3]
