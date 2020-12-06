@@ -71,51 +71,50 @@ def RKP(N, c, w, p, lamda = None,  maks_w = None):
     k = matrika(lamda,c)
     for d in range(c + 1):
         for s in range(lamda + 1):
-            k[d][s]= float("-inf")
+            k[d][s]= 0
     k[0][0] = 0
 
     g = matrika(lamda,c)
     for d in range(c + 1):
         for s in range(lamda + 1):
-            g[d][s]= float("-inf")
+            g[d][s] = 0
     g[0][0] = 0
 
-    števec = 0
     # stevilo_predmetov_s_povecano_tezo = 0 
     for j in range(len(N)): # izberemo j-ti predmet 
         for d in range(c, w[j]-1, -1):  # in ga poskusimo dodati v svoji nominalni teži 
             if z[d - w[j]][lamda] + p[j] > z[d][lamda]:
                 z[d][lamda] = z[d - w[j]][lamda] + p[j] 
                 k[d][lamda] = 1 + k[d - w[j]][lamda]
-                if j + 1 > ((len(N) / 2)):
+                if j  >= ((len(N) / 2)):
                     g[d][lamda] = 1 + g[d - w[j]][lamda]
                       
         for s in range(lamda, 0, -1): # poskusimo ga dodati v svoji robustni teži
             for d in range(c, maks_w[j] - 1, -1):
                 if z[d - maks_w[j]][s - 1] + p[j] > z[d][s]:
                     z[d][s] = z[d - maks_w[j]][s - 1] + p[j]
-                    k[d][s] = 1 + k[d - maks_w[j]][s-1]            
+                    k[d][s] = 1 + k[d - maks_w[j]][s-1] 
+                    if j  >= ((len(N) / 2)):
+                        g[d][s] = 1 + g[d - maks_w[j]][s - 1]
+
 
     z_zvedica = max([max(l) for l in z])
     pozicija = [[index, vrstica.index(z_zvedica)] for index, vrstica in enumerate(z) if z_zvedica in vrstica]
     c_zvezdica = pozicija[0][0] 
-    #stevilo_predmetov_s_povecano_tezo = pozicija[-1][-1] 
-    g_zvezdica = max(max(l) for l in g)
-    k_zvezdica =  max(max(l) for l in k)
-    # print(g_zvezdica)
-    # if g_zvezdica < 0:
-    #     g_zvezdica = 0
-    # if k_zvezdica < 0:
-    #     k_zvezdica = 0
-    # if k_zvezdica - g_zvezdica < 0:
-    #     k_zvezdica = 0
-    # else: 
-    #     k_zvezdica = k_zvezdica - g_zvezdica
+    stevilo_predmetov_s_povecano_tezo = pozicija[-1][-1] 
+    g1 = g[c_zvezdica][stevilo_predmetov_s_povecano_tezo]
+    k_zvezdica = k[c_zvezdica][stevilo_predmetov_s_povecano_tezo]
+    g_zvezdica = k_zvezdica - g1 #g_zvezdica = št.elementov v N1, k_zvezdica = št. vseh elementov
     
-    # indeks = k.index([največje_število])
-    # k_zvezdica = k[indeks][lamda] - števec
-    #k_zvezdica = k[c_zvezdica][stevilo_predmetov_s_povecano_tezo]
-    return (z_zvedica, c_zvezdica, k_zvezdica)
+    return (z_zvedica, c_zvezdica, k_zvezdica, g_zvezdica)
+N = [1, 2, 3, 4]
+w = [5, 3, 1, 6]
+w_maks = [5, 7, 4, 8]
+lamda = 1
+c = 5
+p = [11, 10, 5, 9]
+print(RKP(N, c, w, p, lamda, w_maks))
+print(podatki(w, p, w_maks))
 
 
 # primer:
