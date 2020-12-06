@@ -229,6 +229,6 @@ def rekurzija(N, z_zvezdica, k_zvezdica, c_zvezdica, lamda, w, maks_w, p):
                     z1_c1 = z1_c_1
                     c1 = c_1
                     c2 = c_zvezdica - c1
-                solution_set_eKkP = solve_eKkP(N2, z2_c2, w, p, k_zvezdica)[0]
-                k2_zvezdica = RKP(N1, z2_c2, w1, p1, lamda, maks_w1)[3]
+                solution_set_eKkP = solve_eKkP(N1, z1_c1, w1, p1, k_zvezdica)[0]
+                k2_zvezdica = RKP(N1, z2_c2, w2, p2, lamda, maks_w2)[3]
                 rekurzija(N2, z2_c2, k2_zvezdica, c_zvezdica,lamda - k_zvezdica, w, maks_w, p)
