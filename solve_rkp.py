@@ -72,9 +72,10 @@ def RKP(N, c, w, p, lamda = None,  maks_w = None):
     #     maks_w.append(1)
     #     print(w,p, maks_w)
 
-    # if lamda is not None:
-    #     if lamda > len(N):
-    #         raise ValueError("Lamda je večja kot moč množice predmetov")
+    if lamda is not None:
+        if lamda > len(N):
+            lamda = len(N)
+            print("Lamda je večja kot moč množice predmetov, zato sva lamdo nastavila na", len(N))
     if lamda == None or 0:
         maks_w = [c]* len(w)
         lamda = 0
