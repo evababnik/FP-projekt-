@@ -42,6 +42,8 @@ def RKP(N, c, w, p, lamda = None,  maks_w = None):
     if maks_w is not None:
         pravilni_podatki = podatki(w, p, maks_w)
         w, p, maks_w = pravilni_podatki[0], pravilni_podatki[1], pravilni_podatki[2]
+        print(w)
+        print(p)
     else: 
         pravilni_podatki = podatki(w, p)
         w, p = pravilni_podatki[0], pravilni_podatki[1]
@@ -74,42 +76,25 @@ def RKP(N, c, w, p, lamda = None,  maks_w = None):
             k[d][s]= 0
     k[0][0] = 0
 
-<<<<<<< HEAD
-=======
     g = matrika(lamda,c)
     for d in range(c + 1):
         for s in range(lamda + 1):
             g[d][s] = 0
     g[0][0] = 0
 
->>>>>>> 04781c010285ba9b552e232c4a01ed19e80a9b2b
     # stevilo_predmetov_s_povecano_tezo = 0 
     for j in range(len(N)): # izberemo j-ti predmet 
         for d in range(c, w[j]-1, -1):  # in ga poskusimo dodati v svoji nominalni teži 
             if z[d - w[j]][lamda] + p[j] > z[d][lamda]:
                 z[d][lamda] = z[d - w[j]][lamda] + p[j] 
                 k[d][lamda] = 1 + k[d - w[j]][lamda]
-<<<<<<< HEAD
-=======
                 if j  >= ((len(N) / 2)):
                     g[d][lamda] = 1 + g[d - w[j]][lamda]
->>>>>>> 04781c010285ba9b552e232c4a01ed19e80a9b2b
                       
         for s in range(lamda, 0, -1): # poskusimo ga dodati v svoji robustni teži
             for d in range(c, maks_w[j] - 1, -1):
                 if z[d - maks_w[j]][s - 1] + p[j] > z[d][s]:
                     z[d][s] = z[d - maks_w[j]][s - 1] + p[j]
-<<<<<<< HEAD
-                    k[d][s] = 1 + k[d - maks_w[j]][s - 1]
-            
-    z_zvedica = max([max(l) for l in z])
-    pozicija = [[index, vrstica.index(z_zvedica)] for index, vrstica in enumerate(z) if z_zvedica in vrstica]
-    c_zvezdica = pozicija[0][0] 
-    #stevilo_predmetov_s_povecano_tezo = pozicija[-1][-1] 
-    
-    k_zvezdica =  max(max(l) for l in k)
-    
-=======
                     k[d][s] = 1 + k[d - maks_w[j]][s-1] 
                     if j  >= ((len(N) / 2)):
                         g[d][s] = 1 + g[d - maks_w[j]][s - 1]
@@ -122,17 +107,16 @@ def RKP(N, c, w, p, lamda = None,  maks_w = None):
     g1 = g[c_zvezdica][stevilo_predmetov_s_povecano_tezo]
     k_zvezdica = k[c_zvezdica][stevilo_predmetov_s_povecano_tezo]
     g_zvezdica = k_zvezdica - g1 #g_zvezdica = št.elementov v N1, k_zvezdica = št. vseh elementov
->>>>>>> 04781c010285ba9b552e232c4a01ed19e80a9b2b
     
     return (z_zvedica, c_zvezdica, k_zvezdica, g_zvezdica)
-N = [1, 2, 3, 4]
-w = [5, 3, 1, 6]
-w_maks = [5, 7, 4, 8]
-lamda = 1
-c = 5
-p = [11, 10, 5, 9]
-print(RKP(N, c, w, p, lamda, w_maks))
-print(podatki(w, p, w_maks))
+# N = [1, 2, 3, 4]
+# w = [5, 3, 1, 6]
+# w_maks = [5, 7, 4, 8]
+# lamda = 1
+# c = 5
+# p = [11, 10, 5, 9]
+# print(RKP(N, c, w, p, lamda, w_maks))
+# print(podatki(w, p, w_maks))
 
 
 # primer:
@@ -141,7 +125,8 @@ print(podatki(w, p, w_maks))
 # print(RKP({1,2,3,4,5,6,7,8,9,10,11,12}, 20, [2,2,3,40,5,2, 2,3,4,5, 1,14], [4, 5, 6, 4, 2, 4, 5, 6, 4, 2, 2,15]))
 # RKP({1,2,3,4,5}, 17, [2,2,3,4,5], [4, 5, 6, 4, 2])
 # RKP({1,2,3,4,5}, 4, [2,2,3,4,5], [4, 5, 6, 4, 2])
-# RKP({1,2,3,4}, 4, [1,1,1,2], [2,3,4,5], 3, [2,2,2,2])
+# RKP({1,2,3,4,5,6}, 10, [1,1,1,2,3,1], [2,3,4,5,5,3], 6, [3,3,3,3,3,3])
+# RKP({1,2,3,4,5,6}, 6, [1,1,1,2,3,9])
 
 
 def solve_KP(N, c, w, p):  
