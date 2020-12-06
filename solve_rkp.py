@@ -74,43 +74,26 @@ def RKP(N, c, w, p, lamda = None,  maks_w = None):
             k[d][s]= float("-inf")
     k[0][0] = 0
 
-    g = matrika(lamda,c)
-    for d in range(c + 1):
-        for s in range(lamda + 1):
-            g[d][s]= float("-inf")
-    g[0][0] = 0
-
-    števec = 0
     # stevilo_predmetov_s_povecano_tezo = 0 
     for j in range(len(N)): # izberemo j-ti predmet 
         for d in range(c, w[j]-1, -1):  # in ga poskusimo dodati v svoji nominalni teži 
             if z[d - w[j]][lamda] + p[j] > z[d][lamda]:
                 z[d][lamda] = z[d - w[j]][lamda] + p[j] 
                 k[d][lamda] = 1 + k[d - w[j]][lamda]
-                if j + 1 > ((len(N) / 2)):
-                    g[d][lamda] = 1 + g[d - w[j]][lamda]
                       
         for s in range(lamda, 0, -1): # poskusimo ga dodati v svoji robustni teži
             for d in range(c, maks_w[j] - 1, -1):
                 if z[d - maks_w[j]][s - 1] + p[j] > z[d][s]:
                     z[d][s] = z[d - maks_w[j]][s - 1] + p[j]
-                    k[d][s] = 1 + k[d - maks_w[j]][s-1]            
-
+                    k[d][s] = 1 + k[d - maks_w[j]][s - 1]
+            
     z_zvedica = max([max(l) for l in z])
     pozicija = [[index, vrstica.index(z_zvedica)] for index, vrstica in enumerate(z) if z_zvedica in vrstica]
     c_zvezdica = pozicija[0][0] 
     #stevilo_predmetov_s_povecano_tezo = pozicija[-1][-1] 
-    g_zvezdica = max(max(l) for l in g)
+    
     k_zvezdica =  max(max(l) for l in k)
-    # print(g_zvezdica)
-    # if g_zvezdica < 0:
-    #     g_zvezdica = 0
-    # if k_zvezdica < 0:
-    #     k_zvezdica = 0
-    # if k_zvezdica - g_zvezdica < 0:
-    #     k_zvezdica = 0
-    # else: 
-    #     k_zvezdica = k_zvezdica - g_zvezdica
+    
     
     # indeks = k.index([največje_število])
     # k_zvezdica = k[indeks][lamda] - števec
@@ -119,12 +102,12 @@ def RKP(N, c, w, p, lamda = None,  maks_w = None):
 
 
 # primer:
-# print(RKP({1,2,3,4,5}, 15, [2,2,3,4,5], [4, 5, 6, 4, 2], 2, [4, 4, 3, 6, 6]))
+# print(RKP({1,2,3,4,5}, 15, [2,2,3,4,5], [4, 5, 6, 4, 2], 4, [4, 4, 3, 6, 6]))
 # print(RKP({1,2,3}, 7, [2,2,3], [4, 5, 6], 2, [4, 4, 3]))
 # print(RKP({1,2,3,4,5,6,7,8,9,10,11,12}, 20, [2,2,3,40,5,2, 2,3,4,5, 1,14], [4, 5, 6, 4, 2, 4, 5, 6, 4, 2, 2,15]))
 # RKP({1,2,3,4,5}, 17, [2,2,3,4,5], [4, 5, 6, 4, 2])
 # RKP({1,2,3,4,5}, 4, [2,2,3,4,5], [4, 5, 6, 4, 2])
-
+# RKP({1,2,3,4}, 4, [1,1,1,2], [2,3,4,5], 3, [2,2,2,2])
 
 
 def solve_KP(N, c, w, p):  
@@ -222,22 +205,23 @@ def rekurzija(N, z_zvezdica, k_zvezdica, c_zvezdica, lamda, w, maks_w, p, c):
         p2 = p[a:]
     
         if k_zvezdica >= lamda:
-            z1_c_zvezdica = RKP(N1, lamda, c_zvezdica, w, p, maks_w)[0]
-            z2_c_zvezdica = solve_KP(N2, c_zvezdica, w, p)[1] # tu ko boma dodala v RKP da naredi seznam še lahk kličema kr RKP
+            z1_c_zvezdica = RKP(N1, c_zvezdica, w1, p1, lamda, maks_w1)[0]
+            z2_c_zvezdica = solve_KP(N2, c_zvezdica, w2, p2)[1] # tu ko boma dodala v RKP da naredi seznam še lahk kličema kr RKP
+            solution_set_kp = set()
             for c_1 in range(c_zvezdica + 1):
-                z1_c_1 = RKP(N1, c_zvezdica, w, p, lamda, maks_w)[0]
-                z2_c_2 = solve_KP(N2, c_zvezdica - c_1, w, p)[1]
+                z1_c_1 = RKP(N1, c_zvezdica, w1, p1, lamda, maks_w1)[0]
+                z2_c_2 = solve_KP(N2, c_zvezdica - c_1, w2, p2)[1]
                 if z1_c_1 + z2_c_2 == z_zvezdica:
                     z2_c2 = z2_c_2
                     z1_c1 = z1_c_1
                     c1 = c_1
                     c2 = c_zvezdica - c1
-            solution_set_kp = solve_KP(N2, z2_c2, w, p)[0]
-            #k1_zvezdica
-            rekurzija(N1, z1_c1, k1_zvezdica, c1,lamda, w, maks_w, p)        
+                    solution_set_kp.add(solve_KP(N2, c2, w2, p2)[1])
+            k1_zvezdica = RKP(N1, c1, w1, p1, lamda, maks_w1)[2]
+            rekurzija(N1, RKP(N1, c, w1, p1,lamda, maks_w1) , k1_zvezdica, c1,lamda, w1, maks_w1, p1)        
         else: 
-            z1_c_zvezdica = solve_eKkP(N1,c_zvezdica, maks_w, k_zvezdica,k_zvezdica)[1]
-            z2_c_zvezdica = RKP(N2, c_zvezdica, w, p, lamda - k_zvezdica, maks_w)[0]
+            z1_c_zvezdica = solve_eKkP(N1,c_zvezdica, maks_w1, k_zvezdica,k_zvezdica)[1]
+            z2_c_zvezdica = RKP(N2, c_zvezdica, w2, p2, lamda - k_zvezdica, maks_w2)[0]
             for c_1 in range(c_zvezdica + 1):
                 z1_c_1 = RKP(N1, c_zvezdica, w, p, lamda, maks_w)[0]
                 z2_c_2 = solve_KP(N2, c_zvezdica - c_1, w, p)[-1]
