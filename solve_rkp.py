@@ -234,13 +234,22 @@ def rekurzija(N, z_zvezdica, k_zvezdica, c_zvezdica, lamda, w, maks_w, p):
             z1_c_zvezdica = RKP(N1, c_zvezdica, w1, p1, lamda, maks_w1)[0]
             z2_c_zvezdica = solve_KP(N2, c_zvezdica, w2, p2)[1] # tu ko boma dodala v RKP da naredi seznam še lahk kličema kr RKP
             for c_1 in range(c_zvezdica + 1):
-                z1_c_1 = RKP(N1, c_1, w1, p1, lamda, maks_w1)[0]
-                z2_c_2 = solve_KP(N2, c_zvezdica - c_1, w2, p2)[1]
+                if c_1 == 0:
+                    z1_c_1 = 0
+                    z2_c_2 = solve_KP(N2, c_zvezdica, w2, p2)[1]                
+                elif c_1 == c_zvezdica:
+                    z2_c_2 = 0
+                    z1_c_1 = RKP(N1, c_zvezdica, w1, p1, lamda, maks_w1)[0]
+                else:
+                    z1_c_1 = RKP(N1, c_1, w1, p1, lamda, maks_w1)[0]
+                    z2_c_2 = solve_KP(N2, c_zvezdica - c_1, w2, p2)[1]
                 if z1_c_1 + z2_c_2 == z_zvezdica:
                     z2_c2 = z2_c_2
                     z1_c1 = z1_c_1
+                    print("To sta z1_c1 in z2_c2", z2_c2, z1_c1)
                     c1 = c_1
                     c2 = c_zvezdica - c1
+                print(z1_c_1, z2_c_2, z_zvezdica)
             solution_set_kp = solve_KP(N2, z2_c2, w2, p2)
             k1_zvezdica = RKP(N1, z1_c1, w1, p1, lamda, maks_w1)[3]
             rekurzija(N1, z1_c1 , k1_zvezdica, c1, lamda, w1, maks_w1, p1)        
