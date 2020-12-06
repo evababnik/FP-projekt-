@@ -1,2 +1,4 @@
-# FP-projekt-
-Robusten problem nahrbtnika
+#Robustni problem nahrbtnika
+
+### Avtorja
+Jan Založnik in Eva Babnik
