@@ -5,12 +5,21 @@ Robustni Problem Nahrbtinka
 def matrika(m,n):
     return [[0] * (m+1) for _ in range(n+1)]
 
-def podatki(w, p, maks_w = None):
+def v_seznam(N):
+    N0 = []
+    for i in N:
+        N0 += [i]
+    N = N0
+    return N
+
+def podatki(N, w, p, maks_w = None):
+    N = v_seznam(N)
     if maks_w is None:
          vrstni_red = [i[0] for i in sorted(enumerate(w), key=lambda x:x[1])]
          w = [w[i] for i in vrstni_red]
          p = [p[i] for i in vrstni_red]
-         return (w[::-1], p[::-1])
+         N = [N[i] for i in vrstni_red]
+         return (N[::-1], w[::-1], p[::-1])
     else:  
         urejen_sez = [0] * len(maks_w)
         for i in range(len(maks_w)):
@@ -19,40 +28,53 @@ def podatki(w, p, maks_w = None):
         maks_w = [maks_w[i] for i in vrstni_red]
         p = [p[i] for i in vrstni_red]
         w = [w[i] for i in vrstni_red]
-        return (w[::-1], p[::-1], maks_w[::-1])
+        N = [N[i] for i in vrstni_red]
+        return (N[::-1], w[::-1], p[::-1], maks_w[::-1])
 
 
 
 # primer
-# print(podatki([20,19,18,17,16,15,14],[20,10,14,13,11,2,24],[10,10,10,10,10,10,10]))
+# print(podatki({1,2,3,4,5,6,7},[20,19,18,17,16,15,14],[20,10,14,13,11,2,24],[10,10,10,10,10,10,10]))
+
+
 
 def particija(N):
     n = len(N)
+    N0 = []
+    for i in N:
+        N0 += [i]
+    print(N0)
     N1 = []
     N2 = []
     for el in N:
-        if N.index(el) < (n / 2):
+        if N0.index(el) < (n / 2):
             N1.append(el)
         else:
             N2.append(el)
     return N1, N2
 
 def RKP(N, c, w, p, lamda = None,  maks_w = None):
+    # slovar predmetov spremenimo v seznam predmetov
+    N = v_seznam(N)
     # uporabiva funkcijo podatki, ki podatke spremeni v pravo obliko
     if maks_w is not None:
-        pravilni_podatki = podatki(w, p, maks_w)
-        w, p, maks_w = pravilni_podatki[0], pravilni_podatki[1], pravilni_podatki[2]
-        print(w)
-        print(p)
+        pravilni_podatki = podatki(N, w, p, maks_w)
+        N, w, p, maks_w = pravilni_podatki[0], pravilni_podatki[1], pravilni_podatki[2], pravilni_podatki[3]
     else: 
-        pravilni_podatki = podatki(w, p)
-        w, p = pravilni_podatki[0], pravilni_podatki[1]
-        print(w)
-        print(p)
-        pass
-    if lamda is not None:
-        if lamda > len(N):
-            raise ValueError("Lamda je večja kot moč množice predmetov")
+        pravilni_podatki = podatki(N, w, p)
+        N, w, p = pravilni_podatki[0], pravilni_podatki[1], pravilni_podatki[2]
+    
+    # Dodajanje neodivisnega elementa + mal je treba še začetne pogoje spremenit v funkciji 
+    # if len(N)//2 != len(N)/2:
+    #     print(w,p,maks_w)
+    #     w.append(1)
+    #     p.append(0)
+    #     maks_w.append(1)
+    #     print(w,p, maks_w)
+
+    # if lamda is not None:
+    #     if lamda > len(N):
+    #         raise ValueError("Lamda je večja kot moč množice predmetov")
     if lamda == None or 0:
         maks_w = [c]* len(w)
         lamda = 0
@@ -82,7 +104,6 @@ def RKP(N, c, w, p, lamda = None,  maks_w = None):
             g[d][s] = 0
     g[0][0] = 0
 
-    # stevilo_predmetov_s_povecano_tezo = 0 
     for j in range(len(N)): # izberemo j-ti predmet 
         for d in range(c, w[j]-1, -1):  # in ga poskusimo dodati v svoji nominalni teži 
             if z[d - w[j]][lamda] + p[j] > z[d][lamda]:
@@ -113,8 +134,9 @@ def RKP(N, c, w, p, lamda = None,  maks_w = None):
 # primer:
 # print(RKP({1,2,3}, 7, [2,2,3], [4, 5, 6], 2, [4, 4, 3]))
 # print(RKP({1,2,3,4,5,6,7,8,9,10,11,12}, 20, [2,2,3,40,5,2, 2,3,4,5, 1,14], [4, 5, 6, 4, 2, 4, 5, 6, 4, 2, 2,15]))
+# RKP([1,2,3,4,5,6], 10, [1,1,1,2,3,1], [2,3,4,5,5,3], 6, [3,3,3,3,3,3])
 # RKP({1,2,3,4,5,6}, 10, [1,1,1,2,3,1], [2,3,4,5,5,3], 6, [3,3,3,3,3,3])
-# RKP({1,2,3,4,5,6}, 6, [1,1,1,2,3,9])
+# RKP({1,2,3,4,5,6}, 6, [1,1,1,2,3,9],[2,3,4,5,5,3])
 
 
 def solve_KP(N, c, w, p):  
@@ -129,8 +151,8 @@ def solve_KP(N, c, w, p):
                 z[j][d] == p[j-1] + z[j-1][d-w[j-1]]
             else: 
                 z[j][d] = z[j-1][d] 
-    z_zvezdica = [n][c]
-    z_zvezdica1 = [n][c]
+    z_zvezdica = z[n][c]
+    z_zvezdica1 = z[n][c]
     c_zvezdica = 0
     c_zvezdica = 0
     seznam_stvari = []
@@ -144,7 +166,9 @@ def solve_KP(N, c, w, p):
             c_zvezdica += w[i - 1]
             z_zvezdica1 -= p[i - 1]
             c -= w[i - 1]
-    return [seznam_stvari, z_zvezdica]
+    return (seznam_stvari, z_zvezdica)
+
+solve_KP([1,2,3], 2, [1,1,1], [3,4,3])
 
 
 def solve_eKkP(N, c, w, p, k):
@@ -173,7 +197,7 @@ def solve_eKkP(N, c, w, p, k):
             c_zvezdica += w[i - 1]
             z_zvezdica1 -= p[i - 1]
             c -= w[i - 1]
-    return([seznam_stvari, z_zvezdica])
+    return(seznam_stvari, z_zvezdica)
 
 # primer
 #print(solve_eKkP([1, 2, 3, 4], 10,[2, 3, 6, 4], [1, 2, 5, 3], 2))
@@ -191,12 +215,13 @@ def rekurzija(N, z_zvezdica, k_zvezdica, c_zvezdica, lamda, w, maks_w, p):
             if w[0] <= c_zvezdica:
                 return N
             else:
-                print(" V nahrbtnik ne moremo dati nobene stvari.")
+                print("V nahrbtnik ne moremo dati nobene stvari.")
     else:
-        n = len(N)  #N razdelimo na N1 in N2
+        N = v_seznam(N)
+        N, w, p, maks_w = podatki(N, w, p, maks_w)
+        N1, N2 = particija(N) #N razdelimo na N1 in N2
+        n = len(N)  
         polovica = int((n / 2 ))
-        N1 = N[:polovica]
-        N2 = N[polovica:]
         w1 = w[:polovica]
         w2 = w[polovica:] 
         maks_w1 = maks_w[polovica:]
@@ -215,20 +240,47 @@ def rekurzija(N, z_zvezdica, k_zvezdica, c_zvezdica, lamda, w, maks_w, p):
                     z1_c1 = z1_c_1
                     c1 = c_1
                     c2 = c_zvezdica - c1
-                    solution_set_kp = solve_KP(N2, z2_c2, w2, p2)
-                k1_zvezdica = RKP(N1, z1_c1, w1, p1, lamda, maks_w1)[3]
-                rekurzija(N1, z1_c1 , k1_zvezdica, c1, lamda, w1, maks_w1, p1)        
+            solution_set_kp = solve_KP(N2, z2_c2, w2, p2)
+            k1_zvezdica = RKP(N1, z1_c1, w1, p1, lamda, maks_w1)[3]
+            rekurzija(N1, z1_c1 , k1_zvezdica, c1, lamda, w1, maks_w1, p1)        
         else: 
             z1_c_zvezdica = solve_eKkP(N1, c_zvezdica, maks_w1, p1, k_zvezdica)[1]
-            z2_c_zvezdica = RKP(N2, c_zvezdica,w2, p2, lamda - k_zvezdica, maks_w2)[0]
+            z2_c_zvezdica = RKP(N2, c_zvezdica, w2, p2, lamda - k_zvezdica, maks_w2)[0]
+            #print(z1_c_zvezdica, z2_c_zvezdica, N1, w1, p1, lamda, maks_w1)
             for c_1 in range(c_zvezdica + 1):
-                z1_c_1 = RKP(N1, c_1, w1, p1, lamda, maks_w1)[0]
-                z2_c_2 = solve_KP(N2, c_zvezdica - c_1, w2, p2)[1]
+                if c_1 == 0:
+                    z1_c_1 = 0
+                    z2_c_2 = solve_KP(N2, c_zvezdica, w2, p2)[1]
+                    #print("to je z2_c_2", z2_c_2)
+                elif c_1 == c_zvezdica:
+                    z2_c_2 = 0
+                    z1_c_1 = RKP(N1, c_zvezdica, w1, p1, lamda, maks_w1)[0]                    
+                else:
+                    z1_c_1 = RKP(N1, c_1, w1, p1, lamda, maks_w1)[0]
+                    z2_c_2 = solve_KP(N2, c_zvezdica - c_1, w2, p2)[1]
+                    # print("to sta z1_c_1 in z2_c_2 v vseh primerih", z1_c_1, z2_c_2)
                 if z1_c_1 + z2_c_2 == z_zvezdica:
                     z2_c2 = z2_c_2
                     z1_c1 = z1_c_1
+                    #print(z1_c1,z2_c2, z_zvezdica)
+                    #print("DELAAAJ")
                     c1 = c_1
                     c2 = c_zvezdica - c1
-                solution_set_eKkP = solve_eKkP(N1, z1_c1, w1, p1, k_zvezdica)[0]
-                k2_zvezdica = RKP(N1, z2_c2, w2, p2, lamda, maks_w2)[3]
-                rekurzija(N2, z2_c2, k2_zvezdica, c_zvezdica,lamda - k_zvezdica, w, maks_w, p)
+            solution_set_eKkP = solve_eKkP(N1, z1_c1, w1, p1, k_zvezdica)[0]
+            print(solution_set_eKkP, "TA JE PRAVI")
+            k2_zvezdica = RKP(N1, z2_c2, w2, p2, lamda, maks_w2)[3]
+            rekurzija(N2, z2_c2, k2_zvezdica, c_zvezdica,lamda - k_zvezdica, w, maks_w, p)
+
+
+# rekurzija(N, z_zvezdica, k_zvezdica, c_zvezdica, lamda, w, maks_w, p)
+kkk = RKP({1,2,3,4,5,6}, 10, [1,1,1,2,3,1], [2,3,4,5,5,3], 6, [3,3,3,3,3,3])[3]
+zzz = RKP({1,2,3,4,5,6}, 10, [1,1,1,2,3,1], [2,3,4,5,5,3], 6, [3,3,3,3,3,3])[0]
+ccc = RKP({1,2,3,4,5,6}, 10, [1,1,1,2,3,1], [2,3,4,5,5,3], 6, [3,3,3,3,3,3])[1]
+lamda = 0
+N = {1,2,3,4,5,6}
+w = [1,1,1,2,3,1]
+maks_w = [3,3,3,3,3,3]
+p = [2,3,4,5,5,3]
+
+# rekurzija(N, zzz, kkk, ccc, lamda, w, maks_w, p)
+# RKP([6,3,1], 0, [1,1,1], [3,4,3], lamda, [3,3,3])
