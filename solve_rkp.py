@@ -351,3 +351,209 @@ print(kkk)
 print(podatki([1, 2, 3, 4, 5], [1, 2, 3, 1, 2], [4, 5, 5, 3, 2], [3, 3, 3, 3, 2]))
 rekurzija(N, zzz, kkk, ccc, lamda, w, maks_w, p)
 # RKP([6,3,1], 0, [1,1,1], [3,4,3], lamda, [3,3,3])
+kkk, zzz, ccc = RKP({1,2,3,4,5,6}, 10, [1,1,1,2,3,1], [2,3,4,5,5,3], 6, [3,3,3,3,3,3])[3], RKP({1,2,3,4,5,6}, 10, [1,1,1,2,3,1], [2,3,4,5,5,3], 6, [3,3,3,3,3,3])[0], RKP({1,2,3,4,5,6}, 10, [1,1,1,2,3,1], [2,3,4,5,5,3], 6, [3,3,3,3,3,3])[1]
+lamda = 0
+N = {1,2,3,4,5,6}
+w = [1,1,1,2,3,1]
+maks_w = [3,3,3,3,3,3]
+p = [2,3,4,5,5,3]
+
+# rekurzija(N, zzz, kkk, ccc, lamda, w, maks_w, p)
+# RKP([6,3,1], 0, [1,1,1], [3,4,3], lamda, [3,3,3])
+
+
+
+##### ČE ŠE NIMAŠ SI MOREŠ ZAGNAT TOLE V TERMINALU
+# python3 -m pip install pillow v bash (terminal)
+
+import tkinter as tk
+
+from PIL import Image, ImageTk
+
+
+
+class PRVO_OKNO:
+    def __init__(self, master):
+        self.master = master
+        self.frame = tk.Frame(self.master)
+        self.master.geometry("450x225+500+300")
+        self.button1 = tk.Button(self.frame, text = "Navadni problem nahrbtnika", width = 25, height = 5, command = self.new_window_problem_nahrbtnika)
+        self.button2 = tk.Button(self.frame, text = "Robustni problem nahrbtnika", width = 25, height = 5, command = self.new_window_ROBUSTNI_PROBLEM_nahrbtnika)
+        self.label1 = tk.Label(self.frame,text = "Kakšen tip problema imate?", height = 2)
+        self.label1.grid()
+        self.button1.grid()
+        self.button2.grid()
+        self.frame.pack()
+
+    def new_window_problem_nahrbtnika(self):
+        self.newWindow = tk.Toplevel(self.master)
+        self.app2 = NAVADNI_PROBLEM(self.newWindow)
+        
+        
+
+    def new_window_ROBUSTNI_PROBLEM_nahrbtnika(self):
+        self.newWindow = tk.Toplevel(self.master)
+        self.app = ROBUSTNI_PROBLEM(self.newWindow)
+        
+    
+
+class NAVADNI_PROBLEM:
+    def __init__(self, master):
+        self.master = master
+        self.frame = tk.Frame(self.master)
+        self.master.title("Navadni problem nahrbtnika")
+        self.master.geometry("470x284+500+300")
+        #gumbi 
+        self.komentar = tk.Label(self.frame, text= " napišite celo število, npr. 5 \n \n \n \n \n \n \n \n \n \n \n \n")
+        self.quitButton = tk.Button(self.frame, text = 'Zapri', width = 5, command = self.close_windows)
+        self.backButton = tk.Button(self.frame, text = 'Nazaj', width = 5, command = self.nazaj)
+        self.stevilo_podatkov = tk.Entry(self.frame, width=20, selectborderwidth=2,bg= "gray90")
+        self.prazno_polje = tk.Label(self.frame, text = '', width = 15)
+        self.label1 = tk.Label(self.frame,text = "Koliko predmetov imate? ")
+        self.prazno_polje1 = tk.Label(self.frame,text = "", width = 3)
+        #self.prazno_polje2 = tk.Label(self.frame,text = "", height= 6)
+        # slika
+        image = Image.open("/Users/zaloznikjan/Desktop/fp/Robust-knapsack-problem/nahrbtnik.jpg")
+        image = image.resize((250, 220), Image.ANTIALIAS)
+        photo = ImageTk.PhotoImage(image)
+        self.slika = tk.Label(self.frame, image=photo)
+        self.slika.image = photo
+
+
+        # prikaz
+        #self.slika.grid(row=2,column=1)
+        self.slika.place(x=205, y=50)
+        #self.prazno_polje2.grid(row=3, column =0)
+        self.komentar.grid(row=2, column=0)
+        self.stevilo_podatkov.grid(row=1, column=0) 
+        self.prazno_polje1.grid(row=2, column=2)
+        self.prazno_polje.grid(row=1, column=1)
+        self.label1.grid(row=0, column=0)
+        self.backButton.grid(row=0, column=4)
+        self.quitButton.grid(row=0, column=5)
+        self.frame.grid()
+        
+        
+    
+    def close_windows(self):
+        self.master.destroy()
+
+    def nazaj(self):
+        self.newWindow = tk.Toplevel(self.master)
+        self.app = PRVO_OKNO(self.newWindow)
+
+
+class ROBUSTNI_PROBLEM:
+    def __init__(self, master):
+        self.master = master
+        self.frame = tk.Frame(self.master)
+        self.master.title("Robustni problem nahrbtnika")
+        self.master.geometry("470x284+500+300")
+        #gumbi 
+        self.komentar = tk.Label(self.frame, text= " napišite celo število, npr. 5 \n \n \n \n \n \n \n \n \n \n \n \n")
+        self.quitButton = tk.Button(self.frame, text = 'Zapri', width = 5, command = self.close_windows)
+        self.backButton = tk.Button(self.frame, text = 'Nazaj', width = 5, command = self.nazaj)
+        self.stevilo_podatkov = tk.Entry(self.frame, width=20, selectborderwidth=2,bg= "gray90")
+        self.prazno_polje1= tk.Label(self.frame, text = '', width = 15)
+        self.label1 = tk.Label(self.frame,text = "Koliko predmetov imate? ")
+        self.prazno_polje2 = tk.Label(self.frame,text = "", width = 3)
+        #self.prazno_polje2 = tk.Label(self.frame,text = "", height= 6)
+        # slika
+        image = Image.open("/Users/zaloznikjan/Desktop/fp/Robust-knapsack-problem/knapsack.png")
+        image = image.resize((219, 219), Image.ANTIALIAS)
+        photo = ImageTk.PhotoImage(image)
+        self.slika1 = tk.Label(self.frame, image=photo)
+        self.slika1.image = photo
+
+
+        # prikaz
+        #self.slika.grid(row=2,column=1)
+        self.slika1.place(x=220, y=35)
+        #self.prazno_polje2.grid(row=3, column =0)
+        self.komentar.grid(row=2, column=0)
+        self.stevilo_podatkov.grid(row=1, column=0) 
+        self.prazno_polje2.grid(row=2, column=2)
+        self.prazno_polje1.grid(row=1, column=1)
+        self.label1.grid(row=0, column=0)
+        self.backButton.grid(row=0, column=4)
+        self.quitButton.grid(row=0, column=5)
+        self.frame.grid()
+
+    def nazaj(self):
+        self.newWindow = tk.Toplevel(self.master)
+        self.app = PRVO_OKNO(self.newWindow)
+
+    def close_windows(self):
+        self.master.destroy()
+
+def main(): 
+    okno = tk.Tk()
+    app1 = PRVO_OKNO(okno)
+    okno.geometry("450x225+500+300")
+    okno.title("Problem nahrbtnika")
+    okno.mainloop()
+
+if __name__ == '__main__':
+     main()
+
+# import tkinter as tk
+
+# class PRVO_OKNO:
+#     def __init__(self, master):
+#         self.master = master
+#         self.master.geometry("450x225+500+300")
+#         self.frame = tk.Frame(self.master)
+#         self.butnew("Window 1", "ONE", NAVADNI_PROBLEM)
+#         self.butnew("Window 2", "TWO", ROBUSTNI_PROBLEM)
+#         self.frame.pack()
+
+#     def butnew(self, text, number, _class):
+#         tk.Button(self.frame, text = text, width = 25, command = lambda: self.new_window(number, _class)).pack()
+
+#     def new_window(self, number, _class):
+#         self.newWindow = tk.Toplevel(self.master)
+#         _class(self.newWindow, number)
+
+
+# class NAVADNI_PROBLEM:
+#     def __init__(self, master, number):
+#         self.master = master
+#         self.master.geometry("400x400+400+400")
+#         self.frame = tk.Frame(self.master)
+#         self.quitButton = tk.Button(self.frame, text = 'Quit', width = 25, command = self.close_windows)
+#         self.label = tk.Label(master, text=f"this is window number {number}")
+#         self.label.pack()
+#         self.quitButton.pack()
+#         self.frame.pack()
+
+#     def close_windows(self):
+#         self.master.destroy()
+
+# class ROBUSTNI_PROBLEM:
+#     def __init__(self, master, number):
+#         self.master = master
+#         self.master.geometry("400x400+400+400")
+#         self.frame = tk.Frame(self.master)
+#         self.quitButton = tk.Button(self.frame, text = 'Quit', width = 25, command = self.close_windows)
+#         self.label = tk.Label(master, text=f"this is window number {number}")
+#         self.label.pack()
+#         self.label2 = tk.Label(master, text="THIS IS HERE TO DIFFERENTIATE THIS WINDOW")
+#         self.label2.pack()
+#         self.quitButton.pack()
+#         self.frame.pack()
+
+#     def close_windows(self):
+#         self.master.destroy()
+
+
+
+
+# def main(): 
+#     root = tk.Tk()
+#     app = PRVO_OKNO(root)
+#     root.mainloop()
+
+# if __name__ == '__main__':
+#     main()
+
+
