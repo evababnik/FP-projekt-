@@ -383,6 +383,8 @@ def rekurzija(N, z_zvezdica, k_zvezdica, c_zvezdica, lamda, w, maks_w, p, seznam
 ##### ČE ŠE NIMAŠ SI MOREŠ ZAGNAT TOLE V TERMINALU ###
 # python3 -m pip install pillow v bash (terminal)
 
+# pip install pillow (za windows)
+
 import tkinter as tk
 
 from PIL import Image, ImageTk
