@@ -2,6 +2,8 @@
 Robustni Problem Nahrbtinka
 """
 
+
+
 def matrika(m,n):
     return [[0] * (m+1) for _ in range(n+1)]
 
@@ -197,6 +199,7 @@ def solve_KP(N, c, w, p):
 #solve_KP([1,2,3], 2, [1,1,1], [3,4,3])
 
 # solve_eKkP vrne seznam vseh predmetov in optimalno vrednost, če dodatno omejimo maksimalno števio uporabljenih predmetov s k 
+# rezulatat v smislu ([[4, 4, 3], [3, 6, 5]], 8), kar pomeni 4 predmet, teža = 4, vrednost 3 in 3 predmet, teža 6 in 5 vrednost.
 def solve_eKkP(N, c, w, p, k):
     n = len(N)
     if n == 1:
@@ -249,6 +252,8 @@ def rekurzija(N, z_zvezdica, k_zvezdica, c_zvezdica, lamda, w, maks_w, p, seznam
                 print(N)
                 return N
             else:
+                #glede na to da je to rekurzija mislim da do tegale sploh ne more prit, pač da prej že vse te stavri preveri
+                # sam škodit ne more :D 
                 print("V nahrbtnik ne moremo dati nobene stvari.")
         else:
             if w[0] <= c_zvezdica:
