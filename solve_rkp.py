@@ -249,7 +249,7 @@ def rekurzija(N, z_zvezdica, k_zvezdica, c_zvezdica, lamda, w, maks_w, p, seznam
     if len(N) == 1 and seznam == []:
         if lamda != 0:
             if maks_w[0] <= c_zvezdica:
-                print(N)
+                #print(N)
                 return N
             else:
                 #glede na to da je to rekurzija mislim da do tegale sploh ne more prit, pač da prej že vse te stavri preveri
@@ -264,15 +264,15 @@ def rekurzija(N, z_zvezdica, k_zvezdica, c_zvezdica, lamda, w, maks_w, p, seznam
         if lamda != 0:
             if maks_w[0] <= c_zvezdica:
                 seznam.append(N[0])
-                print(seznam)
+                #print(seznam)
                 return(seznam)
             else: 
-                print(seznam)
+                #print(seznam)
                 return(seznam)
         else:
             if w[0] <= c_zvezdica:
                 seznam.append(N[0])
-                print(seznam)
+                #print(seznam)
                 return(seznam)
     else:
         N = v_seznam(N)
@@ -342,6 +342,17 @@ def rekurzija(N, z_zvezdica, k_zvezdica, c_zvezdica, lamda, w, maks_w, p, seznam
     
 
 # rekurzija(N, z_zvezdica, k_zvezdica, c_zvezdica, lamda, w, maks_w, p)
+
+def resitev(N, c, w, p, lamda = None, maks_w = None):
+    k_zvezdica = RKP(N, c, w, p, lamda, maks_w)[3]
+    z_zvezdica = RKP(N, c, w, p, lamda, maks_w)[0]
+    c_zvezdica = RKP(N, c, w, p, lamda, maks_w)[1]
+    seznam = rekurzija(N, z_zvezdica, k_zvezdica, c_zvezdica, lamda, w, maks_w, p)
+    return(seznam, c_zvezdica)
+
+print(resitev({1,2,3,4,5}, 9, [1,2,3,1,2], [4,5,5,3,2], 1, [3,3,3,3,2]))
+
+
 
 #1 primer:
 # kkk = RKP([1,2,3,4, 5], 9, [1,2,3,1, 2], [4,5,5,3, 2], 1, [3,3,3,3, 2])[3]
@@ -424,6 +435,7 @@ class NAVADNI_PROBLEM:
         self.master.geometry("470x284+500+300")
         #gumbi 
         self.komentar = tk.Label(self.frame, text= " napišite celo število, npr. 5 \n \n \n \n \n \n \n \n \n \n \n \n")
+        self.shrani_in_naprej = tk.Button(self.frame, text = 'Shrani in naprej', width = 12, command = self.shrani_in_naprej1)
         self.quitButton = tk.Button(self.frame, text = 'Zapri', width = 5, command = self.close_windows)
         self.backButton = tk.Button(self.frame, text = 'Nazaj', width = 5, command = self.nazaj)
         self.stevilo_podatkov = tk.Entry(self.frame, width=20, selectborderwidth=2,bg= "gray90")
@@ -443,6 +455,7 @@ class NAVADNI_PROBLEM:
         #self.slika.grid(row=2,column=1)
         self.slika.place(x=205, y=50)
         #self.prazno_polje2.grid(row=3, column =0)
+        self.shrani_in_naprej.place(x=40, y=80)
         self.komentar.grid(row=2, column=0)
         self.stevilo_podatkov.grid(row=1, column=0) 
         self.prazno_polje1.grid(row=2, column=2)
@@ -452,7 +465,13 @@ class NAVADNI_PROBLEM:
         self.quitButton.grid(row=0, column=5)
         self.frame.grid()
         
-        
+    def shrani_in_naprej1(self):
+        self.mnozica_N = self.stevilo_podatkov.get()
+        print(self.mnozica_N)
+        #self.master.destroy()
+        self.newWindow = tk.Toplevel(self.master)
+        self.app3 = NAVADNI_PROBLEM_NADALJEVANJE(self.newWindow)
+          
     
     def close_windows(self):
         self.master.destroy()
@@ -504,6 +523,61 @@ class ROBUSTNI_PROBLEM:
 
     def close_windows(self):
         self.master.destroy()
+
+class NAVADNI_PROBLEM_NADALJEVANJE:
+    def __init__(self, master):
+        self.master = master
+        self.frame = tk.Frame(self.master)
+        self.master.title("Navadni problem nahrbtnika")
+        self.master.geometry("590x284+440+300")
+        
+        # gumbi 
+        self.gumb_resitev = tk.Button(self.frame, text = "Prikaži rešitev", width = 25, command = self.resitev_problema)
+        self.vprasanje_kapaciteta = tk.Label(self.master, text="1. Zapišite kapaciteto nahrbtnika, npr. 20")
+        self.vprasanje_teza = tk.Label(self.master, text="2. Zapišite teže predmetov v pravilnem vrstnem redu, npr. 1,3,5,2,5 za 5 predmetov")
+        self.vprasanje_vrednost = tk.Label(self.master, text="3. Zapišite vrednosti predmetov v pravilnem vrstnem redu, npr. 10,30,50,20,52 za 5 predmetov")
+        self.kapaciteta = tk.Entry(self.master, width = 20, selectborderwidth=2, bg= "gray90")
+        self.teza = tk.Entry(self.master, width = 20, selectborderwidth=2, bg= "gray90")
+        self.vrednost = tk.Entry(self.master, width = 20, selectborderwidth=2, bg= "gray90")
+        self.lbl_value = tk.Label(self.master, text="0")
+
+
+        # grid
+        self.vprasanje_kapaciteta.grid(row=0, column=0)
+        self.kapaciteta.grid(row=1,column=0)
+        self.vprasanje_teza.grid(row=2, column=0)
+        self.teza.grid(row=3, column=0)
+        self.vprasanje_vrednost.grid(row=4, column=0)
+        self.vrednost.grid(row=5, column=0)
+        self.gumb_resitev.grid(row=5,column=0)
+        self.lbl_value.grid(row=10, column=0)
+        self.frame.grid()
+
+    def resitev_problema(self):
+        kapaciteta_c = self.kapaciteta.get()
+        if type(kapaciteta_c) != type(1):
+            kapaciteta_c = 0
+            
+        w = [(self.teza.get())]
+        p = [self.vrednost.get()]
+        w1 = []
+        for i in w[0]:
+            if i != ",":
+                w1 += [int(i)]
+        p1 = []
+        for i in p[0]:
+            if i != ",":
+                p1 += [int(i)]
+        p = p1     
+        w = w1
+        print(p, kapaciteta_c,w)
+
+        #self.master.destroy()
+
+
+
+
+
 
 def main(): 
     okno = tk.Tk()
