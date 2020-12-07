@@ -398,26 +398,26 @@ def naredi_podatke(stevilo, teza, max_cena):
         p.append(val)
 
     return [N, c, w, p, lamda, maks_w]
-print(naredi_podatke(10, 22, 6))
+# print(naredi_podatke(10, 22, 6))
 
-n = 5
-teza = 2
-maks_vr = 4
-seznam = [[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15], 8, [3, 1, 2, 2, 1, 1, 3, 3, 2, 3, 2, 2, 1, 3, 1], [6, 5, 3, 4, 
-5, 7, 4, 7, 5, 7, 5, 4, 6, 7, 5], 1, [4, 19, 4, 2, 8, 12, 8, 6, 12, 7, 22, 10, 10, 9, 1]]
-N = seznam[0]
-c = seznam[1]
-w = seznam[2]
-p = seznam[3]
-lamda = seznam[4]
-maks_w = seznam[5]
+# n = 5
+# teza = 2
+# maks_vr = 4
+# seznam = [[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15], 8, [3, 1, 2, 2, 1, 1, 3, 3, 2, 3, 2, 2, 1, 3, 1], [6, 5, 3, 4, 
+# 5, 7, 4, 7, 5, 7, 5, 4, 6, 7, 5], 1, [4, 19, 4, 2, 8, 12, 8, 6, 12, 7, 22, 10, 10, 9, 1]]
+# N = seznam[0]
+# c = seznam[1]
+# w = seznam[2]
+# p = seznam[3]
+# lamda = seznam[4]
+# maks_w = seznam[5]
 
-kkk = RKP(N, c, w, p, lamda, maks_w)[3] 
-zzz = RKP(N, c, w, p, lamda, maks_w)[0]
-ccc = RKP(N, c, w, p, lamda, maks_w)[1]
-print(rekurzija(N, zzz, kkk, ccc, lamda, w, maks_w, p))
-print(zzz)
-print(ccc)
+# kkk = RKP(N, c, w, p, lamda, maks_w)[3] 
+# zzz = RKP(N, c, w, p, lamda, maks_w)[0]
+# ccc = RKP(N, c, w, p, lamda, maks_w)[1]
+# print(rekurzija(N, zzz, kkk, ccc, lamda, w, maks_w, p))
+# print(zzz)
+# print(ccc)
 
 ##### ČE ŠE NIMAŠ SI MOREŠ ZAGNAT TOLE V TERMINALU ###
 # python3 -m pip install pillow v bash (terminal)
