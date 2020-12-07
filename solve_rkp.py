@@ -203,6 +203,7 @@ def solve_KP(N, c, w, p):
 # solve_eKkP vrne seznam vseh predmetov in optimalno vrednost, če dodatno omejimo maksimalno števio uporabljenih predmetov s k 
 # rezulatat v smislu ([[4, 4, 3], [3, 6, 5]], 8), kar pomeni 4 predmet, teža = 4, vrednost 3 in 3 predmet, teža 6 in 5 vrednost.
 def solve_eKkP(N, c, w, p, k):
+    N = v_seznam(N)
     n = len(N)
     if n == 1:
         if k == 0:
@@ -629,13 +630,15 @@ class NAVADNI_PROBLEM_NADALJEVANJE:
         N = set()
         for i in range(1,len(p) + 1):
             N.add(i)
-
-        print(p,w,N,kapaciteta_c)
         seznam = solve_KP(N, kapaciteta_c, w, p)
         pravi_seznam = seznam[0]
         z_zvezdica = seznam[1]
         pravi_seznam = sorted(pravi_seznam)
-        self.lbl_value["text"] = f"seznam predmetov, ki jih dodamo v nahrbtnik {pravi_seznam} \n in optimalna vrednost predmetov je {z_zvezdica}"
+        pravi_seznam2 = set()
+        for i in pravi_seznam:
+            pravi_seznam2.add(i)
+        koncni_seznam = v_seznam(pravi_seznam2)
+        self.lbl_value["text"] = f"seznam predmetov, ki jih dodamo v nahrbtnik {koncni_seznam} \n in optimalna vrednost predmetov je {z_zvezdica}"
 
         #primer
         # solve_KP([1,2,3], 2, [1,1,1], [3,4,3])
@@ -653,7 +656,7 @@ class ROBUSTNI_PROBLEM_NADALJEVANJE:
         self.master = master
         self.frame = tk.Frame(self.master)
         self.master.title("Robustni problem nahrbtnika")
-        self.master.geometry("600x360+440+300")
+        self.master.geometry("600x370+440+300")
         
         # gumbi 
         self.gumb_resitev = tk.Button(self.frame, text = "Prikaži rešitev", width = 25, command = self.resitev_problema)
@@ -726,9 +729,12 @@ class ROBUSTNI_PROBLEM_NADALJEVANJE:
         seznam = resitev(N,kapaciteta_c, w, p, lamda, maks_w)
         pravi_seznam = seznam[0]
         z_zvezdica = seznam[1]
-        ##### ko bo popravljen resitve(), bom še pravi seznam popravu 
-        #pravi_seznam = sorted(pravi_seznam)
-        self.lbl_value["text"] = f"seznam predmetov, ki jih dodamo v nahrbtnik {pravi_seznam} \n in optimalna vrednost predmetov je {z_zvezdica}"
+        pravi_seznam = sorted(pravi_seznam)
+        pravi_seznam2 = set()
+        for i in pravi_seznam:
+            pravi_seznam2.add(i)
+        koncni_seznam = v_seznam(pravi_seznam2)
+        self.lbl_value["text"] = f"seznam predmetov, ki jih dodamo v nahrbtnik {koncni_seznam} \n in optimalna vrednost predmetov je {z_zvezdica}"
 
         #primer
         # TALE DELA
