@@ -712,8 +712,8 @@ class ROBUSTNI_PROBLEM_NADALJEVANJE:
             N.add(i)
 
         #print(p,w,N,kapaciteta_c, lamda, maks_w)
+        seznam = []
         seznam = resitev(N,kapaciteta_c, w, p, lamda, maks_w)
-        print(seznam)
         pravi_seznam = seznam[0]
         z_zvezdica = seznam[1]
         ##### ko bo popravljen resitve(), bom še pravi seznam popravu 
