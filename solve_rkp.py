@@ -99,7 +99,7 @@ def RKP(N, c, w, p, lamda = None,  maks_w = None):
             maks_w = [c]* len(w)
             lamda = 0
         if c < min(w):
-            return 0
+            return [0, 0, 0, 0]
         if len(N) == len(w) == len(p) == len(maks_w): 
             pass
         else: 
@@ -240,16 +240,11 @@ def solve_eKkP(N, c, w, p, k):
                 c -= w[i - 1]
         return(seznam_stvari, z_zvezdica)
 
-# primer
-#print(solve_eKkP([1, 2, 3, 4], 10,[2, 3, 6, 4], [1, 2, 5, 3], 2))
-#print(solve_eKkP([1, 2, 3, 4], 10,[2, 3, 6, 4], [1, 2, 5, 3], 2))
-
-
 def rekurzija(N, z_zvezdica, k_zvezdica, c_zvezdica, lamda, w, maks_w, p, seznam=[]):
     if len(N) == 1 and seznam == []:
         if lamda != 0:
             if maks_w[0] <= c_zvezdica:
-                #print(N)
+                print(N)
                 return N
             else:
                 #glede na to da je to rekurzija mislim da do tegale sploh ne more prit, pač da prej že vse te stavri preveri
@@ -264,15 +259,15 @@ def rekurzija(N, z_zvezdica, k_zvezdica, c_zvezdica, lamda, w, maks_w, p, seznam
         if lamda != 0:
             if maks_w[0] <= c_zvezdica:
                 seznam.append(N[0])
-                #print(seznam)
+                print(seznam)
                 return(seznam)
             else: 
-                #print(seznam)
+                print(seznam)
                 return(seznam)
         else:
             if w[0] <= c_zvezdica:
                 seznam.append(N[0])
-                #print(seznam)
+                print(seznam)
                 return(seznam)
     else:
         N = v_seznam(N)
@@ -296,53 +291,37 @@ def rekurzija(N, z_zvezdica, k_zvezdica, c_zvezdica, lamda, w, maks_w, p, seznam
            p2 = p[1+ polovica:]
     
         if k_zvezdica >= lamda:
-            #z1_c_zvezdica = RKP(N1, c_zvezdica, w1, p1, lamda, maks_w1)[0]
-            #z2_c_zvezdica = solve_KP(N2, c_zvezdica, w2, p2)[1] # tu ko boma dodala v RKP da naredi seznam še lahk kličema kr RKP
+           
             for c_1 in range(c_zvezdica + 1):
-                if c_1 == 0:
-                    z1_c_1 = 0
-                    z2_c_2 = solve_KP(N2, c_zvezdica, w2, p2)[1]                
-                elif c_1 == c_zvezdica:
-                    z2_c_2 = 0
-                    z1_c_1 = RKP(N1, c_zvezdica, w1, p1, lamda, maks_w1)[0]
-                else:
-                    z1_c_1 = RKP(N1, c_1, w1, p1, lamda, maks_w1)[0]
-                    z2_c_2 = solve_KP(N2, c_zvezdica - c_1, w2, p2)[1]
-                    if z1_c_1 + z2_c_2 == z_zvezdica:
-                        z2_c2 = z2_c_2
-                        z1_c1 = z1_c_1
-                        c1 = c_1
-                        c2 = c_zvezdica - c1
+                z1_c_1 = RKP(N1, c_1, w1, p1, lamda, maks_w1)[0]
+                z2_c_2 = solve_KP(N2, c_zvezdica - c_1, w2, p2)[1]
+                if z1_c_1 + z2_c_2 == z_zvezdica:
+                    z2_c2 = z2_c_2
+                    z1_c1 = z1_c_1
+                    c1 = c_1
+                    c2 = c_zvezdica - c1
+                    break
             solution_set_kp = solve_KP(N2, c2, w2, p2)[0]
             seznam.append(solution_set_kp)
             k1_zvezdica = RKP(N1, c1, w1, p1, lamda, maks_w1)[3]
             return rekurzija(N1, z1_c1 , k1_zvezdica, c1, lamda, w1, maks_w1, p1, seznam)        
         else: 
-            #z1_c_zvezdica = solve_eKkP(N1, c_zvezdica, maks_w1, p1, k_zvezdica)[1]
-            #z2_c_zvezdica = RKP(N2, c_zvezdica, w2, p2, lamda - k_zvezdica, maks_w2)[0]
             for c_1 in range(c_zvezdica + 1):
-                if c_1 == 0:
-                    z1_c_1 = 0
-                    z2_c_2 = RKP(N2, c_zvezdica, w2, p2, lamda - k_zvezdica, maks_w2)[0] 
-                elif c_1 == c_zvezdica:
-                    z2_c_2 = 0
-                    z1_c_1 = solve_eKkP(N1, c_zvezdica, w1, p1, k_zvezdica)[1]                    
-                else:
-                    z2_c_2 = RKP(N2, c_zvezdica - c_1, w2, p2, lamda - k_zvezdica, maks_w2)[0]
-                    z1_c_1 = solve_eKkP(N1, c_1, w1, p1, k_zvezdica)[1]
-                    if z1_c_1 + z2_c_2 == z_zvezdica:
-                        z2_c2 = z2_c_2
-                        z1_c1 = z1_c_1
-                        c1 = c_1
-                        c2 = c_zvezdica - c1
+                
+                z2_c_2 = RKP(N2, c_zvezdica - c_1, w2, p2, lamda - k_zvezdica, maks_w2)[0]
+                z1_c_1 = solve_eKkP(N1, c_1, w1, p1, k_zvezdica)[1]
+                if z1_c_1 + z2_c_2 == z_zvezdica:
+                    z2_c2 = z2_c_2
+                    z1_c1 = z1_c_1
+                    c1 = c_1
+                    c2 = c_zvezdica - c1
+                    break
             solution_set_eKkP = solve_eKkP(N1, c1, w1, p1, k_zvezdica)[0]
             seznam.append(solution_set_eKkP)
             k2_zvezdica = RKP(N2, c2, w2, p2, lamda - k_zvezdica, maks_w2)[3]
+            c2 = c_zvezdica - c1
             return rekurzija(N2, z2_c2, k2_zvezdica, c2,lamda - k_zvezdica, w2, maks_w2, p2, seznam)
-    
-
-# rekurzija(N, z_zvezdica, k_zvezdica, c_zvezdica, lamda, w, maks_w, p)
-
+ 
 def resitev(N, c, w, p, lamda = None, maks_w = None):
     k_zvezdica = RKP(N, c, w, p, lamda, maks_w)[3]
     z_zvezdica = RKP(N, c, w, p, lamda, maks_w)[0]
@@ -350,46 +329,50 @@ def resitev(N, c, w, p, lamda = None, maks_w = None):
     seznam = rekurzija(N, z_zvezdica, k_zvezdica, c_zvezdica, lamda, w, maks_w, p)
     return(seznam, c_zvezdica)
 
-print(resitev({1,2,3,4,5}, 9, [1,2,3,1,2], [4,5,5,3,2], 1, [3,3,3,3,2]))
 
+import random
+def naredi_podatke(stevilo, teza, max_cena):
+    n = random.randint(1, stevilo)
+    c = random.randint(0, teza)
+    lamda = random.randint(0, n)
+    N = []
+    w = []
+    maks_w = []
+    p = []
+    for i in range(1, n + 1):
+        N.append(i)
+    for i in range(1, n + 1):
+        nominal_w = random.randint(0, c)
+        w.append(nominal_w)
+    for i in range(1, n + 1):
+            nominal_w = w[i - 1]
+            max_w = random.randint(nominal_w, nominal_w + 20)
+            maks_w.append(max_w)
+    for i in range(1, n + 1):
+        val = random.randint(0, max_cena + 1)
+        p.append(val)
 
+    return [N, c, w, p, lamda, maks_w]
+print(naredi_podatke(10, 22, 6))
 
-#1 primer:
-# kkk = RKP([1,2,3,4, 5], 9, [1,2,3,1, 2], [4,5,5,3, 2], 1, [3,3,3,3, 2])[3]
-# zzz = RKP([1,2,3,4, 5], 9, [1,2,3,1, 2], [4,5,5,3, 2], 1, [3,3,3,3, 2])[0]
-# ccc = RKP([1,2,3,4, 5], 9, [1,2,3,1, 2], [4,5,5,3, 2], 1, [3,3,3,3, 2])[1]
-# lamda = 1
-# N = [1,2,3,4, 5]
-# w = [1,2, 3, 1, 2]
-# maks_w = [3,3,3,3, 2]
-# p = [4,5,5,3, 2]
-# print(ccc)
-# print(zzz)
-# print(kkk)
-# print(podatki([1, 2, 3, 4, 5], [1, 2, 3, 1, 2], [4, 5, 5, 3, 2], [3, 3, 3, 3, 2]))
-# rekurzija(N, zzz, kkk, ccc, lamda, w, maks_w, p)
+n = 5
+teza = 2
+maks_vr = 4
+seznam = [[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15], 8, [3, 1, 2, 2, 1, 1, 3, 3, 2, 3, 2, 2, 1, 3, 1], [6, 5, 3, 4, 
+5, 7, 4, 7, 5, 7, 5, 4, 6, 7, 5], 1, [4, 19, 4, 2, 8, 12, 8, 6, 12, 7, 22, 10, 10, 9, 1]]
+N = seznam[0]
+c = seznam[1]
+w = seznam[2]
+p = seznam[3]
+lamda = seznam[4]
+maks_w = seznam[5]
 
-# 2. primer
-
-# kkk, zzz, ccc = RKP({1,2,3,4,5,6}, 10, [1,1,1,2,3,1], [2,3,4,5,5,3], 6, [3,3,3,3,3,3])[3], RKP({1,2,3,4,5,6}, 10, [1,1,1,2,3,1], [2,3,4,5,5,3], 6, [3,3,3,3,3,3])[0], RKP({1,2,3,4,5,6}, 10, [1,1,1,2,3,1], [2,3,4,5,5,3], 6, [3,3,3,3,3,3])[1]
-# lamda = 0
-# N = {1,2,3,4,5,6}
-# w = [1,1,1,2,3,1]
-# maks_w = [3,3,3,3,3,3]
-# p = [2,3,4,5,5,3]
-# rekurzija(N, zzz, kkk, ccc, lamda, w, maks_w, p)
-
-#3. primer 
-
-# kkk, zzz, ccc = RKP({1,2,3,4,5,6}, 10, [1,1,1,2,3,1], [2,3,4,5,5,3], 6, [3,3,3,3,3,3])[3], RKP({1,2,3,4,5,6}, 10, [1,1,1,2,3,1], [2,3,4,5,5,3], 6, [3,3,3,3,3,3])[0], RKP({1,2,3,4,5,6}, 10, [1,1,1,2,3,1], [2,3,4,5,5,3], 6, [3,3,3,3,3,3])[1]
-# lamda = 0
-# N = {1,2,3,4,5,6}
-# w = [1,1,1,2,3,1]
-# maks_w = [3,3,3,3,3,3]
-# p = [2,3,4,5,5,3]
-# rekurzija(N, zzz, kkk, ccc, lamda, w, maks_w, p)
-
-
+kkk = RKP(N, c, w, p, lamda, maks_w)[3] 
+zzz = RKP(N, c, w, p, lamda, maks_w)[0]
+ccc = RKP(N, c, w, p, lamda, maks_w)[1]
+print(rekurzija(N, zzz, kkk, ccc, lamda, w, maks_w, p))
+print(zzz)
+print(ccc)
 
 ##### ČE ŠE NIMAŠ SI MOREŠ ZAGNAT TOLE V TERMINALU ###
 # python3 -m pip install pillow v bash (terminal)
