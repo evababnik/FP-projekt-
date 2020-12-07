@@ -334,19 +334,20 @@ def rekurzija(N, z_zvezdica, k_zvezdica, c_zvezdica, lamda, w, maks_w, p, seznam
     
 
 # rekurzija(N, z_zvezdica, k_zvezdica, c_zvezdica, lamda, w, maks_w, p)
-kkk, zzz, ccc = RKP({1,2,3,4,5,6}, 10, [1,1,1,2,3,1], [2,3,4,5,5,3], 6, [3,3,3,3,3,3])[3], RKP({1,2,3,4,5,6}, 10, [1,1,1,2,3,1], [2,3,4,5,5,3], 6, [3,3,3,3,3,3])[0], RKP({1,2,3,4,5,6}, 10, [1,1,1,2,3,1], [2,3,4,5,5,3], 6, [3,3,3,3,3,3])[1]
-lamda = 0
-N = {1,2,3,4,5,6}
-w = [1,1,1,2,3,1]
-maks_w = [3,3,3,3,3,3]
-p = [2,3,4,5,5,3]
+
+# kkk, zzz, ccc = RKP({1,2,3,4,5,6}, 10, [1,1,1,2,3,1], [2,3,4,5,5,3], 6, [3,3,3,3,3,3])[3], RKP({1,2,3,4,5,6}, 10, [1,1,1,2,3,1], [2,3,4,5,5,3], 6, [3,3,3,3,3,3])[0], RKP({1,2,3,4,5,6}, 10, [1,1,1,2,3,1], [2,3,4,5,5,3], 6, [3,3,3,3,3,3])[1]
+# lamda = 0
+# N = {1,2,3,4,5,6}
+# w = [1,1,1,2,3,1]
+# maks_w = [3,3,3,3,3,3]
+# p = [2,3,4,5,5,3]
 
 # rekurzija(N, zzz, kkk, ccc, lamda, w, maks_w, p)
 # RKP([6,3,1], 0, [1,1,1], [3,4,3], lamda, [3,3,3])
 
 
 
-##### ČE ŠE NIMAŠ SI MOREŠ ZAGNAT TOLE V TERMINALU
+##### ČE ŠE NIMAŠ SI MOREŠ ZAGNAT TOLE V TERMINALU ###
 # python3 -m pip install pillow v bash (terminal)
 
 import tkinter as tk
