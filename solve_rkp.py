@@ -242,6 +242,16 @@ def solve_eKkP(N, c, w, p, k):
                 c -= w[i - 1]
         return(seznam_stvari, z_zvezdica)
 
+def naredi_pravi_seznam(seznam):
+    nov_sez = []
+    for el in seznam:
+        if isinstance(el, list):
+            for i in el:
+                nov_sez.append(i)
+        else:
+            nov_sez.append(el)
+    return(nov_sez)
+
 def rekurzija(N, z_zvezdica, k_zvezdica, c_zvezdica, lamda, w, maks_w, p, seznam=[]):
     if len(N) == 1 and seznam == []:
         if lamda != 0:
@@ -261,15 +271,15 @@ def rekurzija(N, z_zvezdica, k_zvezdica, c_zvezdica, lamda, w, maks_w, p, seznam
         if lamda != 0:
             if maks_w[0] <= c_zvezdica:
                 seznam.append(N[0])
-                print(seznam)
-                return(seznam)
+                resitev = naredi_pravi_seznam(seznam)
+                return(resitev)
             else: 
-                print(seznam)
+                resitev = naredi_pravi_seznam(seznam)
                 return(seznam)
         else:
             if w[0] <= c_zvezdica:
                 seznam.append(N[0])
-                print(seznam)
+                resitev = naredi_pravi_seznam(seznam)
                 return(seznam)
     else:
         N = v_seznam(N)
