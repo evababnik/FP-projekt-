@@ -44,14 +44,14 @@ def particija(N):
     N2 = []
     if n % 2 == 0:
         for el in N:
-            if N.index(el) < (n / 2):
+            if N.index(el) < (n / 2) :
                 N1.append(el)
             else:
                 N2.append(el)
         return N1, N2
     else:
         for el in N:
-            if N.index(el) < (n / 2) - 1:
+            if N.index(el) <= (n / 2):
                 N1.append(el)
             else:
                 N2.append(el)
@@ -275,12 +275,20 @@ def rekurzija(N, z_zvezdica, k_zvezdica, c_zvezdica, lamda, w, maks_w, p, seznam
         N1, N2 = particija(N) #N razdelimo na N1 in N2
         n = len(N)  
         polovica = int((n / 2 ))
-        w1 = w[:polovica]
-        w2 = w[polovica:] 
-        maks_w1 = maks_w[:polovica]
-        maks_w2 = maks_w[polovica:]
-        p1 = p[:polovica]
-        p2 = p[polovica:]
+        if n % 2 == 0:
+           w1 = w[:polovica]
+           w2 = w[polovica:] 
+           maks_w1 = maks_w[:polovica]
+           maks_w2 = maks_w[polovica:]
+           p1 = p[:polovica]
+           p2 = p[polovica:]
+        else:
+           w1 = w[:polovica + 1]
+           w2 = w[polovica + 1:] 
+           maks_w1 = maks_w[:polovica + 1]
+           maks_w2 = maks_w[polovica + 1:]
+           p1 = p[:polovica + 1]
+           p2 = p[1+ polovica:]
     
         if k_zvezdica >= lamda:
             #z1_c_zvezdica = RKP(N1, c_zvezdica, w1, p1, lamda, maks_w1)[0]
@@ -300,9 +308,9 @@ def rekurzija(N, z_zvezdica, k_zvezdica, c_zvezdica, lamda, w, maks_w, p, seznam
                         z1_c1 = z1_c_1
                         c1 = c_1
                         c2 = c_zvezdica - c1
-            solution_set_kp = solve_KP(N2, z2_c2, w2, p2)[0]
+            solution_set_kp = solve_KP(N2, c2, w2, p2)[0]
             seznam.append(solution_set_kp)
-            k1_zvezdica = RKP(N1, z1_c1, w1, p1, lamda, maks_w1)[3]
+            k1_zvezdica = RKP(N1, c1, w1, p1, lamda, maks_w1)[3]
             return rekurzija(N1, z1_c1 , k1_zvezdica, c1, lamda, w1, maks_w1, p1, seznam)        
         else: 
             #z1_c_zvezdica = solve_eKkP(N1, c_zvezdica, maks_w1, p1, k_zvezdica)[1]
@@ -322,21 +330,24 @@ def rekurzija(N, z_zvezdica, k_zvezdica, c_zvezdica, lamda, w, maks_w, p, seznam
                         z1_c1 = z1_c_1
                         c1 = c_1
                         c2 = c_zvezdica - c1
-            solution_set_eKkP = solve_eKkP(N1, z1_c1, w1, p1, k_zvezdica)[0]
+            solution_set_eKkP = solve_eKkP(N1, c1, w1, p1, k_zvezdica)[0]
             seznam.append(solution_set_eKkP)
-            k2_zvezdica = RKP(N2, z2_c2, w2, p2, lamda - k_zvezdica, maks_w2)[3]
+            k2_zvezdica = RKP(N2, c2, w2, p2, lamda - k_zvezdica, maks_w2)[3]
             return rekurzija(N2, z2_c2, k2_zvezdica, c2,lamda - k_zvezdica, w2, maks_w2, p2, seznam)
     
 
 # rekurzija(N, z_zvezdica, k_zvezdica, c_zvezdica, lamda, w, maks_w, p)
-kkk = RKP([1,2,3,4, 5], 10, [1,2,3,1, 2], [4,5,5,3, 2], 2, [3,3,3,3, 2])[3]
-zzz = RKP([1,2,3,4, 5], 10, [1,2,3,1, 2], [4,5,5,3, 2], 2, [3,3,3,3, 2])[0]
-ccc = RKP([1,2,3,4, 5], 10, [1,2,3,1, 2], [4,5,5,3, 2], 2, [3,3,3,3, 2])[1]
-lamda = 2
+kkk = RKP([1,2,3,4, 5], 9, [1,2,3,1, 2], [4,5,5,3, 2], 1, [3,3,3,3, 2])[3]
+zzz = RKP([1,2,3,4, 5], 9, [1,2,3,1, 2], [4,5,5,3, 2], 1, [3,3,3,3, 2])[0]
+ccc = RKP([1,2,3,4, 5], 9, [1,2,3,1, 2], [4,5,5,3, 2], 1, [3,3,3,3, 2])[1]
+lamda = 1
 N = [1,2,3,4, 5]
 w = [1,2, 3, 1, 2]
 maks_w = [3,3,3,3, 2]
 p = [4,5,5,3, 2]
 print(ccc)
+print(zzz)
+print(kkk)
+print(podatki([1, 2, 3, 4, 5], [1, 2, 3, 1, 2], [4, 5, 5, 3, 2], [3, 3, 3, 3, 2]))
 rekurzija(N, zzz, kkk, ccc, lamda, w, maks_w, p)
 # RKP([6,3,1], 0, [1,1,1], [3,4,3], lamda, [3,3,3])
