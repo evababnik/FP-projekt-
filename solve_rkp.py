@@ -342,26 +342,23 @@ def rekurzija(N, z_zvezdica, k_zvezdica, c_zvezdica, lamda, w, maks_w, p, seznam
     
 
 # rekurzija(N, z_zvezdica, k_zvezdica, c_zvezdica, lamda, w, maks_w, p)
-kkk = RKP([1,2,3,4, 5], 9, [1,2,3,1, 2], [4,5,5,3, 2], 1, [3,3,3,3, 2])[3]
-zzz = RKP([1,2,3,4, 5], 9, [1,2,3,1, 2], [4,5,5,3, 2], 1, [3,3,3,3, 2])[0]
-ccc = RKP([1,2,3,4, 5], 9, [1,2,3,1, 2], [4,5,5,3, 2], 1, [3,3,3,3, 2])[1]
-lamda = 1
-N = [1,2,3,4, 5]
-w = [1,2, 3, 1, 2]
-maks_w = [3,3,3,3, 2]
-p = [4,5,5,3, 2]
-print(ccc)
-print(zzz)
-print(kkk)
-print(podatki([1, 2, 3, 4, 5], [1, 2, 3, 1, 2], [4, 5, 5, 3, 2], [3, 3, 3, 3, 2]))
-rekurzija(N, zzz, kkk, ccc, lamda, w, maks_w, p)
-# RKP([6,3,1], 0, [1,1,1], [3,4,3], lamda, [3,3,3])
-kkk, zzz, ccc = RKP({1,2,3,4,5,6}, 10, [1,1,1,2,3,1], [2,3,4,5,5,3], 6, [3,3,3,3,3,3])[3], RKP({1,2,3,4,5,6}, 10, [1,1,1,2,3,1], [2,3,4,5,5,3], 6, [3,3,3,3,3,3])[0], RKP({1,2,3,4,5,6}, 10, [1,1,1,2,3,1], [2,3,4,5,5,3], 6, [3,3,3,3,3,3])[1]
-lamda = 0
-N = {1,2,3,4,5,6}
-w = [1,1,1,2,3,1]
-maks_w = [3,3,3,3,3,3]
-p = [2,3,4,5,5,3]
+
+#1 primer:
+# kkk = RKP([1,2,3,4, 5], 9, [1,2,3,1, 2], [4,5,5,3, 2], 1, [3,3,3,3, 2])[3]
+# zzz = RKP([1,2,3,4, 5], 9, [1,2,3,1, 2], [4,5,5,3, 2], 1, [3,3,3,3, 2])[0]
+# ccc = RKP([1,2,3,4, 5], 9, [1,2,3,1, 2], [4,5,5,3, 2], 1, [3,3,3,3, 2])[1]
+# lamda = 1
+# N = [1,2,3,4, 5]
+# w = [1,2, 3, 1, 2]
+# maks_w = [3,3,3,3, 2]
+# p = [4,5,5,3, 2]
+# print(ccc)
+# print(zzz)
+# print(kkk)
+# print(podatki([1, 2, 3, 4, 5], [1, 2, 3, 1, 2], [4, 5, 5, 3, 2], [3, 3, 3, 3, 2]))
+# rekurzija(N, zzz, kkk, ccc, lamda, w, maks_w, p)
+
+# 2. primer
 
 # kkk, zzz, ccc = RKP({1,2,3,4,5,6}, 10, [1,1,1,2,3,1], [2,3,4,5,5,3], 6, [3,3,3,3,3,3])[3], RKP({1,2,3,4,5,6}, 10, [1,1,1,2,3,1], [2,3,4,5,5,3], 6, [3,3,3,3,3,3])[0], RKP({1,2,3,4,5,6}, 10, [1,1,1,2,3,1], [2,3,4,5,5,3], 6, [3,3,3,3,3,3])[1]
 # lamda = 0
@@ -369,9 +366,17 @@ p = [2,3,4,5,5,3]
 # w = [1,1,1,2,3,1]
 # maks_w = [3,3,3,3,3,3]
 # p = [2,3,4,5,5,3]
-
 # rekurzija(N, zzz, kkk, ccc, lamda, w, maks_w, p)
-# RKP([6,3,1], 0, [1,1,1], [3,4,3], lamda, [3,3,3])
+
+#3. primer 
+
+# kkk, zzz, ccc = RKP({1,2,3,4,5,6}, 10, [1,1,1,2,3,1], [2,3,4,5,5,3], 6, [3,3,3,3,3,3])[3], RKP({1,2,3,4,5,6}, 10, [1,1,1,2,3,1], [2,3,4,5,5,3], 6, [3,3,3,3,3,3])[0], RKP({1,2,3,4,5,6}, 10, [1,1,1,2,3,1], [2,3,4,5,5,3], 6, [3,3,3,3,3,3])[1]
+# lamda = 0
+# N = {1,2,3,4,5,6}
+# w = [1,1,1,2,3,1]
+# maks_w = [3,3,3,3,3,3]
+# p = [2,3,4,5,5,3]
+# rekurzija(N, zzz, kkk, ccc, lamda, w, maks_w, p)
 
 
 
@@ -416,7 +421,7 @@ class NAVADNI_PROBLEM:
         self.master.title("Navadni problem nahrbtnika")
         self.master.geometry("470x284+500+300")
         #gumbi 
-        self.komentar = tk.Label(self.frame, text= " napišite celo število, npr. 5 \n \n \n \n \n \n \n \n \n \n \n \n")
+        self.komentar = tk.Label(self.frame, text= " napišite celo število, npr. 5 \n \n \n \n \n \n \n \n \n \n \n \n")
         self.quitButton = tk.Button(self.frame, text = 'Zapri', width = 5, command = self.close_windows)
         self.backButton = tk.Button(self.frame, text = 'Nazaj', width = 5, command = self.nazaj)
         self.stevilo_podatkov = tk.Entry(self.frame, width=20, selectborderwidth=2,bg= "gray90")
@@ -462,7 +467,7 @@ class ROBUSTNI_PROBLEM:
         self.master.title("Robustni problem nahrbtnika")
         self.master.geometry("470x284+500+300")
         #gumbi 
-        self.komentar = tk.Label(self.frame, text= " napišite celo število, npr. 5 \n \n \n \n \n \n \n \n \n \n \n \n")
+        self.komentar = tk.Label(self.frame, text= " napišite celo število, npr. 5 \n \n \n \n \n \n \n \n \n \n \n \n")
         self.quitButton = tk.Button(self.frame, text = 'Zapri', width = 5, command = self.close_windows)
         self.backButton = tk.Button(self.frame, text = 'Nazaj', width = 5, command = self.nazaj)
         self.stevilo_podatkov = tk.Entry(self.frame, width=20, selectborderwidth=2,bg= "gray90")
@@ -556,16 +561,3 @@ if __name__ == '__main__':
 
 #     def close_windows(self):
 #         self.master.destroy()
-
-
-
-
-# def main(): 
-#     root = tk.Tk()
-#     app = PRVO_OKNO(root)
-#     root.mainloop()
-
-# if __name__ == '__main__':
-#     main()
-
-
