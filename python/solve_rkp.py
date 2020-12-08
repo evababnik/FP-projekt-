@@ -245,7 +245,7 @@ def naredi_pravi_seznam(seznam):
             nov_sez.append(el)
     return(nov_sez)
 
-# naredi_pravi_seznam([[3], 0, [[3]], 0, [3], 0])
+# naredi_pravi_seznam([[3], 0, [[3]], 0, [2], 0])
 def rekurzija(N, z_zvezdica, k_zvezdica, c_zvezdica, lamda, w, maks_w, p, seznam=[]):
     print(seznam)
     if len(N) == 1 and seznam == []:
