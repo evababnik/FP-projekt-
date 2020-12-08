@@ -83,14 +83,6 @@ def RKP(N, c, w, p, lamda = None,  maks_w = None):
             pravilni_podatki = podatki(N, w, p)
             N, w, p = pravilni_podatki[0], pravilni_podatki[1], pravilni_podatki[2]
     
-    # Dodajanje neodivisnega elementa + mal je treba še začetne pogoje spremenit v funkciji 
-    # if len(N)//2 != len(N)/2:
-    #     print(w,p,maks_w)
-    #     w.append(1)
-    #     p.append(0)
-    #     maks_w.append(1)
-    #     print(w,p, maks_w)
-
         if lamda is not None:
             if lamda > len(N):
                 lamda = len(N)
@@ -343,9 +335,6 @@ def resitev(N, c, w, p, lamda = None, maks_w = None):
     return(seznam, z_zvezdica)
 
 
-# A pol te stvari ko majo lamda = 0, izračunam z solve_KP?
-#print(resitev({1,2,3,4,5}, 9, [1,2,3,1,2], [4,5,5,3,2]))
-
 
 # TALE DELA
 #resitev([1,2,3,4, 5],9,[1,2, 3, 1, 2], [4,5,5,3, 2], 1,[3,3,3,3, 2])
@@ -409,26 +398,6 @@ def naredi_podatke(stevilo, teza, max_cena):
         p.append(val)
 
     return [N, c, w, p, lamda, maks_w]
-# print(naredi_podatke(10, 22, 6))
-
-# n = 5
-# teza = 2
-# maks_vr = 4
-# seznam = [[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15], 8, [3, 1, 2, 2, 1, 1, 3, 3, 2, 3, 2, 2, 1, 3, 1], [6, 5, 3, 4, 
-# 5, 7, 4, 7, 5, 7, 5, 4, 6, 7, 5], 1, [4, 19, 4, 2, 8, 12, 8, 6, 12, 7, 22, 10, 10, 9, 1]]
-# N = seznam[0]
-# c = seznam[1]
-# w = seznam[2]
-# p = seznam[3]
-# lamda = seznam[4]
-# maks_w = seznam[5]
-
-# kkk = RKP(N, c, w, p, lamda, maks_w)[3] 
-# zzz = RKP(N, c, w, p, lamda, maks_w)[0]
-# ccc = RKP(N, c, w, p, lamda, maks_w)[1]
-# print(rekurzija(N, zzz, kkk, ccc, lamda, w, maks_w, p))
-# print(zzz)
-# print(ccc)
 
 ##### ČE ŠE NIMAŠ SI MOREŠ ZAGNAT TOLE V TERMINALU ###
 # python3 -m pip install pillow v bash (terminal)
@@ -474,7 +443,7 @@ class NAVADNI_PROBLEM:
         self.master.geometry("470x284+500+300")
         #gumbi 
         self.komentar = tk.Label(self.frame, text= " napišite celo število, npr. 5 \n \n \n \n \n \n \n \n \n \n \n \n")
-        self.shrani_in_naprej = tk.Button(self.frame, text = 'Shrani in naprej', width = 12, command = self.shrani_in_naprej1)
+        self.shrani_in_naprej = tk.Button(self.frame, text = 'Naprej', width = 12, command = self.shrani_in_naprej1)
         self.quitButton = tk.Button(self.frame, text = 'Zapri', width = 5, command = self.close_windows)
         self.backButton = tk.Button(self.frame, text = 'Nazaj', width = 5, command = self.nazaj)
         self.stevilo_podatkov = tk.Entry(self.frame, width=20, selectborderwidth=2,bg= "gray90")
@@ -483,7 +452,7 @@ class NAVADNI_PROBLEM:
         self.prazno_polje1 = tk.Label(self.frame,text = "", width = 3)
         #self.prazno_polje2 = tk.Label(self.frame,text = "", height= 6)
         # slika
-        image = Image.open("/Users/zaloznikjan/Desktop/fp/Robust-knapsack-problem/nahrbtnik.jpg")
+        image = Image.open("Robust-knapsack-problem/nahrbtnik.jpg")
         image = image.resize((250, 220), Image.ANTIALIAS)
         photo = ImageTk.PhotoImage(image)
         self.slika = tk.Label(self.frame, image=photo)
@@ -505,8 +474,6 @@ class NAVADNI_PROBLEM:
         self.frame.grid()
         
     def shrani_in_naprej1(self):
-        self.mnozica_N = self.stevilo_podatkov.get()
-        print(self.mnozica_N)
         #self.master.destroy()
         self.newWindow = tk.Toplevel(self.master)
         self.app3 = NAVADNI_PROBLEM_NADALJEVANJE(self.newWindow)
@@ -525,19 +492,22 @@ class ROBUSTNI_PROBLEM:
         self.master = master
         self.frame = tk.Frame(self.master)
         self.master.title("Robustni problem nahrbtnika")
-        self.master.geometry("470x284+500+300")
+        self.master.geometry("570x400+450+250")
         #gumbi 
-        self.shrani_in_naprej1 = tk.Button(self.frame, text = 'Shrani in naprej', width = 12, command = self.shrani_in_naprej2)
-        self.komentar = tk.Label(self.frame, text= " napišite celo število, npr. 5")
+        self.shrani_in_naprej1 = tk.Button(self.frame, text = 'Naprej', width = 12, command = self.shrani_in_naprej2)
+        self.naslov = tk.Label(self.frame, text= "Kratek opis problema")
         self.quitButton = tk.Button(self.frame, text = 'Zapri', width = 5, command = self.close_windows)
         self.backButton = tk.Button(self.frame, text = 'Nazaj', width = 5, command = self.nazaj)
         self.stevilo_podatkov = tk.Entry(self.frame, width=20, selectborderwidth=2,bg= "gray90")
-        self.prazno_polje1= tk.Label(self.frame, text = '', width = 15)
-        self.label1 = tk.Label(self.frame,text = "Koliko predmetov imate? ")
-        self.prazno_polje2 = tk.Label(self.frame,text = "", width = 3)
-        self.prazno_polje3 = tk.Label(self.frame,text = "", height= 25)
+        self.prazno_polje1 = tk.Label(self.frame,text = "", width = 3,height=5)
+        self.label1 = tk.Label(self.frame,text = "Robustni problem nahrbtnika je nekakšna nadgranja problema nahrbtnika. Dodaten \nproblem se pojavi pri točnosti naših podatkov, in sicer pri utežeh. Za vsako težo\n predmeta vemo njegovo zgornjo in spodnjo mejo, ampak spodnja meja nas ne skrbi,\nsaj če bo predmet lažji to ne bo vplivalo na optimalno skupno vrednost. Na naslednji \nstrani boste v program zapisali naslednje podatke: 1. maksimalno kapaciteto \nnahrbtnika, 2. nominalno težo predmetov, 3. robustno težo predmetov, \n4. maksimalno število koliko predmetov spremeni svojo težo.")
+        self.fake = tk.Label(self.master,text = "Jan", width = 20, height= 5)
+        self.druga = tk.Label(self.frame, text= "",width = 10)
+        self.tretja = tk.Label(self.frame, text= "",width = 30)
+        self.cetrta = tk.Label(self.frame,height = 16)
+        self.peta = tk.Label(self.frame ,height = 10)
         # slika
-        image = Image.open("/Users/zaloznikjan/Desktop/fp/Robust-knapsack-problem/knapsack.png")
+        image = Image.open("Robust-knapsack-problem/knapsack.png")
         image = image.resize((219, 219), Image.ANTIALIAS)
         photo = ImageTk.PhotoImage(image)
         self.slika1 = tk.Label(self.frame, image=photo)
@@ -546,16 +516,22 @@ class ROBUSTNI_PROBLEM:
 
         # prikaz
         #self.slika.grid(row=2,column=1)
-        self.slika1.place(x=220, y=35)
-        self.prazno_polje3.grid(row=4, column =0)
-        self.shrani_in_naprej1.grid(row=3,column=0)
-        self.komentar.grid(row=2, column=0)
-        self.stevilo_podatkov.grid(row=1, column=0) 
-        self.prazno_polje2.grid(row=2, column=2)
-        self.prazno_polje1.grid(row=1, column=1)
-        self.label1.grid(row=0, column=0)
-        self.backButton.grid(row=0, column=4)
-        self.quitButton.grid(row=0, column=5)
+        
+        self.backButton.grid(row=0, column=0)
+        self.quitButton.grid(row=0, column=1)
+        self.naslov.grid(row=0, column=3)
+        self.druga.grid(row=0, column = 2)
+        self.tretja.grid(row=0, column = 4)
+        self.cetrta.grid(row=1, column = 0)
+        self.peta.grid(row=2, column = 0)
+        #self.fake.grid(row=1, column=3)
+
+        self.label1.place(x=25, y= 25)
+
+        self.slika1.place(x=163,y=169)
+        self.prazno_polje1.grid(row=1, column = 2)
+        self.shrani_in_naprej1.grid(row=1,column= 3)
+        
         self.frame.grid()
 
     def shrani_in_naprej2(self):
@@ -589,7 +565,6 @@ class NAVADNI_PROBLEM_NADALJEVANJE:
         self.vrednost = tk.Entry(self.master, width = 20, selectborderwidth=2, bg= "gray90")
         self.lbl_value = tk.Label(self.master, text="0")
         self.quitButton2 = tk.Button(self.frame, text = 'Zapri', width = 25, command = self.close_all)
-
         
         # grid
         self.vprasanje_kapaciteta.grid(row=0, column=0)
@@ -602,9 +577,7 @@ class NAVADNI_PROBLEM_NADALJEVANJE:
         self.lbl_value.grid(row=6, column=0)
         self.frame.grid()
         self.quitButton2.grid(row= 8, column=0)
-
-       
-
+   
     def resitev_problema(self):
         kapaciteta_c = int(self.kapaciteta.get())
         # if type(kapaciteta_c) == type(1):
@@ -617,7 +590,6 @@ class NAVADNI_PROBLEM_NADALJEVANJE:
         w = [(self.teza.get())]
         p = [self.vrednost.get()]
         w1 = []
-        print(w[0])
         for i in w[0].split(","):
             if i != ",":
                 w1 += [int(i)]
@@ -630,6 +602,7 @@ class NAVADNI_PROBLEM_NADALJEVANJE:
         N = set()
         for i in range(1,len(p) + 1):
             N.add(i)
+        print(w,N)
         seznam = solve_KP(N, kapaciteta_c, w, p)
         pravi_seznam = seznam[0]
         z_zvezdica = seznam[1]
@@ -656,7 +629,7 @@ class ROBUSTNI_PROBLEM_NADALJEVANJE:
         self.master = master
         self.frame = tk.Frame(self.master)
         self.master.title("Robustni problem nahrbtnika")
-        self.master.geometry("600x370+440+300")
+        self.master.geometry("600x370+440+270")
         
         # gumbi 
         self.gumb_resitev = tk.Button(self.frame, text = "Prikaži rešitev", width = 25, command = self.resitev_problema)
@@ -664,7 +637,7 @@ class ROBUSTNI_PROBLEM_NADALJEVANJE:
         self.vprasanje_teza = tk.Label(self.master, text="2. Zapišite teže predmetov v pravilnem vrstnem redu, npr. 1,3,3,2,5 za 5 predmetov")
         self.vprasanje_vrednost = tk.Label(self.master, text="4. Zapišite vrednosti predmetov v pravilnem vrstnem redu, npr. 10,30,50,20,52 za 5 predmetov")
         self.vprasanje_maks_w = tk.Label(self.master, text="3. Zapišite maksimalne teže predmetov v pravilnem vrstnem redu, npr. 2,4,3,3,5 za 5 predmetov")
-        self.vprasanje_lamda = tk.Label(self.master, text="5. Zapišite največ koliko predmetov lahko spremeni svojo težo \n (število med 0 in številom predmetov) npr. 3")
+        self.vprasanje_lamda = tk.Label(self.master, text="5. Zapišite največ koliko predmetov lahko spremeni svojo težo \n (število med 1 in številom predmetov) npr. 3")
         self.lamda = tk.Entry(self.master, width = 20, selectborderwidth=2, bg= "gray90")
         self.kapaciteta = tk.Entry(self.master, width = 20, selectborderwidth=2, bg= "gray90")
         self.teza = tk.Entry(self.master, width = 20, selectborderwidth=2, bg= "gray90")
@@ -673,7 +646,6 @@ class ROBUSTNI_PROBLEM_NADALJEVANJE:
         self.lbl_value = tk.Label(self.master, text="0")
         self.quitButton2 = tk.Button(self.frame, text = 'Zapri', width = 25, command = self.close_all)
 
-        
         # grid
         self.vprasanje_kapaciteta.grid(row=0, column=0)
         self.kapaciteta.grid(row=1,column=0)
@@ -690,17 +662,20 @@ class ROBUSTNI_PROBLEM_NADALJEVANJE:
         self.quitButton2.grid(row= 12, column=0)
         self.frame.grid()
 
-       
 
+        self.števec = 0
     def resitev_problema(self):
+        kapaciteta_c = self.kapaciteta.get()
+        try:
+            int(kapaciteta_c)
+        except ValueError:
+            kapaciteta_c = 0
+            self.lbl_value["text"] = f"Napaka v vnosu kapacitete"
+        
         kapaciteta_c = int(self.kapaciteta.get())
-        # if type(kapaciteta_c) == type(1):
-        #     kapaciteta_c = 0
-        # else: 
-        #     pass
-        #     if kapaciteta_c < 0:
-        #         kapaciteta_c = 0
-
+        if kapaciteta_c < 0:
+            kapaciteta_c = 0
+        
         w = [(self.teza.get())]
         p = [self.vrednost.get()]
         maks_w = [self.teza_maks_w.get()]
@@ -724,28 +699,37 @@ class ROBUSTNI_PROBLEM_NADALJEVANJE:
         for i in range(1,len(p) + 1):
             N.add(i)
 
-        #print(p,w,N,kapaciteta_c, lamda, maks_w)
-        seznam = []
-        seznam = resitev(N,kapaciteta_c, w, p, lamda, maks_w)
-        pravi_seznam = seznam[0]
-        z_zvezdica = seznam[1]
-        pravi_seznam = sorted(pravi_seznam)
-        pravi_seznam2 = set()
-        for i in pravi_seznam:
-            pravi_seznam2.add(i)
-        koncni_seznam = v_seznam(pravi_seznam2)
-        self.lbl_value["text"] = f"seznam predmetov, ki jih dodamo v nahrbtnik {koncni_seznam} \n in optimalna vrednost predmetov je {z_zvezdica}"
+        
+        self.števec += 1
+        print(self.števec)
+        #print(N)
+        #N, w, p, maks_w = podatki(N,w,p,maks_w)
+        #print(N)
 
-        #primer
-        # TALE DELA
-        # resitev([1,2,3,4, 5],9,[1,2, 3, 1, 2], [4,5,5,3, 2], 1,[3,3,3,3, 2])
-        # rešitev ([[3], 2, 1, 4], 17)
 
+        ###### ZAKAJ SI TA SEZNAM MAGIČNO VEDNO ZAPOMNE PREJŠNO REŠITEV??? 
+        if self.števec == 1:
+            self.seznam = resitev(N,kapaciteta_c, w, p, lamda, maks_w)
+            print(self.seznam)
+            self.pravi_seznam = self.seznam[0]
+            self.z_zvezdica = self.seznam[1]
+        #pravi_seznam = sorted(pravi_seznam)
+            self.pravi_seznam2 = set()
+            if self.pravi_seznam != []:
+                for i in self.pravi_seznam:
+                    self.pravi_seznam2.add(i)
+                self.koncni_seznam = v_seznam(self.pravi_seznam2)
+                if self.koncni_seznam[0] == 0:
+                    self.koncni_seznam = self.koncni_seznam[1:]
+            else:
+                self.koncni_seznam = []
+        self.lbl_value["text"] = f"seznam predmetov, ki jih dodamo v nahrbtnik {self.koncni_seznam} \n in optimalna vrednost predmetov je {self.z_zvezdica}"
+        self.seznam = []
+        
     def close_all(self):
+        self.newWindow = tk.Toplevel(self.master)
+        self.app = ROBUSTNI_PROBLEM_NADALJEVANJE(self.newWindow)
         self.master.destroy()
-
-
-
 
 
 
@@ -759,51 +743,12 @@ def main():
 if __name__ == '__main__':
      main()
 
-# import tkinter as tk
-
-# class PRVO_OKNO:
-#     def __init__(self, master):
-#         self.master = master
-#         self.master.geometry("450x225+500+300")
-#         self.frame = tk.Frame(self.master)
-#         self.butnew("Window 1", "ONE", NAVADNI_PROBLEM)
-#         self.butnew("Window 2", "TWO", ROBUSTNI_PROBLEM)
-#         self.frame.pack()
-
-#     def butnew(self, text, number, _class):
-#         tk.Button(self.frame, text = text, width = 25, command = lambda: self.new_window(number, _class)).pack()
-
-#     def new_window(self, number, _class):
-#         self.newWindow = tk.Toplevel(self.master)
-#         _class(self.newWindow, number)
 
 
-# class NAVADNI_PROBLEM:
-#     def __init__(self, master, number):
-#         self.master = master
-#         self.master.geometry("400x400+400+400")
-#         self.frame = tk.Frame(self.master)
-#         self.quitButton = tk.Button(self.frame, text = 'Quit', width = 25, command = self.close_windows)
-#         self.label = tk.Label(master, text=f"this is window number {number}")
-#         self.label.pack()
-#         self.quitButton.pack()
-#         self.frame.pack()
+#Vprašanja: 
 
-#     def close_windows(self):
-#         self.master.destroy()
 
-# class ROBUSTNI_PROBLEM:
-#     def __init__(self, master, number):
-#         self.master = master
-#         self.master.geometry("400x400+400+400")
-#         self.frame = tk.Frame(self.master)
-#         self.quitButton = tk.Button(self.frame, text = 'Quit', width = 25, command = self.close_windows)
-#         self.label = tk.Label(master, text=f"this is window number {number}")
-#         self.label.pack()
-#         self.label2 = tk.Label(master, text="THIS IS HERE TO DIFFERENTIATE THIS WINDOW")
-#         self.label2.pack()
-#         self.quitButton.pack()
-#         self.frame.pack()
-
-#     def close_windows(self):
-#         self.master.destroy()
+# vrstica 703, ne razumem zakaj si self.seznam zapomni rešitve iz prejšnega primera 
+# da se ne bi podvajal ob vsakem pritisku na gumb sem zraven dodal števec, 
+# ampak če okno "robustni problem nahrbtnika" zaprem s pritiskom na gumb "zapri" se števec ponastavi na 0 ampak
+# self.seznam si pa zapomne kak je bil v prvem primeru
