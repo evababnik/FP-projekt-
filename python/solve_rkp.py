@@ -82,10 +82,10 @@ def RKP(N, c, w, p, lamda = None,  maks_w = None):
             pravilni_podatki = podatki(N, w, p)
             N, w, p = pravilni_podatki[0], pravilni_podatki[1], pravilni_podatki[2]
     
-        if lamda is not None:
-            if lamda > len(N):
-                lamda = len(N)
-                print("Lamda je večja kot moč množice predmetov, zato sva lamdo nastavila na", len(N))
+        #if lamda is not None:
+        #    if lamda > len(N):
+        #       lamda = len(N)
+        #       print("Lamda je večja kot moč množice predmetov, zato sva lamdo nastavila na", len(N))
         if lamda == None or 0:
             maks_w = [c]* len(w)
             lamda = 0
@@ -245,7 +245,9 @@ def naredi_pravi_seznam(seznam):
             nov_sez.append(el)
     return(nov_sez)
 
+# naredi_pravi_seznam([[3], 0, [[3]], 0, [3], 0])
 def rekurzija(N, z_zvezdica, k_zvezdica, c_zvezdica, lamda, w, maks_w, p, seznam=[]):
+    #print(seznam)
     if len(N) == 1 and seznam == []:
         if lamda != 0:
             if maks_w[0] <= c_zvezdica:
@@ -336,7 +338,19 @@ def resitev(N, c, w, p, lamda = None, maks_w = None):
     z_zvezdica = RKP(N, c, w, p, lamda, maks_w)[0]
     c_zvezdica = RKP(N, c, w, p, lamda, maks_w)[1]
     seznam = rekurzija(N, z_zvezdica, k_zvezdica, c_zvezdica, lamda, w, maks_w, p)
+    while seznam != naredi_pravi_seznam(seznam):
+        seznam = naredi_pravi_seznam(seznam)
+    mnozica = set()
+    if seznam != []:
+        for i in seznam:
+            mnozica.add(i)
+        seznam = v_seznam(mnozica)
+        if seznam[0] == 0:
+            seznam = seznam[1:]
     return(seznam, z_zvezdica)
+
+# resitev({1,2,3,4}, 5, [1,2,3,4], [10,15,25,11], 2, [2,2,4,4])
+
 
 def preberi_podatke(dat, kodna_tabela='utf-8'):
     with open(dat, encoding=kodna_tabela) as datoteka:
@@ -708,32 +722,29 @@ class ROBUSTNI_PROBLEM_NADALJEVANJE:
         for i in range(1,len(p) + 1):
             N.add(i)
 
-        
-        self.števec += 1
-        print(self.števec)
-        #print(N)
-        #N, w, p, maks_w = podatki(N,w,p,maks_w)
-        #print(N)
-
+        seznam = resitev(N,kapaciteta_c, w, p, lamda, maks_w)
+        pravi_seznam = seznam[0]
+        z_zvezdica = seznam[1]
 
         ###### ZAKAJ SI TA SEZNAM MAGIČNO VEDNO ZAPOMNE PREJŠNO REŠITEV??? 
-        if self.števec == 1:
-            self.seznam = resitev(N,kapaciteta_c, w, p, lamda, maks_w)
-            print(self.seznam)
-            self.pravi_seznam = self.seznam[0]
-            self.z_zvezdica = self.seznam[1]
-        #pravi_seznam = sorted(pravi_seznam)
-            self.pravi_seznam2 = set()
-            if self.pravi_seznam != []:
-                for i in self.pravi_seznam:
-                    self.pravi_seznam2.add(i)
-                self.koncni_seznam = v_seznam(self.pravi_seznam2)
-                if self.koncni_seznam[0] == 0:
-                    self.koncni_seznam = self.koncni_seznam[1:]
-            else:
-                self.koncni_seznam = []
-        self.lbl_value["text"] = f"seznam predmetov, ki jih dodamo v nahrbtnik {self.koncni_seznam} \n in optimalna vrednost predmetov je {self.z_zvezdica}"
-        self.seznam = []
+        # if self.števec == 1:
+        #     self.seznam = resitev(N,kapaciteta_c, w, p, lamda, maks_w)
+        #     print(self.seznam)
+        #     self.pravi_seznam = self.seznam[0]
+        #     self.z_zvezdica = self.seznam[1]
+        # #pravi_seznam = sorted(pravi_seznam)
+        #     self.pravi_seznam2 = set()
+        #     if self.pravi_seznam != []:
+        #         for i in self.pravi_seznam:
+        #             self.pravi_seznam2.add(i)
+        #         self.koncni_seznam = v_seznam(self.pravi_seznam2)
+        #         if self.koncni_seznam[0] == 0:
+        #             self.koncni_seznam = self.koncni_seznam[1:]
+        #     else:
+        #         self.koncni_seznam = []
+
+        self.lbl_value["text"] = f"seznam predmetov, ki jih dodamo v nahrbtnik {pravi_seznam} \n in optimalna vrednost predmetov je {z_zvezdica}"
+
         
     def close_all(self):
         self.newWindow = tk.Toplevel(self.master)
@@ -755,9 +766,3 @@ if __name__ == '__main__':
 
 
 #Vprašanja: 
-
-
-# vrstica 703, ne razumem zakaj si self.seznam zapomni rešitve iz prejšnega primera 
-# da se ne bi podvajal ob vsakem pritisku na gumb sem zraven dodal števec, 
-# ampak če okno "robustni problem nahrbtnika" zaprem s pritiskom na gumb "zapri" se števec ponastavi na 0 ampak
-# self.seznam si pa zapomne kak je bil v prvem primeru
