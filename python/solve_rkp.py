@@ -353,6 +353,7 @@ def preberi_podatke(dat, kodna_tabela='utf-8'):
             maks_w.append(int(x[3]))
     
     return(N, w, p, maks_w)
+
 #N, w, p, maks_w = preberi_podatke('RKP_00500_00100_2_04.txt')
 #N = [1, 2, 3, 4, 5]
 #maks_w = [10, 11, 10, 10, 12]
