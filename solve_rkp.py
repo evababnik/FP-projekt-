@@ -434,40 +434,54 @@ class NAVADNI_PROBLEM:
         self.master = master
         self.frame = tk.Frame(self.master)
         self.master.title("Navadni problem nahrbtnika")
-        self.master.geometry("470x284+500+300")
+        self.master.geometry("570x400+450+250")
         #gumbi 
-        self.komentar = tk.Label(self.frame, text= " napišite celo število, npr. 5 \n \n \n \n \n \n \n \n \n \n \n \n")
-        self.shrani_in_naprej = tk.Button(self.frame, text = 'Naprej', width = 12, command = self.shrani_in_naprej1)
+        self.shrani_in_naprej1 = tk.Button(self.frame, text = 'Naprej', width = 12, command = self.shrani_in_naprej3)
+        self.naslov = tk.Label(self.frame, text= "Kratek opis problema")
         self.quitButton = tk.Button(self.frame, text = 'Zapri', width = 5, command = self.close_windows)
         self.backButton = tk.Button(self.frame, text = 'Nazaj', width = 5, command = self.nazaj)
         self.stevilo_podatkov = tk.Entry(self.frame, width=20, selectborderwidth=2,bg= "gray90")
-        self.prazno_polje = tk.Label(self.frame, text = '', width = 15)
-        self.label1 = tk.Label(self.frame,text = "Koliko predmetov imate? ")
-        self.prazno_polje1 = tk.Label(self.frame,text = "", width = 3)
-        #self.prazno_polje2 = tk.Label(self.frame,text = "", height= 6)
+        self.prazno_polje1 = tk.Label(self.frame,text = "", width = 3,height=5)
+        self.label1 = tk.Label(self.frame, anchor="e", text = "Preprosti problem nahrbtnika je računalniški problem, s katerim poskusimo \nzapolniti nahrbtnik z danimi predmeti, ki ima vsak svojo ceno in težo. Bodisi\n gre za dejansko polnjenje nahrbtnika, polnjenje nakupovalne vreče, zlaganje\npredmetov v avto. Deluje po principu, da bi karseda najbolje zapolnili prostor in vzeli\n s sabo predmete s čimvišjo vrednostjo. Na naslednji strani boste v program \nzapisali naslednje podatke, 1. maksimalno kapaciteto nahrbtnika, 2. nominalno\n težo predmetov in 3. vrednosti predmetov")
+        #self.label1 = tk.Label(self.frame,text = "Robustni problem nahrbtnika je nekakšna nadgranja problema nahrbtnika. Dodaten \nproblem se pojavi pri točnosti naših podatkov, in sicer pri utežeh. Za vsako težo\n predmeta vemo njegovo zgornjo in spodnjo mejo, ampak spodnja meja nas ne skrbi,\nsaj če bo predmet lažji to ne bo vplivalo na optimalno skupno vrednost. Na naslednji \nstrani boste v program zapisali naslednje podatke: 1. maksimalno kapaciteto \nnahrbtnika, 2. nominalno težo predmetov, 3. robustno težo predmetov, \n4. maksimalno število koliko predmetov spremeni svojo težo.")
+        #self.fake = tk.Label(self.master,text = "", width = 20, height= 5)
+        self.druga = tk.Label(self.frame, text= "",width = 13)
+        self.tretja = tk.Label(self.frame, text= "",width = 30)
+        self.cetrta = tk.Label(self.frame,height = 16)
+        self.peta = tk.Label(self.frame ,height = 10)
+
         # slika
         image = Image.open("Robust-knapsack-problem/nahrbtnik.jpg")
         image = image.resize((250, 220), Image.ANTIALIAS)
         photo = ImageTk.PhotoImage(image)
-        self.slika = tk.Label(self.frame, image=photo)
-        self.slika.image = photo
+        self.slika1 = tk.Label(self.frame, image=photo)
+        self.slika1.image = photo
 
 
         # prikaz
         #self.slika.grid(row=2,column=1)
-        self.slika.place(x=205, y=50)
-        #self.prazno_polje2.grid(row=3, column =0)
-        self.shrani_in_naprej.place(x=40, y=80)
-        self.komentar.grid(row=2, column=0)
-        self.stevilo_podatkov.grid(row=1, column=0) 
-        self.prazno_polje1.grid(row=2, column=2)
-        self.prazno_polje.grid(row=1, column=1)
-        self.label1.grid(row=0, column=0)
-        self.backButton.grid(row=0, column=4)
-        self.quitButton.grid(row=0, column=5)
-        self.frame.grid()
         
-    def shrani_in_naprej1(self):
+        self.backButton.grid(row=0, column=0)
+        self.quitButton.grid(row=0, column=1)
+        self.naslov.grid(row=0, column=3)
+        self.druga.grid(row=0, column = 2)
+        self.tretja.grid(row=0, column = 4)
+        self.cetrta.grid(row=1, column = 0)
+        self.peta.grid(row=2, column = 0)
+        #self.fake.grid(row=1, column=3)
+
+        self.label1.place(x=25, y= 25)
+
+        self.slika1.place(x=163,y=169)
+        self.prazno_polje1.grid(row=1, column = 2)
+        self.shrani_in_naprej1.grid(row=1,column= 3)
+        
+        self.frame.grid()
+        # label(self.frame,text = "", height= 6)
+        
+
+        
+    def shrani_in_naprej3(self):
         #self.master.destroy()
         self.newWindow = tk.Toplevel(self.master)
         self.app3 = NAVADNI_PROBLEM_NADALJEVANJE(self.newWindow)
@@ -494,7 +508,7 @@ class ROBUSTNI_PROBLEM:
         self.backButton = tk.Button(self.frame, text = 'Nazaj', width = 5, command = self.nazaj)
         self.stevilo_podatkov = tk.Entry(self.frame, width=20, selectborderwidth=2,bg= "gray90")
         self.prazno_polje1 = tk.Label(self.frame,text = "", width = 3,height=5)
-        self.label1 = tk.Label(self.frame,text = "Robustni problem nahrbtnika je nekakšna nadgranja problema nahrbtnika. Dodaten \nproblem se pojavi pri točnosti naših podatkov, in sicer pri utežeh. Za vsako težo\n predmeta vemo njegovo zgornjo in spodnjo mejo, ampak spodnja meja nas ne skrbi,\nsaj če bo predmet lažji to ne bo vplivalo na optimalno skupno vrednost. Na naslednji \nstrani boste v program zapisali naslednje podatke: 1. maksimalno kapaciteto \nnahrbtnika, 2. nominalno težo predmetov, 3. robustno težo predmetov, \n4. maksimalno število koliko predmetov spremeni svojo težo.")
+        self.label1 = tk.Label(self.frame,text = "Robustni problem nahrbtnika je nekakšna nadgranja problema nahrbtnika. Dodaten \nproblem se pojavi pri točnosti naših podatkov, in sicer pri utežeh. Za vsako težo\n predmeta vemo njegovo zgornjo in spodnjo mejo, ampak spodnja meja nas ne skrbi,\nsaj če bo predmet lažji to ne bo vplivalo na optimalno skupno vrednost. Na naslednji \nstrani boste v program zapisali naslednje podatke: 1. maksimalno kapaciteto \nnahrbtnika, 2. nominalno težo predmetov, 3. robustno težo predmetov, 4. vrednosti\npredmetov in 5. maksimalno število koliko predmetov spremeni svojo težo.")
         self.fake = tk.Label(self.master,text = "Jan", width = 20, height= 5)
         self.druga = tk.Label(self.frame, text= "",width = 10)
         self.tretja = tk.Label(self.frame, text= "",width = 30)
