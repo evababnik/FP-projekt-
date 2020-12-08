@@ -247,7 +247,7 @@ def naredi_pravi_seznam(seznam):
 
 # naredi_pravi_seznam([[3], 0, [[3]], 0, [3], 0])
 def rekurzija(N, z_zvezdica, k_zvezdica, c_zvezdica, lamda, w, maks_w, p, seznam=[]):
-    #print(seznam)
+    print(seznam)
     if len(N) == 1 and seznam == []:
         if lamda != 0:
             if maks_w[0] <= c_zvezdica:
@@ -350,7 +350,7 @@ def resitev(N, c, w, p, lamda = None, maks_w = None):
     return(seznam, z_zvezdica)
 
 # resitev({1,2,3,4}, 5, [1,2,3,4], [10,15,25,11], 2, [2,2,4,4])
-
+# resitev({1,2,3,4,5,6,7,8,9,10,11}, 15, [1,2,3,4,5,5,6,6,6,7,7], [10,15,25,11,5,5,6,6,6,7,7], 2, [2,2,4,4,5,5,6,6,6,7,7])
 
 def preberi_podatke(dat, kodna_tabela='utf-8'):
     with open(dat, encoding=kodna_tabela) as datoteka:
