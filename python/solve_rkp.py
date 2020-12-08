@@ -452,7 +452,7 @@ class NAVADNI_PROBLEM:
         self.peta = tk.Label(self.frame ,height = 10)
 
         # slika
-        image = Image.open("Robust-knapsack-problem/nahrbtnik.jpg")
+        image = Image.open("Robust-knapsack-problem/python/nahrbtnik.jpg")
         image = image.resize((250, 220), Image.ANTIALIAS)
         photo = ImageTk.PhotoImage(image)
         self.slika1 = tk.Label(self.frame, image=photo)
@@ -516,7 +516,7 @@ class ROBUSTNI_PROBLEM:
         self.cetrta = tk.Label(self.frame,height = 16)
         self.peta = tk.Label(self.frame ,height = 10)
         # slika
-        image = Image.open("Robust-knapsack-problem/knapsack.png")
+        image = Image.open("Robust-knapsack-problem/python/knapsack.png")
         image = image.resize((219, 219), Image.ANTIALIAS)
         photo = ImageTk.PhotoImage(image)
         self.slika1 = tk.Label(self.frame, image=photo)
