@@ -1,0 +1,2 @@
+Solution value 109
+      98      109       99        0 *       99 
