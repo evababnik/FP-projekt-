@@ -1,0 +1,2 @@
+Solution value 99
+      88       99      100        0 *      100 
