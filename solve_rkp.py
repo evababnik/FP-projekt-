@@ -3,7 +3,6 @@ Robustni Problem Nahrbtinka
 """
 
 
-
 def matrika(m,n):
     return [[0] * (m+1) for _ in range(n+1)]
 
@@ -144,7 +143,7 @@ def RKP(N, c, w, p, lamda = None,  maks_w = None):
         z_zvedica = max([max(l) for l in z])
         pozicija = [[index, vrstica.index(z_zvedica)] for index, vrstica in enumerate(z) if z_zvedica in vrstica]
         c_zvezdica = pozicija[0][0] 
-        stevilo_predmetov_s_povecano_tezo = pozicija[-1][-1] 
+        stevilo_predmetov_s_povecano_tezo = pozicija[0][-1] 
         g1 = g[c_zvezdica][stevilo_predmetov_s_povecano_tezo]
         k_zvezdica = k[c_zvezdica][stevilo_predmetov_s_povecano_tezo]
         g_zvezdica = k_zvezdica - g1 #g_zvezdica = št.elementov v N1, k_zvezdica = št. vseh elementov
@@ -232,6 +231,7 @@ def solve_eKkP(N, c, w, p, k):
             if z_zvezdica1 <= 0:
                 break
             elif z_zvezdica1 == z[i - 1][c][k]:
+                a = z[i - 1][c][k]
                 continue
             else:
                 element = N[i - 1]
@@ -318,17 +318,21 @@ def rekurzija(N, z_zvezdica, k_zvezdica, c_zvezdica, lamda, w, maks_w, p, seznam
             k1_zvezdica = RKP(N1, c1, w1, p1, lamda, maks_w1)[3]
             return rekurzija(N1, z1_c1 , k1_zvezdica, c1, lamda, w1, maks_w1, p1, seznam)        
         else: 
-            for c_1 in range(c_zvezdica + 1):
-                
-                z2_c_2 = RKP(N2, c_zvezdica - c_1, w2, p2, lamda - k_zvezdica, maks_w2)[0]
-                z1_c_1 = solve_eKkP(N1, c_1, w1, p1, k_zvezdica)[1]
+            for c_2 in range(c_zvezdica + 1):
+                c2 = c_2
+                c1 = c_zvezdica - c2
+                z2_c_2 = RKP(N2, c_zvezdica - c1, w2, p2, lamda - k_zvezdica, maks_w2)[0]
+                z1_c_1 = solve_eKkP(N1, c1, maks_w1, p1, k_zvezdica)[1]
+                z1_c1 = z1_c_1
+                z2_c2 = z2_c_2
+
                 if z1_c_1 + z2_c_2 == z_zvezdica:
                     z2_c2 = z2_c_2
                     z1_c1 = z1_c_1
-                    c1 = c_1
-                    c2 = c_zvezdica - c1
+                    c2 = c_2
+                    c1 = c_zvezdica - c2
                     break
-            solution_set_eKkP = solve_eKkP(N1, c1, w1, p1, k_zvezdica)[0]
+            solution_set_eKkP = solve_eKkP(N1, c1, maks_w1, p1, k_zvezdica)[0]
             seznam.append(solution_set_eKkP)
             k2_zvezdica = RKP(N2, c2, w2, p2, lamda - k_zvezdica, maks_w2)[3]
             c2 = c_zvezdica - c1
@@ -341,49 +345,36 @@ def resitev(N, c, w, p, lamda = None, maks_w = None):
     seznam = rekurzija(N, z_zvezdica, k_zvezdica, c_zvezdica, lamda, w, maks_w, p)
     return(seznam, z_zvezdica)
 
-
-# A pol te stvari ko majo lamda = 0, izračunam z solve_KP?
-#print(resitev({1,2,3,4,5}, 9, [1,2,3,1,2], [4,5,5,3,2]))
-
-
-# TALE DELA
-#resitev([1,2,3,4, 5],9,[1,2, 3, 1, 2], [4,5,5,3, 2], 1,[3,3,3,3, 2])
-
-#1 primer:
-# kkk = RKP([1,2,3,4, 5], 9, [1,2,3,1, 2], [4,5,5,3, 2], 1, [3,3,3,3, 2])[3]
-# zzz = RKP([1,2,3,4, 5], 9, [1,2,3,1, 2], [4,5,5,3, 2], 1, [3,3,3,3, 2])[0]
-# ccc = RKP([1,2,3,4, 5], 9, [1,2,3,1, 2], [4,5,5,3, 2], 1, [3,3,3,3, 2])[1]
-# lamda = 1
-# N = [1,2,3,4, 5]
-# w = [1,2, 3, 1, 2]
-# maks_w = [3,3,3,3, 2]
-# p = [4,5,5,3, 2]
-# print(ccc)
-# print(zzz)
-# print(kkk)
-# print(podatki([1, 2, 3, 4, 5], [1, 2, 3, 1, 2], [4, 5, 5, 3, 2], [3, 3, 3, 3, 2]))
-# rekurzija(N, zzz, kkk, ccc, lamda, w, maks_w, p)
-
-# 2. primer
-
-# kkk, zzz, ccc = RKP({1,2,3,4,5,6}, 10, [1,1,1,2,3,1], [2,3,4,5,5,3], 6, [3,3,3,3,3,3])[3], RKP({1,2,3,4,5,6}, 10, [1,1,1,2,3,1], [2,3,4,5,5,3], 6, [3,3,3,3,3,3])[0], RKP({1,2,3,4,5,6}, 10, [1,1,1,2,3,1], [2,3,4,5,5,3], 6, [3,3,3,3,3,3])[1]
-# lamda = 0
-# N = {1,2,3,4,5,6}
-# w = [1,1,1,2,3,1]
-# maks_w = [3,3,3,3,3,3]
-# p = [2,3,4,5,5,3]
-# rekurzija(N, zzz, kkk, ccc, lamda, w, maks_w, p)
-
-#3. primer 
-
-# kkk, zzz, ccc = RKP({1,2,3,4,5,6}, 10, [1,1,1,2,3,1], [2,3,4,5,5,3], 6, [3,3,3,3,3,3])[3], RKP({1,2,3,4,5,6}, 10, [1,1,1,2,3,1], [2,3,4,5,5,3], 6, [3,3,3,3,3,3])[0], RKP({1,2,3,4,5,6}, 10, [1,1,1,2,3,1], [2,3,4,5,5,3], 6, [3,3,3,3,3,3])[1]
-# lamda = 0
-# N = {1,2,3,4,5,6}
-# w = [1,1,1,2,3,1]
-# maks_w = [3,3,3,3,3,3]
-# p = [2,3,4,5,5,3]
-# rekurzija(N, zzz, kkk, ccc, lamda, w, maks_w, p)
-
+def preberi_podatke(dat, kodna_tabela='utf-8'):
+    with open(dat, encoding=kodna_tabela) as datoteka:
+        N = []
+        w = []
+        p = []
+        maks_w = []
+        for vrstica in datoteka:
+            x = []
+            x = vrstica.split()
+            N.append(int(x[0]))
+            p.append(int(x[1]))
+            w.append(int(x[2]))
+            maks_w.append(int(x[3]))
+    
+    return(N, w, p, maks_w)
+#N, w, p, maks_w = preberi_podatke('RKP_00500_00100_2_04.txt')
+#N = [1, 2, 3, 4, 5]
+#maks_w = [10, 11, 10, 10, 12]
+#w = [2, 3, 4, 5, 6]
+#p = [10, 30, 50, 20, 20]
+#lamda = 1
+#c = 100
+#kkk = RKP(N, c, w, p, lamda, maks_w)[3] 
+#zzz = RKP(N, c, w, p, lamda, maks_w)[0]
+#ccc = RKP(N, c, w, p, lamda, maks_w)[1]
+#print(zzz)
+#print(kkk)
+#print(ccc)
+#print(rekurzija(N, zzz, kkk, ccc, lamda, w, maks_w, p))
+#print(podatki(N, w, p, maks_w))
 
 import random
 def naredi_podatke(stevilo, teza, max_cena):
@@ -408,27 +399,6 @@ def naredi_podatke(stevilo, teza, max_cena):
         p.append(val)
 
     return [N, c, w, p, lamda, maks_w]
-# print(naredi_podatke(10, 22, 6))
-
-# n = 5
-# teza = 2
-# maks_vr = 4
-# seznam = [[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15], 8, [3, 1, 2, 2, 1, 1, 3, 3, 2, 3, 2, 2, 1, 3, 1], [6, 5, 3, 4, 
-# 5, 7, 4, 7, 5, 7, 5, 4, 6, 7, 5], 1, [4, 19, 4, 2, 8, 12, 8, 6, 12, 7, 22, 10, 10, 9, 1]]
-# N = seznam[0]
-# c = seznam[1]
-# w = seznam[2]
-# p = seznam[3]
-# lamda = seznam[4]
-# maks_w = seznam[5]
-
-# kkk = RKP(N, c, w, p, lamda, maks_w)[3] 
-# zzz = RKP(N, c, w, p, lamda, maks_w)[0]
-# ccc = RKP(N, c, w, p, lamda, maks_w)[1]
-# print(rekurzija(N, zzz, kkk, ccc, lamda, w, maks_w, p))
-# print(zzz)
-# print(ccc)
-
 ##### ČE ŠE NIMAŠ SI MOREŠ ZAGNAT TOLE V TERMINALU ###
 # python3 -m pip install pillow v bash (terminal)
 
@@ -482,7 +452,7 @@ class NAVADNI_PROBLEM:
         self.prazno_polje1 = tk.Label(self.frame,text = "", width = 3)
         #self.prazno_polje2 = tk.Label(self.frame,text = "", height= 6)
         # slika
-        image = Image.open("/Users/zaloznikjan/Desktop/fp/Robust-knapsack-problem/nahrbtnik.jpg")
+        image = Image.open("nahrbtnik.jpg")
         image = image.resize((250, 220), Image.ANTIALIAS)
         photo = ImageTk.PhotoImage(image)
         self.slika = tk.Label(self.frame, image=photo)
@@ -536,7 +506,7 @@ class ROBUSTNI_PROBLEM:
         self.prazno_polje2 = tk.Label(self.frame,text = "", width = 3)
         self.prazno_polje3 = tk.Label(self.frame,text = "", height= 25)
         # slika
-        image = Image.open("/Users/zaloznikjan/Desktop/fp/Robust-knapsack-problem/knapsack.png")
+        image = Image.open("knapsack.png")
         image = image.resize((219, 219), Image.ANTIALIAS)
         photo = ImageTk.PhotoImage(image)
         self.slika1 = tk.Label(self.frame, image=photo)
