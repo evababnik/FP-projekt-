@@ -2,7 +2,6 @@
 Robustni Problem Nahrbtinka
 """
 
-
 def matrika(m,n):
     return [[0] * (m+1) for _ in range(n+1)]
 
@@ -60,7 +59,7 @@ def particija(N):
 
 # funkcija RKP vrne optimalno vrednost, optimalno težo pri tej vrednosti, koliko predmetov uporabimo in koliko predmetov uporabimo iz N1 (prve polovice predmetov)
 def RKP(N, c, w, p, lamda = None,  maks_w = None):
-    # slovar predmetov spremenimo v seznam predmetov
+    # slovar predmetov spremenimo v resitev predmetov
     N = v_seznam(N)
     # uporabiva funkcijo podatki, ki podatke spremeni v pravo obliko
     if len(N) == 1:
@@ -83,9 +82,9 @@ def RKP(N, c, w, p, lamda = None,  maks_w = None):
             N, w, p = pravilni_podatki[0], pravilni_podatki[1], pravilni_podatki[2]
     
         #if lamda is not None:
-        #    if lamda > len(N):
-        #       lamda = len(N)
-        #       print("Lamda je večja kot moč množice predmetov, zato sva lamdo nastavila na", len(N))
+         #   if lamda > len(N):
+          #      lamda = len(N)
+           #     print("Lamda je večja kot moč množice predmetov, zato sva lamdo nastavila na", len(N))
         if lamda == None or 0:
             maks_w = [c]* len(w)
             lamda = 0
@@ -141,14 +140,7 @@ def RKP(N, c, w, p, lamda = None,  maks_w = None):
         g_zvezdica = k_zvezdica - g1 #g_zvezdica = št.elementov v N1, k_zvezdica = št. vseh elementov
         return [z_zvedica, c_zvezdica, k_zvezdica, g_zvezdica]
 
-# primer:
-# print(RKP({1,2,3}, 7, [2,2,3], [4, 5, 6], 2, [4, 4, 3]))
-# print(RKP({1,2,3,4,5,6,7,8,9,10,11,12}, 20, [2,2,3,40,5,2, 2,3,4,5, 1,14], [4, 5, 6, 4, 2, 4, 5, 6, 4, 2, 2,15]))
-# RKP([1,2,3,4,5,6], 10, [1,1,1,2,3,1], [2,3,4,5,5,3], 6, [3,3,3,3,3,3])
-# RKP({1,2,3,4,5,6}, 10, [1,1,1,2,3,1], [2,3,4,5,5,3], 6, [3,3,3,3,3,3])
-# RKP({1,2,3,4,5,6}, 6, [1,1,1,2,3,9],[2,3,4,5,5,3])
-
-# Solve_KP vrne seznam predmetov in optimalno vrednost, če je lamda = 0, torej to je navadni problem nahrbtnika
+# Solve_KP vrne resitev predmetov in optimalno vrednost, če je lamda = 0, torej to je navadni problem nahrbtnika
 def solve_KP(N, c, w, p):  
     n = len(N)
     if n == 1:
@@ -191,10 +183,9 @@ def solve_KP(N, c, w, p):
 #solve_KP([1,2,3], 2, [1,1,1], [3,4,3])
 #solve_KP({1,2,3,4,5,6}, 6, [1,1,1,2,3,9],[2,3,4,5,5,3])
 
-# solve_eKkP vrne seznam vseh predmetov in optimalno vrednost, če dodatno omejimo maksimalno števio uporabljenih predmetov s k 
+# solve_eKkP vrne resitev vseh predmetov in optimalno vrednost, če dodatno omejimo maksimalno števio uporabljenih predmetov s k 
 # rezulatat v smislu ([[4, 4, 3], [3, 6, 5]], 8), kar pomeni 4 predmet, teža = 4, vrednost 3 in 3 predmet, teža 6 in 5 vrednost.
 def solve_eKkP(N, c, w, p, k):
-    N = v_seznam(N)
     n = len(N)
     if n == 1:
         if k == 0:
@@ -235,9 +226,9 @@ def solve_eKkP(N, c, w, p, k):
                 c -= w[i - 1]
         return(seznam_stvari, z_zvezdica)
 
-def naredi_pravi_seznam(seznam):
+def naredi_pravi_seznam(resitev):
     nov_sez = []
-    for el in seznam:
+    for el in resitev:
         if isinstance(el, list):
             for i in el:
                 nov_sez.append(i)
@@ -245,37 +236,33 @@ def naredi_pravi_seznam(seznam):
             nov_sez.append(el)
     return(nov_sez)
 
-# naredi_pravi_seznam([[3], 0, [[3]], 0, [2], 0])
-def rekurzija(N, z_zvezdica, k_zvezdica, c_zvezdica, lamda, w, maks_w, p, seznam=[]):
-    print(seznam)
-    if len(N) == 1 and seznam == []:
+def rekurzija(N, z_zvezdica, k_zvezdica, c_zvezdica, lamda, w, maks_w, p, resitev=[]):
+    if len(N) == 1 and resitev == []:
         if lamda != 0:
             if maks_w[0] <= c_zvezdica:
                 print(N)
                 return N
             else:
-                #glede na to da je to rekurzija mislim da do tegale sploh ne more prit, pač da prej že vse te stavri preveri
-                # sam škodit ne more :D 
                 print("V nahrbtnik ne moremo dati nobene stvari.")
         else:
             if w[0] <= c_zvezdica:
                 return N
             else:
                 print("V nahrbtnik ne moremo dati nobene stvari.")
-    elif len(N) == 1 and seznam != []:
+    elif len(N) == 1 and resitev != []:
         if lamda != 0:
             if maks_w[0] <= c_zvezdica:
-                seznam.append(N[0])
-                resitev = naredi_pravi_seznam(seznam)
+                resitev.append(N[0])
+                resitev = naredi_pravi_seznam(resitev)
                 return(resitev)
             else: 
-                resitev = naredi_pravi_seznam(seznam)
-                return(seznam)
+                resitev = naredi_pravi_seznam(resitev)
+                return(resitev)
         else:
             if w[0] <= c_zvezdica:
-                seznam.append(N[0])
-                resitev = naredi_pravi_seznam(seznam)
-                return(seznam)
+                resitev.append(N[0])
+                resitev = naredi_pravi_seznam(resitev)
+                return(resitev)
     else:
         N = v_seznam(N)
         N, w, p, maks_w = podatki(N, w, p, maks_w)
@@ -300,8 +287,12 @@ def rekurzija(N, z_zvezdica, k_zvezdica, c_zvezdica, lamda, w, maks_w, p, seznam
         if k_zvezdica >= lamda:
            
             for c_1 in range(c_zvezdica + 1):
+                c1 = c_1
+                c2 = c1 - c_zvezdica
                 z1_c_1 = RKP(N1, c_1, w1, p1, lamda, maks_w1)[0]
                 z2_c_2 = solve_KP(N2, c_zvezdica - c_1, w2, p2)[1]
+                z1_c1 = z1_c_1
+                z2_c2 = z2_c_2
                 if z1_c_1 + z2_c_2 == z_zvezdica:
                     z2_c2 = z2_c_2
                     z1_c1 = z1_c_1
@@ -309,9 +300,9 @@ def rekurzija(N, z_zvezdica, k_zvezdica, c_zvezdica, lamda, w, maks_w, p, seznam
                     c2 = c_zvezdica - c1
                     break
             solution_set_kp = solve_KP(N2, c2, w2, p2)[0]
-            seznam.append(solution_set_kp)
+            resitev.append(solution_set_kp)
             k1_zvezdica = RKP(N1, c1, w1, p1, lamda, maks_w1)[3]
-            return rekurzija(N1, z1_c1 , k1_zvezdica, c1, lamda, w1, maks_w1, p1, seznam)        
+            return rekurzija(N1, z1_c1 , k1_zvezdica, c1, lamda, w1, maks_w1, p1, resitev)        
         else: 
             for c_2 in range(c_zvezdica + 1):
                 c2 = c_2
@@ -328,29 +319,26 @@ def rekurzija(N, z_zvezdica, k_zvezdica, c_zvezdica, lamda, w, maks_w, p, seznam
                     c1 = c_zvezdica - c2
                     break
             solution_set_eKkP = solve_eKkP(N1, c1, maks_w1, p1, k_zvezdica)[0]
-            seznam.append(solution_set_eKkP)
+            resitev.append(solution_set_eKkP)
             k2_zvezdica = RKP(N2, c2, w2, p2, lamda - k_zvezdica, maks_w2)[3]
             c2 = c_zvezdica - c1
-            return rekurzija(N2, z2_c2, k2_zvezdica, c2,lamda - k_zvezdica, w2, maks_w2, p2, seznam)
+            return rekurzija(N2, z2_c2, k2_zvezdica, c2,lamda - k_zvezdica, w2, maks_w2, p2, resitev)
  
 def resitev(N, c, w, p, lamda = None, maks_w = None):
     k_zvezdica = RKP(N, c, w, p, lamda, maks_w)[3]
     z_zvezdica = RKP(N, c, w, p, lamda, maks_w)[0]
     c_zvezdica = RKP(N, c, w, p, lamda, maks_w)[1]
-    seznam = rekurzija(N, z_zvezdica, k_zvezdica, c_zvezdica, lamda, w, maks_w, p)
-    while seznam != naredi_pravi_seznam(seznam):
-        seznam = naredi_pravi_seznam(seznam)
+    resitev = rekurzija(N, z_zvezdica, k_zvezdica, c_zvezdica, lamda, w, maks_w, p)
+    while resitev != naredi_pravi_seznam(resitev):
+        resitev = naredi_pravi_seznam(resitev)
     mnozica = set()
-    if seznam != []:
-        for i in seznam:
+    if resitev != []:
+        for i in resitev:
             mnozica.add(i)
-        seznam = v_seznam(mnozica)
-        if seznam[0] == 0:
-            seznam = seznam[1:]
-    return(seznam, z_zvezdica)
-
-# resitev({1,2,3,4}, 5, [1,2,3,4], [10,15,25,11], 2, [2,2,4,4])
-# resitev({1,2,3,4,5,6,7,8,9,10,11}, 15, [1,2,3,4,5,5,6,6,6,7,7], [10,15,25,11,5,5,6,6,6,7,7], 2, [2,2,4,4,5,5,6,6,6,7,7])
+        resitev = v_seznam(mnozica)
+        if resitev[0] == 0:
+            resitev = resitev[1:]
+    return(resitev, z_zvezdica)
 
 def preberi_podatke(dat, kodna_tabela='utf-8'):
     with open(dat, encoding=kodna_tabela) as datoteka:
@@ -367,22 +355,8 @@ def preberi_podatke(dat, kodna_tabela='utf-8'):
             maks_w.append(int(x[3]))
     
     return(N, w, p, maks_w)
-
-#N, w, p, maks_w = preberi_podatke('RKP_00500_00100_2_04.txt')
-#N = [1, 2, 3, 4, 5]
-#maks_w = [10, 11, 10, 10, 12]
-#w = [2, 3, 4, 5, 6]
-#p = [10, 30, 50, 20, 20]
-#lamda = 1
-#c = 100
-#kkk = RKP(N, c, w, p, lamda, maks_w)[3] 
-#zzz = RKP(N, c, w, p, lamda, maks_w)[0]
-#ccc = RKP(N, c, w, p, lamda, maks_w)[1]
-#print(zzz)
-#print(kkk)
-#print(ccc)
-#print(rekurzija(N, zzz, kkk, ccc, lamda, w, maks_w, p))
-#print(podatki(N, w, p, maks_w))
+#N, w, p, maks_w = preberi_podatke('podatki\RKP_instances\Instances\RKP_00100_00100_3_10.txt')
+#print(resitev(N, 100, w, p, 1, maks_w))
 
 import random
 def naredi_podatke(stevilo, teza, max_cena):
@@ -407,6 +381,74 @@ def naredi_podatke(stevilo, teza, max_cena):
         p.append(val)
 
     return [N, c, w, p, lamda, maks_w]
+
+#print(resitev([1, 2, 3, 4], 8, [1, 2, 3, 4], [10, 15, 25, 11], 4, [2, 2, 4, 4]))
+def preberi_podatke_za_delnice(dat, budget, kodna_tabela='utf-8'):
+    with open(dat, encoding=kodna_tabela) as datoteka:
+        N = []
+        maks_p = []
+        p = []
+        r = []
+        imena_delnic = []
+        vse_delnice = 0
+        seznam_kolicine_delnic = []
+        for vrstica in datoteka:
+            x = []
+            x = vrstica.split()
+            a = x[-1]
+            imena_delnic.append(x[1])
+            stevilo_delnic = int(budget / float(x[-2]))
+            seznam_kolicine_delnic.append(stevilo_delnic)
+            for delnica in range(vse_delnice + 1, vse_delnice + stevilo_delnic + 1):
+                N.append(delnica)
+                if float(x[-1]) > 0:
+                    p.append(int(float(x[-3])))
+                    maks_p.append(int(float(x[-2])))
+                    r.append(int(float(x[-3]) * (1 + 0.01 * (float(x[-1])))))
+                    vse_delnice += 1
+                else:
+                    p.append(0)
+                    maks_p.append(0)
+                    r.append(0)
+                    vse_delnice += 1
+    return(N, p, maks_p, r, seznam_kolicine_delnic, imena_delnic)
+from collections import Counter
+
+def resitev_za_delnice(N, c, w, p, lamda, maks_w, seznam_kolicine_delnic, imena_delnic):
+    k_zvezdica = RKP(N, c, w, p, lamda, maks_w)[3]
+    z_zvezdica = RKP(N, c, w, p, lamda, maks_w)[0]
+    c_zvezdica = RKP(N, c, w, p, lamda, maks_w)[1]
+    resitev = rekurzija(N, z_zvezdica, k_zvezdica, c_zvezdica, lamda, w, maks_w, p)
+    while resitev != naredi_pravi_seznam(resitev):
+        resitev = naredi_pravi_seznam(resitev)
+    mnozica = set()
+    if resitev != []:
+        for i in resitev:
+            mnozica.add(i)
+        resitev = v_seznam(mnozica)
+        if resitev[0] == 0:
+            resitev = resitev[1:]
+    nov_seznam = []
+    seznam_delnic = []
+    for i in range(1, len(seznam_kolicine_delnic) + 1):
+        a = seznam_kolicine_delnic[i - 1]
+        nov_seznam += ([i] * a)
+    for delnica in resitev:
+        seznam_delnic.append(nov_seznam[int(delnica) - 1])
+    stevec = Counter()
+    seznam_imen = []
+    for delnica in seznam_delnic:
+        seznam_imen.append(imena_delnic[delnica - 1])
+    for delnica in seznam_imen:
+        stevec[delnica] += 1 
+
+    return(stevec, z_zvezdica)
+
+#print(preberi_podatke('N_symbol_Company_price_maxprice_er.txt', 300))
+#N, p, maks_p, r, seznam_kolicine_delnic, imena_delnic = (preberi_podatke_za_delnice('N_symbol_Company_price_maxprice_er.txt', 300))
+#print(resitev_za_delnice(N, 300, p, r, 2, maks_p, seznam_kolicine_delnic, imena_delnic))
+
+
 
 ##### ČE ŠE NIMAŠ SI MOREŠ ZAGNAT TOLE V TERMINALU ###
 # python3 -m pip install pillow v bash (terminal)
