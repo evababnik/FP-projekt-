@@ -19,12 +19,141 @@
 \usepackage[output-decimal-marker={,}]{siunitx}
 
 \begin{document}
-\title{Kratka predstavitev robustnega problema nahrbtnika}
+\title{Robustni problem nahrbtnika}
 \author{Eva Babnik in Jan Založnik}
-\date{November, 2020}
+\date{December, 2020}
 \maketitle
 
 
 \newpage
+\tableofcontents
+%\renewcommand{\listfigurename}{karkoli}
+\listoffigures
 
+\newpage
+\section{Uvod}
+
+
+\section{Povzetek}
+
+Poročilo se prične s kratko predstavitvijo navadnega oziroma klasičnega problema nahrbtnika in nato še z razlago 
+robustnega problema nahrbtnika. V robustnem primer problema nahrbtnika prav tako kot pri klasičnemu problemu iščemo 
+množico predmetov, ki jih bomo položili v nahrbtnik in njihovo optimalno vrednost, vendar v tem primeru nimamo točnih podatkov o 
+vseh težah predmetov. Za njihove teže vemo le, da so element določenega zaprtega intervala, ki torej ima zgornjo in spodnjo mejo.
+Poleg intervalov tež predmetov pa še vemo maksimalno število elementov, ki lahko spremeni svojo težo, to število označimo z $\lambda$.
+\paragraph{}
+Za sledeči problem sva s pomočjo dinamičnega programiranja napisala rekurzivne enačbe, na katerih bazira
+najina koda v programskem jeziku \textit{python}. Napisala sva program, ki reši tako klasični problem nahrbtnika kot 
+tudi robustni problem nahrbtnika in za rešitev vrne optimalni seznam predmetov, ki jih položimo v nahrbtnik in skupno 
+optimalno vrednost le-teh. Sestavila pa sva tudi enostavnejši grafični program, ki omogoča, da lahko problem reši tudi posameznik, 
+ki nima nikakršnega predznanja v programiranju.
+\paragraph{}
+Nato sva kodo malo modificirala in jo uporabila na malo poenostavljenem finančnem modelu. 
+Program prebere datoteko s podatki, ki zajemajo ceno delnice, najvišjo možno ceno delnice in letno stopnjo donosa, vrne pa 
+optimalni portfelj, ki si ga lahko izberemo če imamo na voljo za investicije določeno vsoto denarja.
+
+
+
+
+\newpage
 \section{Problem nahrbtnika}
+\medskip
+Spodobi se, da v uvodu najprej predstaviva klasični problem nahrbtinka (angl. \textit{classical Knapsack Problem})
+ v nadaljevanju poročila bova uporabljala kar kratico KP. Na voljo imamo množico n-tih predmetov, ki jo 
+označimo z $N = \{1, \dots, n\}$ in nahrbtnik s kapaciteto $c$. Vsak predmet ima pozitivno vrednost 
+$p_{j}$ in pozitivno utež $w_{j}$. Problem nahrbtnika nas sprašuje, katero podmnožico predmetov iz N moramo 
+položiti v nahrbtnik, da bo skupna vrednost le teh čim večja možna in da ne bo presegla nahrbtnikove kapacitete. 
+Torej maksimiziramo skupno vrednost predmetov pri pogoju, da seštevek izbranih uteži ne presega nahrbtinkove zmogljivosti.
+Problem lahko predstavimo kot celoštevilski linearni program (CLP):
+
+
+\begin{equation}
+    \tag*{}
+     max \sum_{j \in N} p_{j}x_{j}
+\end{equation}
+\begin{equation}
+    \tag*{}
+    \sum_{j \in N} w_{j}x_{j} \leq c
+\end{equation}
+\begin{equation}
+    \tag*{}
+    x_{j} \in \{0,1\}, j \in N
+\end{equation}
+
+\medskip
+\noindent Kjer $x_{j}$ zavzame vrednost 1, če j-ti predmet položimo v nahrbtnik,
+ sicer zavzame vrednost 0. 
+
+\section{Robustni problem nahrbtnika}
+\medskip
+Robustni problem nahrbtnika (angl. \textit{Robust Knapsack Problem}) v nadaljevanju 
+RKP, je nekakšna nadgranja problema nahrbtnika. Dodaten problem se pojavi pri točnosti 
+naših podatkov, in sicer pri utežeh $w_{j}$. Vsak predmet $j$ ima svojo nominalno težo 
+$w_{j}$, ki pa je lahko netočna, ampak zanjo vemo, da se nahaja na intervalu 
+[$w_{j} - \underline{w}_{j}$, $w_{j} + \overline{w}_{j}$]. Podan imamo tudi celošteviski parameter $\Gamma$,
+ki označuje največje možno število predmetov z netočno izmerjeno težo. Pri iskanju 
+rešitve problema moramo torej paziti, da bo seštevek vseh novih uteži še vedno manjši od
+kapacitete nahrbtnika. Težav z rešitvijo seveda ne bomo imeli, če bodo vse dejanske uteži
+nižje oziroma lažje od njene nominalne vrednosti, lahko pa se zgodi tudi najslabši možni 
+primer, ko vse uteži zavzamejo zgornjo mejo intervala. Dopustno rešitev, kjer je
+$J \subseteq N$ lahko formuliramo na naslednji način: 
+\begin{equation}
+    \tag*{}
+    \sum_{j \in J}w_{j} + \sum_{j \in \hat{J}}\overline{w}_{j} \leq c,\quad \forall \hat{J} \subseteq J \; \text{in}\; |\hat{J}| \leq \Gamma 
+\end{equation}
+
+
+\section{Pristop z dinamičnim programiranjem}
+\medskip
+Naj bo $ \bar{z}(d, s, j) $ najvišji dobiček za dopustno rešitev s skupno težo $d$, kjer so upoštevani 
+samo elementi iz množice $\{1,…,j\} \in N$ in samo $s$ izmed njih doseže zgornjo mejo $\hat{w}_j$. 
+Naj bo $z(d, j)$ največji dobiček za dopustno rešitev s skupno težo $d$, kjer so upoštevani samo elementi 
+iz množice $\{ 1,…,j \} \in N $ in naj jih samo $\Gamma $ spremeni težo iz nominalne na zgornjo mejo $\hat{w}_j$. 
+Torej velja $d = 0, 1, ..., c$; $s = 0, 1, …, \Gamma$ in $ j = 0, 1, …, n$.
+Ključna lastnost pravilnosti tega pristopa je predpostavka, da so predmeti razvrščeni po padajoči teži $\hat{w}_j$. 
+Problem lahko zapišemo z naslednjimi rekurzivnimi zvezami: 
+\begin{equation}
+    \tag*{}
+    \begin{matrix}
+    \bar{z}(d, s, j) = max\{ \bar{z}(d, s, j - 1), \bar{z}(d - \hat{w}_j, s- 1, j - 1) + p_j\} \\
+    \text{za} \; \; d = 0,…, c; \; s = 1,…, \Gamma \;\text{in} \;j = 1,…, n. \\ 
+    \\
+    z(d, j) = max\{z(d, j - 1), z (d - w_j, j - 1) + p_j\} \\
+    \text{za} \; \; d = 0,…, c; \; j = \Gamma + 1,…, n.
+    \end{matrix}
+\end{equation}
+
+\noindent Začetna vrednost je $\bar{z}(d, s, 0) = -\infty$ za $d = 0,...,c$ in s = $0,..., \Gamma$. 
+Nato nastavimo $\bar{z}(0, 0, 0) = 0$. Oba zapisa sta med seboj povezana z enakostjo $z(d, \Gamma) = 
+\bar{z}(d, \Gamma, \Gamma\}$ za vsak $d$. Optimalno vrednost robustnega problema nahrbtnika dobimo kot:
+\begin{equation}
+\tag*{}
+z^{*} = max \begin{cases}
+max\{z(d, n) |\; d = 1, ..., c \\
+max\{\bar{z}(d, s, n) |\; d = 1, ..., c; \;s = 1, ..., \Gamma -1\}
+\end{cases}
+\end{equation}
+kjer porabimo tudi celotno kapaciteto nahrbtnika $c^{*} \leq c$.
+\par
+Algoritem dinamičnega programiranja je sestavljen iz dveh korakov. V prvem koraku dobimo optimalno 
+rešitev, ki vsebuje največ $\Gamma$ elementov s povečano težo. V drugem koraku pa nato dobljeno 
+rešitev lahko razširimo z dodatnimi elementi z nespremenjeno težo. Algoritem lahko razdelimo na dva 
+koraka, ker razvrstitev predmetov po padajoči teži $\bar{w}_j$ zagotavlja, da so v vsaki rešitvi 
+elementi z najmanjšimi indeksi (torej tisti, ki so bili v nahrbtnik položeni prej) tisti, ki bodo 
+dosegli večjo težo.
+
+
+\newpage
+\section{Viri in literatura}
+
+\begin{thebibliography}{9}
+
+    \bibitem{RNP} 
+    Michele Monaci, Ulrich Pferschy, Paolo Serafini 
+    \\\texttt{https://www.sciencedirect.com/science/article/pii/S0305054813001342}
+
+
+\end{thebibliography}
+
+
+\end{document}
