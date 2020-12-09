@@ -481,6 +481,7 @@ def doloci_lamdo(stevilo_delnic, datoteka, R_popravljen):
         R_povprecen = 1
     seznam_lambd = random.binomial(n=stevilo_delnic, p = R_povprecen, size=100)
     lamda = sum(seznam_lambd)//100 + 1
+return lamda
        
 
 
