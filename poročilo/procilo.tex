@@ -58,10 +58,11 @@ optimalni portfelj, ki si ga lahko izberemo če imamo na voljo za investicije do
 \newpage
 \section{Problem nahrbtnika}
 \medskip
-Spodobi se, da v uvodu najprej predstaviva klasični problem nahrbtinka (angl. \textit{classical Knapsack Problem})
- v nadaljevanju poročila bova uporabljala kar kratico KP. Na voljo imamo množico n-tih predmetov, ki jo 
-označimo z $N = \{1, \dots, n\}$ in nahrbtnik s kapaciteto $c$. Vsak predmet ima pozitivno vrednost 
-$p_{j}$ in pozitivno utež $w_{j}$. Problem nahrbtnika nas sprašuje, katero podmnožico predmetov iz N moramo 
+Klasični problem nahrbtinka (angl. \textit{classical Knapsack Problem}) je računalniški problem, s katerim poskusimo zapolniti 
+nahrbtnik z danimi predmeti, ki ima vsak svojo ceno in težo. Bodisi gre za dejansko polnjenje nahrbtnika, polnjenje 
+nakupovalne vreče ali morda zlaganje predmetov v avto. V nadaljevanju poročila bova za klasični problem uporabljala kar kratico KP. 
+Na voljo imamo množico n-tih predmetov, ki jo označimo z $N = \{1, \dots, n\}$ in nahrbtnik s kapaciteto $c$. Vsak predmet ima 
+pozitivno vrednost $p_{j}$ in pozitivno utež $w_{j}$. Problem nahrbtnika nas sprašuje, katero podmnožico predmetov iz N moramo 
 položiti v nahrbtnik, da bo skupna vrednost le teh čim večja možna in da ne bo presegla nahrbtnikove kapacitete. 
 Torej maksimiziramo skupno vrednost predmetov pri pogoju, da seštevek izbranih uteži ne presega nahrbtinkove zmogljivosti.
 Problem lahko predstavimo kot celoštevilski linearni program (CLP):
@@ -95,7 +96,7 @@ ki označuje največje možno število predmetov z netočno izmerjeno težo. Pri
 rešitve problema moramo torej paziti, da bo seštevek vseh novih uteži še vedno manjši od
 kapacitete nahrbtnika. Težav z rešitvijo seveda ne bomo imeli, če bodo vse dejanske uteži
 nižje oziroma lažje od njene nominalne vrednosti, lahko pa se zgodi tudi najslabši možni 
-primer, ko vse uteži zavzamejo zgornjo mejo intervala. Dopustno rešitev, kjer je
+izid, ko vse uteži zavzamejo zgornjo mejo intervala. Dopustno rešitev, kjer je
 $J \subseteq N$ lahko formuliramo na naslednji način: 
 \begin{equation}
     \tag*{}
@@ -103,34 +104,34 @@ $J \subseteq N$ lahko formuliramo na naslednji način:
 \end{equation}
 
 
-\section{Pristop z dinamičnim programiranjem}
+\section{Pristop z dinamičnim programiranjem}   %pobravano rumeno ker je č noter :/
 \medskip
 Naj bo $ \bar{z}(d, s, j) $ najvišji dobiček za dopustno rešitev s skupno težo $d$, kjer so upoštevani 
-samo elementi iz množice $\{1,…,j\} \in N$ in samo $s$ izmed njih doseže zgornjo mejo $\hat{w}_j$. 
+samo elementi iz množice $\{1, \dots,j\} \in N$ in samo $s$ izmed njih doseže zgornjo mejo $\hat{w}_j$. 
 Naj bo $z(d, j)$ največji dobiček za dopustno rešitev s skupno težo $d$, kjer so upoštevani samo elementi 
-iz množice $\{ 1,…,j \} \in N $ in naj jih samo $\Gamma $ spremeni težo iz nominalne na zgornjo mejo $\hat{w}_j$. 
-Torej velja $d = 0, 1, ..., c$; $s = 0, 1, …, \Gamma$ in $ j = 0, 1, …, n$.
+iz množice $\{ 1,\dots,j \} \in N $ in naj jih le $\Gamma $ spremeni težo iz nominalne na zgornjo mejo $\hat{w}_j$. 
+Torej velja $d = 0, 1, \dots, c$; $s = 0, 1, \dots, \Gamma$ in $ j = 0, 1, \dots, n$.
 Ključna lastnost pravilnosti tega pristopa je predpostavka, da so predmeti razvrščeni po padajoči teži $\hat{w}_j$. 
 Problem lahko zapišemo z naslednjimi rekurzivnimi zvezami: 
 \begin{equation}
     \tag*{}
     \begin{matrix}
     \bar{z}(d, s, j) = max\{ \bar{z}(d, s, j - 1), \bar{z}(d - \hat{w}_j, s- 1, j - 1) + p_j\} \\
-    \text{za} \; \; d = 0,…, c; \; s = 1,…, \Gamma \;\text{in} \;j = 1,…, n. \\ 
+    \text{za} \; \; d = 0,\dots, c; \; s = 1,\dots, \Gamma \:\: \text{in} \:\:j = 1,\dots, n. \\ 
     \\
     z(d, j) = max\{z(d, j - 1), z (d - w_j, j - 1) + p_j\} \\
-    \text{za} \; \; d = 0,…, c; \; j = \Gamma + 1,…, n.
+    \text{za} \; \; d = 0,\dots, c\;\;\text{in}\;\: j = \Gamma + 1,\dots, n.
     \end{matrix}
 \end{equation}
 
-\noindent Začetna vrednost je $\bar{z}(d, s, 0) = -\infty$ za $d = 0,...,c$ in s = $0,..., \Gamma$. 
+\noindent Začetna vrednost je $\bar{z}(d, s, 0) = -\infty$ za $d = 0, \dots,c$ in s = $0, \dots, \Gamma$. 
 Nato nastavimo $\bar{z}(0, 0, 0) = 0$. Oba zapisa sta med seboj povezana z enakostjo $z(d, \Gamma) = 
 \bar{z}(d, \Gamma, \Gamma\}$ za vsak $d$. Optimalno vrednost robustnega problema nahrbtnika dobimo kot:
 \begin{equation}
 \tag*{}
 z^{*} = max \begin{cases}
-max\{z(d, n) |\; d = 1, ..., c \\
-max\{\bar{z}(d, s, n) |\; d = 1, ..., c; \;s = 1, ..., \Gamma -1\}
+max\{z(d, n) |\; d = 1, \dots, c \\
+max\{\bar{z}(d, s, n) |\; d = 1, \dots, c; \;s = 1, \dots, \Gamma -1\}
 \end{cases}
 \end{equation}
 kjer porabimo tudi celotno kapaciteto nahrbtnika $c^{*} \leq c$.
