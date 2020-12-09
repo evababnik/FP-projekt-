@@ -1,7 +1,8 @@
 """
 Robustni Problem Nahrbtinka
 """
-
+import time
+start_time = time.time()
 def matrika(m,n):
     return [[0] * (m+1) for _ in range(n+1)] #funkcija, ki naredi ničelno matriko m X n
 
@@ -463,7 +464,7 @@ def resitev_za_delnice(datoteka, budget):
     for delnica in seznam_imen:
         stevec[delnica] += 1 
 
-    return(stevec, z_zvezdica, lamda)
+    return(stevec, z_zvezdica)
 
 
 #N, p, maks_p, r, seznam_kolicine_delnic, imena_delnic = (preberi_podatke_za_delnice('podatki\podatki za delnice\zadnjih_15.txt', 2000))
@@ -471,7 +472,10 @@ def resitev_za_delnice(datoteka, budget):
 
 # pip3 install numpy
 from numpy import random
-def doloci_lamdo(stevilo_delnic, R_popravljen):
+def doloci_lamdo(stevilo_delnic, R):
+    R_popravljen = []
+    for el in R:
+        R_popravljen.append(el * 0.01)
     stevilo_delnic = len(R_popravljen)  
     R_skupen = sum(R_popravljen)
     R_povprecen = (R_skupen / stevilo_delnic)   
@@ -479,14 +483,15 @@ def doloci_lamdo(stevilo_delnic, R_popravljen):
         R_povprecen = 0
     if R_povprecen > 1:
         R_povprecen = 1
-    seznam_lambd = random.binomial(n=stevilo_delnic, p = R_povprecen, size=100)
-    lamda = sum(seznam_lambd)//100 + 1
+    seznam_lambd = random.binomial(n=stevilo_delnic, p = R_povprecen, size=300)
+    lamda = sum(seznam_lambd)//300 + 1
     return lamda
 
 
 
 print(resitev_za_delnice('podatki\podatki za delnice\zadnjih_15.txt', 200))
-
+elapsed_time = time.time() - start_time
+print(elapsed_time)
 ##### ČE ŠE NIMAŠ SI MOREŠ ZAGNAT TOLE V TERMINALU ###
 # python3 -m pip install pillow v bash (terminal)
 
