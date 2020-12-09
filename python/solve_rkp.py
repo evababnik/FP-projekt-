@@ -348,6 +348,8 @@ def preberi_podatke(dat, kodna_tabela='utf-8'):
     
     return(N, w, p, maks_w)
 
+
+# ta funkcija prebere podatke iz S&P 500.txt in jih prilagodi, tako da potem dela program preberi_podatke_za_delnice() 
 def popravi_podatke(dat, kodna_tabela="utf-8"):
     with open(dat, encoding=kodna_tabela) as datoteka:
         N = []
@@ -379,10 +381,8 @@ def popravi_podatke(dat, kodna_tabela="utf-8"):
                     r.append((x[5]))
                 #print(ime_podjetja)
     with open("Robust-knapsack-problem/podatki/podatki za delnice/popravljeni_podatki.txt","w") as nova_datoteka:
-        print(N[1])
         for i in range(len(N)):
             nova_datoteka.write("{} {} {} {} {} {}\n".format(int(N[i].strip('""')), kratica_podjetja[i], ime_podjetja[i], w[i], maks_w[i], float(r[i].strip('""'))))
-
 
 
 #popravi_podatke("Robust-knapsack-problem/podatki/podatki za delnice/S&P 500.txt")
