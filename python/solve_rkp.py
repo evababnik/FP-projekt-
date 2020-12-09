@@ -498,8 +498,7 @@ class PRVO_OKNO:
     def new_window_ROBUSTNI_PROBLEM_nahrbtnika(self):
         self.newWindow = tk.Toplevel(self.master)
         self.app = ROBUSTNI_PROBLEM(self.newWindow)
-        
-    
+           
 
 class NAVADNI_PROBLEM:
     def __init__(self, master):
@@ -792,6 +791,20 @@ def main():
 
 if __name__ == '__main__':
      main()
+
+def doloci_lamdo(stevilo_delnic, datoteka):
+    R =[] # mam seznam vseh teh procentov kok se dvigne 
+    R_popravljen = [] # seznam vseh delnic ki jih boma sploh gledla 
+    R_skupen = 0
+    for i in R_popravljen:
+        R_skupen += i
+    R_povprecen = (R_skupen// stevilo_delnic) + 1  # za gor zaokroženo število ki se jih spremeni za ziher 
+    lamda = stevilo_delnic * R_povprecen           # tu bom uporabu še binomsko da zgleda bolj fancy haha, sam sm na hit to napiso 
+    return lamda
+
+
+
+
 
 
 
