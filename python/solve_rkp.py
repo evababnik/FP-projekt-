@@ -445,8 +445,8 @@ from collections import Counter
 
 def resitev_za_delnice(datoteka, budget):
     N, p, maks_p, r, seznam_kolicine_delnic, imena_delnic, R = preberi_podatke_za_delnice(datoteka, budget)
-    lamda = 2
-    #lamda = doloci_lamdo(len(seznam_kolicine_delnic), datoteka, R)
+    #lamda = 2
+    lamda = doloci_lamdo(len(seznam_kolicine_delnic), datoteka, R)
     resitev1 = resitev(N,budget,p, r,lamda,maks_p)[0]
     z_zvezdica = resitev(N,budget, p, r,lamda, maks_p)[1]
     nov_seznam = []
@@ -485,7 +485,7 @@ def doloci_lamdo(stevilo_delnic, datoteka, R_popravljen):
        
 
 
-#print(resitev_za_delnice('podatki\podatki za delnice\zadnjih_15.txt', 200))
+print(resitev_za_delnice('podatki\podatki za delnice\popravljeni_podatki.txt', 200))
 
 ##### ČE ŠE NIMAŠ SI MOREŠ ZAGNAT TOLE V TERMINALU ###
 # python3 -m pip install pillow v bash (terminal)
