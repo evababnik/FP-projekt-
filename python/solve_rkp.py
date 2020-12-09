@@ -348,7 +348,44 @@ def preberi_podatke(dat, kodna_tabela='utf-8'):
     
     return(N, w, p, maks_w)
 
+def popravi_podatke(dat, kodna_tabela="utf-8"):
+    with open(dat, encoding=kodna_tabela) as datoteka:
+        N = []
+        w = []
+        r = []
+        ime_podjetja = []
+        kratica_podjetja = []
+        maks_w = []
+        števec = 0
+        for vrstica in datoteka:
+            vrstica = vrstica.rstrip()
+            števec += 1
+            if števec > 1:
+                x = []
+                x = vrstica.split(",")
+                if len(x) == 7:
+                    N.append(x[0])
+                    kratica_podjetja.append(x[1])
+                    ime_podjetja.append(x[2])
+                    w.append(float(x[4]))
+                    maks_w.append(float(x[5]))
+                    r.append(x[6])
+                else:                  
+                    N.append((x[0]))
+                    kratica_podjetja.append(x[1])
+                    ime_podjetja.append(x[2])
+                    w.append(float(x[3]))
+                    maks_w.append(float((x[4])))
+                    r.append((x[5]))
+                #print(ime_podjetja)
+    with open("Robust-knapsack-problem/podatki/podatki za delnice/popravljeni_podatki.txt","w") as nova_datoteka:
+        print(N[1])
+        for i in range(len(N)):
+            nova_datoteka.write("{} {} {} {} {} {}\n".format(int(N[i].strip('""')), kratica_podjetja[i], ime_podjetja[i], w[i], maks_w[i], float(r[i].strip('""'))))
 
+
+
+#popravi_podatke("Robust-knapsack-problem/podatki/podatki za delnice/S&P 500.txt")
 
 import random
 def naredi_podatke(stevilo, teza, max_cena):
@@ -404,28 +441,20 @@ def preberi_podatke_za_delnice(dat, budget, kodna_tabela='utf-8'):
                     r.append(0)
                     vse_delnice += 1
     return(N, p, maks_p, r, seznam_kolicine_delnic, imena_delnic)
+
+
+# preberi_podatke_za_delnice("Robust-knapsack-problem/podatki/podatki za delnice/prvih_11.txt",100)
+    
 from collections import Counter
 
 def resitev_za_delnice(N, c, w, p, lamda, maks_w, seznam_kolicine_delnic, imena_delnic):
-    k_zvezdica = RKP(N, c, w, p, lamda, maks_w)[3]
-    z_zvezdica = RKP(N, c, w, p, lamda, maks_w)[0]
-    c_zvezdica = RKP(N, c, w, p, lamda, maks_w)[1]
-    resitev = rekurzija(N, z_zvezdica, k_zvezdica, c_zvezdica, lamda, w, maks_w, p)
-    while resitev != naredi_pravi_seznam(resitev):
-        resitev = naredi_pravi_seznam(resitev)
-    mnozica = set()
-    if resitev != []:
-        for i in resitev:
-            mnozica.add(i)
-        resitev = v_seznam(mnozica)
-        if resitev[0] == 0:
-            resitev = resitev[1:]
+    resitev1 = resitev(N,c,w,p,lamda,maks_w)[0]
     nov_seznam = []
     seznam_delnic = []
     for i in range(1, len(seznam_kolicine_delnic) + 1):
         a = seznam_kolicine_delnic[i - 1]
         nov_seznam += ([i] * a)
-    for delnica in resitev:
+    for delnica in resitev1:
         seznam_delnic.append(nov_seznam[int(delnica) - 1])
     stevec = Counter()
     seznam_imen = []
