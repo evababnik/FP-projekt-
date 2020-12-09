@@ -436,7 +436,7 @@ def preberi_podatke_za_delnice(dat, budget, kodna_tabela='utf-8'): #funkcija pre
                     r.append(0)         #da v portfelj vstavimo tako delnico
                     vse_delnice += 1
     
-    return(N, p, maks_p, r, seznam_kolicine_delnic, imena_delnic)
+    return(N, p, maks_p, r, seznam_kolicine_delnic, imena_delnic, R)
 
 
 # preberi_podatke_za_delnice("Robust-knapsack-problem/podatki/podatki za delnice/prvih_11.txt",100)
@@ -446,7 +446,7 @@ from collections import Counter
 def resitev_za_delnice(datoteka, budget):
     N, p, maks_p, r, seznam_kolicine_delnic, imena_delnic, R = preberi_podatke_za_delnice(datoteka, budget)
     #lamda = 2
-    lamda = doloci_lamdo(len(seznam_kolicine_delnic), datoteka, R)
+    lamda = doloci_lamdo(len(seznam_kolicine_delnic), R)
     resitev1 = resitev(N,budget,p, r,lamda,maks_p)[0]
     z_zvezdica = resitev(N,budget, p, r,lamda, maks_p)[1]
     nov_seznam = []
@@ -463,7 +463,7 @@ def resitev_za_delnice(datoteka, budget):
     for delnica in seznam_imen:
         stevec[delnica] += 1 
 
-    return(stevec, z_zvezdica)
+    return(stevec, z_zvezdica, lamda)
 
 
 #N, p, maks_p, r, seznam_kolicine_delnic, imena_delnic = (preberi_podatke_za_delnice('podatki\podatki za delnice\zadnjih_15.txt', 2000))
@@ -471,7 +471,7 @@ def resitev_za_delnice(datoteka, budget):
 
 # pip3 install numpy
 from numpy import random
-def doloci_lamdo(stevilo_delnic, datoteka, R_popravljen):
+def doloci_lamdo(stevilo_delnic, R_popravljen):
     stevilo_delnic = len(R_popravljen)  
     R_skupen = sum(R_popravljen)
     R_povprecen = (R_skupen / stevilo_delnic)   
@@ -482,10 +482,10 @@ def doloci_lamdo(stevilo_delnic, datoteka, R_popravljen):
     seznam_lambd = random.binomial(n=stevilo_delnic, p = R_povprecen, size=100)
     lamda = sum(seznam_lambd)//100 + 1
     return lamda
-       
 
 
-print(resitev_za_delnice('podatki\podatki za delnice\popravljeni_podatki.txt', 200))
+
+print(resitev_za_delnice('podatki\podatki za delnice\zadnjih_15.txt', 200))
 
 ##### ČE ŠE NIMAŠ SI MOREŠ ZAGNAT TOLE V TERMINALU ###
 # python3 -m pip install pillow v bash (terminal)
