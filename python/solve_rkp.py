@@ -3,7 +3,7 @@ Robustni Problem Nahrbtinka
 """
 
 def matrika(m,n):
-    return [[0] * (m+1) for _ in range(n+1)] #funkcija, ki naredi ničelno matriko m X n
+    return [[0] * (m+1) for _ in range(n+1)]
 
 def v_seznam(N):
     N0 = []
@@ -32,7 +32,7 @@ def podatki(N, w, p, maks_w = None):
         N = [N[i] for i in vrstni_red]
         return (N[::-1], w[::-1], p[::-1], maks_w[::-1])
 
-# množico N razdeli na dva enako velika seznama N1 in N2
+# množico razdeli na dva enako velika seznama
 def particija(N):
     n = len(N)
     N = v_seznam(N)
@@ -60,55 +60,60 @@ def RKP(N, c, w, p, lamda = None,  maks_w = None):
     # uporabiva funkcijo podatki, ki podatke spremeni v pravo obliko
     if len(N) == 1:
         if lamda != 0:
-            if maks_w[0] <= c: #če imamo samo en element, ki spremeni svojo težo na maks_w <= c,
-                return [p[0], maks_w[0], 1, 0]  #je to edini element, ki ga damo v nahrbtnik 
+            if maks_w[0] <= c:
+                return [p[0], maks_w[0], 1, 0]   
             else:
-                return [0, 0, 0, 0]  
+                return [0, 0, 0, 0]
         else:
             if w[0] <= c:
-                return [p[0], w[0], 1, 0] #če predmet ne spremeni svoje teže, ga dodamo v nahrbnik,
-            else:                          #če je w <= c
+                return [p[0], w[0], 1, 0]
+            else:
                 return [0, 0, 0, 0]
     else:
         if maks_w is not None:
-            pravilni_podatki = podatki(N, w, p, maks_w) #uporabiva funkcijo podatki, ki podatke spremeni v pravo obliko
+            pravilni_podatki = podatki(N, w, p, maks_w)
             N, w, p, maks_w = pravilni_podatki[0], pravilni_podatki[1], pravilni_podatki[2], pravilni_podatki[3]
         else: 
-            pravilni_podatki = podatki(N, w, p) # uporabiva funkcijo podatki, ki podatke spremeni v pravo obliko
-            N, w, p = pravilni_podatki[0], pravilni_podatki[1], pravilni_podatki[2] 
+            pravilni_podatki = podatki(N, w, p)
+            N, w, p = pravilni_podatki[0], pravilni_podatki[1], pravilni_podatki[2]
+    
+        #if lamda is not None:
+         #   if lamda > len(N):
+          #      lamda = len(N)
+           #     print("Lamda je večja kot moč množice predmetov, zato sva lamdo nastavila na", len(N))
         if lamda == None or 0:
             maks_w = [c]* len(w)
-            lamda = 0 
+            lamda = 0
         if c < min(w):
             return [0, 0, 0, 0]
         if len(N) == len(w) == len(p) == len(maks_w): 
             pass
         else: 
             raise ValueError("Napačno vneseni podatki")
-        #naredimo matrike z, k, n in nastavimo začetne pogoje
-        z = matrika(lamda,c) #element matrike z[d][s] pomeni maksimalno vrednost pri
-        for d in range(c + 1): #kapaciteti nahrbtnika d, pri čemer največ s predmetov spremeni
-            for s in range(lamda + 1): #svojo težo na maks_w
+
+        z = matrika(lamda,c)
+        for d in range(c + 1):
+            for s in range(lamda + 1):
                 z[d][s]= float("-inf")
-        z[0][0] = 0     
+        z[0][0] = 0
         c_zvezdica = 0
 
-        k = matrika(lamda,c) #element matrike k[d][s] pomeni optimalno število predmetov v 
-        for d in range(c + 1): #nahrbtniku pri kapaciteti nahrbtnika d, pri čemer največ s 
-            for s in range(lamda + 1): #predmetov spremeni svojo težo na maks_w
+        k = matrika(lamda,c)
+        for d in range(c + 1):
+            for s in range(lamda + 1):
                 k[d][s]= 0
         k[0][0] = 0
 
-        g = matrika(lamda,c) #element matrike g[d][s] pomeni optimalno število predmetov v 
-        for d in range(c + 1): #v nahrbtniku iz množice N2 (druga polovica vseh stvari) pri
-            for s in range(lamda + 1): #kapaciteti nahbrnika d, pri čemer največ s predmetov
-                g[d][s] = 0 #spremeni svojo težo na maks_w
+        g = matrika(lamda,c)
+        for d in range(c + 1):
+            for s in range(lamda + 1):
+                g[d][s] = 0
         g[0][0] = 0
 
         for j in range(len(N)): # izberemo j-ti predmet 
             for d in range(c, w[j]-1, -1):  # in ga poskusimo dodati v svoji nominalni teži 
-                if z[d - w[j]][lamda] + p[j] > z[d][lamda]: #pri pogoju, da smo že vstavili 
-                    z[d][lamda] = z[d - w[j]][lamda] + p[j]  #lamda predmetov
+                if z[d - w[j]][lamda] + p[j] > z[d][lamda]:
+                    z[d][lamda] = z[d - w[j]][lamda] + p[j] 
                     k[d][lamda] = 1 + k[d - w[j]][lamda]
                     if j  >= ((len(N) / 2)):
                         g[d][lamda] = 1 + g[d - w[j]][lamda]
@@ -122,12 +127,12 @@ def RKP(N, c, w, p, lamda = None,  maks_w = None):
                             g[d][s] = 1 + g[d - maks_w[j]][s - 1]
 
 
-        z_zvedica = max([max(l) for l in z]) #tako dobimo max vrednost (največji element matrike z)
+        z_zvedica = max([max(l) for l in z])
         pozicija = [[index, vrstica.index(z_zvedica)] for index, vrstica in enumerate(z) if z_zvedica in vrstica]
-        c_zvezdica = pozicija[0][0] #vrstica in stolpec max vrednosti predstavljata skupno težo vstavljenih predmetov
-        stevilo_predmetov_s_povecano_tezo = pozicija[0][-1] #in število predmetov, ki se jim spremeni teža
-        g1 = g[c_zvezdica][stevilo_predmetov_s_povecano_tezo] #g1 se v g nahaja na istem mestu kot z_zvezdica(pomeni koliko elementov iz N2 je v optimalni rešitvi)
-        k_zvezdica = k[c_zvezdica][stevilo_predmetov_s_povecano_tezo] #na istem mestu kot z_zvezdica se nahaja tudi število vseh vstavljenih predmetov v optimalni rešitvi
+        c_zvezdica = pozicija[0][0] 
+        stevilo_predmetov_s_povecano_tezo = pozicija[0][-1] 
+        g1 = g[c_zvezdica][stevilo_predmetov_s_povecano_tezo]
+        k_zvezdica = k[c_zvezdica][stevilo_predmetov_s_povecano_tezo]
         g_zvezdica = k_zvezdica - g1 #g_zvezdica = št.elementov v N1, k_zvezdica = št. vseh elementov
         return [z_zvedica, c_zvezdica, k_zvezdica, g_zvezdica]
 
@@ -153,29 +158,30 @@ def solve_KP(N, c, w, p):
                 else: 
                     z[j][d] = z[j-1][d] 
         z_zvezdica = z[n][c]
-        z_zvezdica1 = z[n][c] 
+        z_zvezdica1 = z[n][c]
         c_zvezdica = 0
-        seznam_stvari = [] #seznam_stvari predstavlja seznam stvari, ki smo jih dali v nahrbtnik
-        #set_stvari = []
-        for i in range(n, 0, -1):  
-            if z_zvezdica1 <= 0: #seznam stvari dobimo tako, da za vsak element i v obratnem vrstnem
-                break            #redu pogledamo kakšna je optimalna vrednost, če v nahrbtnik lahko
-            if z_zvezdica1 == z[i - 1][c]: #vstavimo samo elemente iz množice {0, 1, ..., i}
-                continue                   #če je ta vrednost enaka optimalni vrednosti, potem nadaljujemo
-            else:                           #če pa se ta vrednost razlikuje od optimalne vrednosti, potem element i
-                N = v_seznam(N)            #dodamo v seznam stvari, zmanjšamo optimalno vrednost za vrednost 
-                element = N[i - 1]         #tega elementa in nadaljujemo dokler optimalna vrednost ne pride do 0
-                #set_stvari.append([element, w[i - 1], p[i - 1]])
+        seznam_stvari = []
+        set_stvari = []
+        for i in range(n, 0, -1):
+            if z_zvezdica1 <= 0:
+                break
+            if z_zvezdica1 == z[i - 1][c]:
+                continue
+            else:
+                N = v_seznam(N)
+                element = N[i - 1]
+                set_stvari.append([element, w[i - 1], p[i - 1]])
                 seznam_stvari.append(element)
                 c_zvezdica += w[i - 1]
                 z_zvezdica1 -= p[i - 1]
                 c -= w[i - 1]
         return [seznam_stvari, z_zvezdica]
 
-# solve_eKkP vrne seznam vseh predmetov in optimalno vrednost, če dodatno omejimo maksimalno števio uporabljenih predmetov 
-def solve_eKkP(N, c, w, p, k):   #algoritem je tu podoben kot pri Solve_KP, le da je matrika k tridimenzionalna, saj zraven
-    n = len(N)                 #beleži še kakšna je optimalna vrednost, če omejimo maksimalno število predmetov
-    if n == 1:                  #na m = 1, ..., k
+# solve_eKkP vrne seznam vseh predmetov in optimalno vrednost, če dodatno omejimo maksimalno števio uporabljenih predmetov s k 
+# rezulatat v smislu ([[4, 4, 3], [3, 6, 5]], 8), kar pomeni 4 predmet, teža = 4, vrednost 3 in 3 predmet, teža 6 in 5 vrednost.
+def solve_eKkP(N, c, w, p, k):
+    n = len(N)
+    if n == 1:
         if k == 0:
             return [0, 0]
         else: 
@@ -212,7 +218,7 @@ def solve_eKkP(N, c, w, p, k):   #algoritem je tu podoben kot pri Solve_KP, le d
                 c -= w[i - 1]
         return(seznam_stvari, z_zvezdica)
 
-def naredi_pravi_seznam(resitev): #funkcija vgnezden seznam spremeni v navaden seznam
+def naredi_pravi_seznam(resitev):
     nov_sez = []
     for el in resitev:
         if isinstance(el, list):
@@ -221,7 +227,7 @@ def naredi_pravi_seznam(resitev): #funkcija vgnezden seznam spremeni v navaden s
         else:
             nov_sez.append(el)
     return(nov_sez)
-#funkcija, ki deluje na principu rekurzije in nam vrne seznam stvari, ki jih vstavimo v nahrbtnik
+
 def rekurzija(N, z_zvezdica, k_zvezdica, c_zvezdica, lamda, w, maks_w, p, resitev=[]):
     if len(N) == 1 and resitev == []:
         if lamda != 0:
@@ -255,8 +261,8 @@ def rekurzija(N, z_zvezdica, k_zvezdica, c_zvezdica, lamda, w, maks_w, p, resite
         N1, N2 = particija(N) #N razdelimo na N1 in N2
         n = len(N)  
         polovica = int((n / 2 ))
-        if n % 2 == 0:     #tudi seznam, ki predstavlja vrednosti, teže in maks teže
-           w1 = w[:polovica] #razdelimo na dva dela
+        if n % 2 == 0:
+           w1 = w[:polovica]
            w2 = w[polovica:] 
            maks_w1 = maks_w[:polovica]
            maks_w2 = maks_w[polovica:]
@@ -270,13 +276,13 @@ def rekurzija(N, z_zvezdica, k_zvezdica, c_zvezdica, lamda, w, maks_w, p, resite
            p1 = p[:polovica + 1]
            p2 = p[1+ polovica:]
     
-        if k_zvezdica >= lamda: #če je število vstavljenih predmetov iz prve polovice stvari večje
-                                #od lamde (največ toliko predmetov lahko spremeni svojo težo iz w na maks w),
-            for c_1 in range(c_zvezdica + 1): #potem seznam vstavljenih predmetov iz N2 dobimo s pomočjo
-                c1 = c_1                      #funkcije Solve_KP, problem za predmete iz N1, kjer največ
-                c2 = c1 - c_zvezdica          #lamda predmetov spremeni svojo težo, pa spet predstavlja 
-                z1_c_1 = RKP(N1, c_1, w1, p1, lamda, maks_w1)[0] #robustni problem nahrbtnika, zato spet pokličemo
-                z2_c_2 = solve_KP(N2, c_zvezdica - c_1, w2, p2)[1] #funkcijo rekurzija
+        if k_zvezdica >= lamda:
+           
+            for c_1 in range(c_zvezdica + 1):
+                c1 = c_1
+                c2 = c1 - c_zvezdica
+                z1_c_1 = RKP(N1, c_1, w1, p1, lamda, maks_w1)[0]
+                z2_c_2 = solve_KP(N2, c_zvezdica - c_1, w2, p2)[1]
                 z1_c1 = z1_c_1
                 z2_c2 = z2_c_2
                 if z1_c_1 + z2_c_2 == z_zvezdica:
@@ -290,8 +296,8 @@ def rekurzija(N, z_zvezdica, k_zvezdica, c_zvezdica, lamda, w, maks_w, p, resite
             k1_zvezdica = RKP(N1, c1, w1, p1, lamda, maks_w1)[3]
             return rekurzija(N1, z1_c1 , k1_zvezdica, c1, lamda, w1, maks_w1, p1, resitev)        
         else: 
-            for c_2 in range(c_zvezdica + 1):    #če je lamda večji od k, dobimo seznam predmetov iz množice
-                c2 = c_2                      #N1 s pomočjo funkcije solve_ekkp, za N2 pa spet pokličemo funkcijo rekurzija
+            for c_2 in range(c_zvezdica + 1):
+                c2 = c_2
                 c1 = c_zvezdica - c2
                 z2_c_2 = RKP(N2, c_zvezdica - c1, w2, p2, lamda - k_zvezdica, maks_w2)[0]
                 z1_c_1 = solve_eKkP(N1, c1, maks_w1, p1, k_zvezdica)[1]
@@ -310,8 +316,8 @@ def rekurzija(N, z_zvezdica, k_zvezdica, c_zvezdica, lamda, w, maks_w, p, resite
             c2 = c_zvezdica - c1
             return rekurzija(N2, z2_c2, k2_zvezdica, c2,lamda - k_zvezdica, w2, maks_w2, p2, resitev)
  
-def resitev(N, c, w, p, lamda = None, maks_w = None): #funkcija nam vrne končno rešitev: 
-    k_zvezdica = RKP(N, c, w, p, lamda, maks_w)[3]     #seznam vstavljenih predmetov in vrednost
+def resitev(N, c, w, p, lamda = None, maks_w = None):
+    k_zvezdica = RKP(N, c, w, p, lamda, maks_w)[3]
     z_zvezdica = RKP(N, c, w, p, lamda, maks_w)[0]
     c_zvezdica = RKP(N, c, w, p, lamda, maks_w)[1]
     resitev = rekurzija(N, z_zvezdica, k_zvezdica, c_zvezdica, lamda, w, maks_w, p)
@@ -319,16 +325,16 @@ def resitev(N, c, w, p, lamda = None, maks_w = None): #funkcija nam vrne končno
         resitev = naredi_pravi_seznam(resitev)
     mnozica = set()
     if resitev != []:
-        for i in resitev:       #če je slučajno v seznamu predmetov tudi element 0,
-            mnozica.add(i)       #ga odstranimo, saj se v funkciji rekurzija zaradi lažjega
-        resitev = v_seznam(mnozica)  #poteka v primeru, da ne vstavimo nobenega elementa v seznam
-        if resitev[0] == 0:          #vstavi 0
+        for i in resitev:
+            mnozica.add(i)
+        resitev = v_seznam(mnozica)
+        if resitev[0] == 0:
             resitev = resitev[1:]
     return(resitev, z_zvezdica)
 
-def preberi_podatke(dat, kodna_tabela='utf-8'): #prebere podatke iz mape INSTANCES
-    with open(dat, encoding=kodna_tabela) as datoteka: #dobimo seznam elementov in                              
-        N = []                                #njihovih vrednosti, teže in maks teže
+def preberi_podatke(dat, kodna_tabela='utf-8'):
+    with open(dat, encoding=kodna_tabela) as datoteka:
+        N = []
         w = []
         p = []
         maks_w = []
@@ -382,7 +388,7 @@ def popravi_podatke(dat, kodna_tabela="utf-8"):
 #popravi_podatke("Robust-knapsack-problem/podatki/podatki za delnice/S&P 500.txt")
 
 import random
-def naredi_podatke(stevilo, teza, max_cena): #funkcija zgenerira naključne podatke
+def naredi_podatke(stevilo, teza, max_cena):
     n = random.randint(1, stevilo)
     c = random.randint(0, teza)
     lamda = random.randint(0, n)
@@ -405,7 +411,8 @@ def naredi_podatke(stevilo, teza, max_cena): #funkcija zgenerira naključne poda
 
     return [N, c, w, p, lamda, maks_w]
 
-def preberi_podatke_za_delnice(dat, budget, kodna_tabela='utf-8'): #funkcija prebere podatke o delnicah
+#print(resitev([1, 2, 3, 4], 8, [1, 2, 3, 4], [10, 15, 25, 11], 4, [2, 2, 4, 4]))
+def preberi_podatke_za_delnice(dat, budget, kodna_tabela='utf-8'):
     with open(dat, encoding=kodna_tabela) as datoteka:
         N = []
         maks_p = []
@@ -416,22 +423,22 @@ def preberi_podatke_za_delnice(dat, budget, kodna_tabela='utf-8'): #funkcija pre
         seznam_kolicine_delnic = []
         for vrstica in datoteka:
             x = []
-            x = vrstica.split() #najprej vsako vrstico razdelimo na seznam
-            a = x[-1]            
-            imena_delnic.append(x[1]) #prvi element vsake vrstice predstavlja ime delnice
-            stevilo_delnic = int(budget / float(x[-2])) #maksimalno število delnic posameznega podjetja, ki jih lahko kupimo (budget / maks cena delnice)
-            seznam_kolicine_delnic.append(stevilo_delnic) #seznam, ki predstavlja največ koliko delnic posameznega podjetja lahko kupimo
-            for delnica in range(vse_delnice + 1, vse_delnice + stevilo_delnic + 1): #naredimo nov seznam delnic, cen, maks cen in donosov
-                N.append(delnica)                                                   #tu se vsaka posamezna delnica vsakega podjetja steje kot en element
+            x = vrstica.split()
+            a = x[-1]
+            imena_delnic.append(x[1])
+            stevilo_delnic = int(budget / float(x[-2]))
+            seznam_kolicine_delnic.append(stevilo_delnic)
+            for delnica in range(vse_delnice + 1, vse_delnice + stevilo_delnic + 1):
+                N.append(delnica)
                 if float(x[-1]) > 0:
                     p.append(int(float(x[-3])))
                     maks_p.append(int(float(x[-2])))
                     r.append(int(float(x[-3]) * (1 + 0.01 * (float(x[-1])))))
                     vse_delnice += 1
                 else:
-                    p.append(0)   #če je donos negativen, nastavimo ceno, maks ceno in donos na 0,
-                    maks_p.append(0)  #saj je ob pogoju, da želimo maksimirati dobiček, nesmiselno,
-                    r.append(0)         #da v portfelj vstavimo tako delnico
+                    p.append(0)
+                    maks_p.append(0)
+                    r.append(0)
                     vse_delnice += 1
     return(N, p, maks_p, r, seznam_kolicine_delnic, imena_delnic)
 
@@ -444,9 +451,9 @@ def resitev_za_delnice(N, c, w, p, lamda, maks_w, seznam_kolicine_delnic, imena_
     resitev1 = resitev(N,c,w,p,lamda,maks_w)[0]
     nov_seznam = []
     seznam_delnic = []
-    for i in range(1, len(seznam_kolicine_delnic) + 1):  #iz seznama, ki ga dobimo pri rekurziji je potrebno 
-        a = seznam_kolicine_delnic[i - 1]              #še razbrati za delnice katerih podjetij gre in koliko 
-        nov_seznam += ([i] * a)                        #delnic imamo za vsako podjetje
+    for i in range(1, len(seznam_kolicine_delnic) + 1):
+        a = seznam_kolicine_delnic[i - 1]
+        nov_seznam += ([i] * a)
     for delnica in resitev1:
         seznam_delnic.append(nov_seznam[int(delnica) - 1])
     stevec = Counter()
@@ -459,8 +466,8 @@ def resitev_za_delnice(N, c, w, p, lamda, maks_w, seznam_kolicine_delnic, imena_
     return(stevec, z_zvezdica)
 
 #print(preberi_podatke('N_symbol_Company_price_maxprice_er.txt', 300))
-#N, p, maks_p, r, seznam_kolicine_delnic, imena_delnic = (preberi_podatke_za_delnice('podatki\podatki za delnice\prvih_11.txt', 100))
-#print(resitev_za_delnice(N, 100, p, r, 2, maks_p, seznam_kolicine_delnic, imena_delnic))
+#N, p, maks_p, r, seznam_kolicine_delnic, imena_delnic = (preberi_podatke_za_delnice('N_symbol_Company_price_maxprice_er.txt', 300))
+#print(resitev_za_delnice(N, 300, p, r, 2, maks_p, seznam_kolicine_delnic, imena_delnic))
 
 
 
@@ -497,8 +504,7 @@ class PRVO_OKNO:
     def new_window_ROBUSTNI_PROBLEM_nahrbtnika(self):
         self.newWindow = tk.Toplevel(self.master)
         self.app = ROBUSTNI_PROBLEM(self.newWindow)
-        
-    
+           
 
 class NAVADNI_PROBLEM:
     def __init__(self, master):
@@ -791,6 +797,20 @@ def main():
 
 if __name__ == '__main__':
      main()
+
+def doloci_lamdo(stevilo_delnic, datoteka):
+    R =[] # mam seznam vseh teh procentov kok se dvigne 
+    R_popravljen = [] # seznam vseh delnic ki jih boma sploh gledla 
+    R_skupen = 0
+    for i in R_popravljen:
+        R_skupen += i
+    R_povprecen = (R_skupen// stevilo_delnic) + 1  # za gor zaokroženo število ki se jih spremeni za ziher 
+    lamda = stevilo_delnic * R_povprecen           # tu bom uporabu še binomsko da zgleda bolj fancy haha, sam sm na hit to napiso 
+    return lamda
+
+
+
+
 
 
 
