@@ -472,8 +472,8 @@ def resitev_za_delnice(datoteka, budget):
 # pip3 install numpy
 from numpy import random
 def doloci_lamdo(stevilo_delnic, R_popravljen):
-    stevilo_delnic = len(R_popravljen)  
-    R_skupen = sum(R_popravljen)
+    stevilo_delnic = len(R_popravljen) 
+    R_skupen = sum(R_popravljen)/100 
     R_povprecen = (R_skupen / stevilo_delnic)   
     if R_povprecen < 0:
         R_povprecen = 0
@@ -485,7 +485,7 @@ def doloci_lamdo(stevilo_delnic, R_popravljen):
 
 
 
-print(resitev_za_delnice('podatki\podatki za delnice\zadnjih_15.txt', 200))
+#print(resitev_za_delnice('Robust-knapsack-problem/podatki/podatki za delnice/zadnjih_15.txt', 1000))
 
 ##### ČE ŠE NIMAŠ SI MOREŠ ZAGNAT TOLE V TERMINALU ###
 # python3 -m pip install pillow v bash (terminal)
