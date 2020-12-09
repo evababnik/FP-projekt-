@@ -405,6 +405,8 @@ def naredi_podatke(stevilo, teza, max_cena): #funkcija zgenerira naključne poda
 
     return [N, c, w, p, lamda, maks_w]
 
+# pip3 install numpy
+from numpy import random
 def preberi_podatke_za_delnice(dat, budget, kodna_tabela='utf-8'): #funkcija prebere podatke o delnicah
     with open(dat, encoding=kodna_tabela) as datoteka:
         N = []
@@ -433,7 +435,20 @@ def preberi_podatke_za_delnice(dat, budget, kodna_tabela='utf-8'): #funkcija pre
                     maks_p.append(0)  #saj je ob pogoju, da želimo maksimirati dobiček, nesmiselno,
                     r.append(0)         #da v portfelj vstavimo tako delnico
                     vse_delnice += 1
-    return(N, p, maks_p, r, seznam_kolicine_delnic, imena_delnic)
+    stevilo_delnic = 0   
+    R_popravljen = [] # seznam vseh delnic ki jih boma sploh gledla 
+    R_skupen = sum(R_popravljen)
+    R_povprecen = (R_skupen / stevilo_delnic)   
+    if R_povprecen < 0:
+        R_povprecen = 0
+    if R_povprecen > 1:
+        R_povprecen = 1
+
+    seznam_lambd = random.binomial(n=stevilo_delnic, p = R_povprecen, size=100)
+    lamda = sum(seznam_lambd)//100 + 1
+       
+
+    return(N, p, maks_p, r, seznam_kolicine_delnic, imena_delnic, lamda)
 
 
 # preberi_podatke_za_delnice("Robust-knapsack-problem/podatki/podatki za delnice/prvih_11.txt",100)
@@ -460,8 +475,8 @@ def resitev_za_delnice(N, c, w, p, lamda, maks_w, seznam_kolicine_delnic, imena_
     return(stevec, z_zvezdica)
 
 
-N, p, maks_p, r, seznam_kolicine_delnic, imena_delnic = (preberi_podatke_za_delnice('podatki\podatki za delnice\zadnjih_15.txt', 2000))
-print(resitev_za_delnice(N, 2000, p, r, 2, maks_p, seznam_kolicine_delnic, imena_delnic))
+#N, p, maks_p, r, seznam_kolicine_delnic, imena_delnic = (preberi_podatke_za_delnice('podatki\podatki za delnice\zadnjih_15.txt', 2000))
+#print(resitev_za_delnice(N, 2000, p, r, 2, maks_p, seznam_kolicine_delnic, imena_delnic))
 
 
 
