@@ -405,8 +405,7 @@ def naredi_podatke(stevilo, teza, max_cena): #funkcija zgenerira naključne poda
 
     return [N, c, w, p, lamda, maks_w]
 
-# pip3 install numpy
-from numpy import random
+
 def preberi_podatke_za_delnice(dat, budget, kodna_tabela='utf-8'): #funkcija prebere podatke o delnicah
     with open(dat, encoding=kodna_tabela) as datoteka:
         N = []
@@ -416,10 +415,11 @@ def preberi_podatke_za_delnice(dat, budget, kodna_tabela='utf-8'): #funkcija pre
         imena_delnic = []
         vse_delnice = 0
         seznam_kolicine_delnic = []
+        R = []
         for vrstica in datoteka:
             x = []
-            x = vrstica.split() #najprej vsako vrstico razdelimo na seznam
-            a = x[-1]            
+            x = vrstica.split() #najprej vsako vrstico razdelimo na seznam            
+            R.append(float(x[-1]))
             imena_delnic.append(x[1]) #prvi element vsake vrstice predstavlja ime delnice
             stevilo_delnic = int(budget / float(x[-2])) #maksimalno število delnic posameznega podjetja, ki jih lahko kupimo (budget / maks cena delnice)
             seznam_kolicine_delnic.append(stevilo_delnic) #seznam, ki predstavlja največ koliko delnic posameznega podjetja lahko kupimo
@@ -435,29 +435,20 @@ def preberi_podatke_za_delnice(dat, budget, kodna_tabela='utf-8'): #funkcija pre
                     maks_p.append(0)  #saj je ob pogoju, da želimo maksimirati dobiček, nesmiselno,
                     r.append(0)         #da v portfelj vstavimo tako delnico
                     vse_delnice += 1
-    stevilo_delnic = 0   
-    R_popravljen = [] # seznam vseh delnic ki jih boma sploh gledla 
-    R_skupen = sum(R_popravljen)
-    R_povprecen = (R_skupen / stevilo_delnic)   
-    if R_povprecen < 0:
-        R_povprecen = 0
-    if R_povprecen > 1:
-        R_povprecen = 1
-
-    seznam_lambd = random.binomial(n=stevilo_delnic, p = R_povprecen, size=100)
-    lamda = sum(seznam_lambd)//100 + 1
-       
-
-    return(N, p, maks_p, r, seznam_kolicine_delnic, imena_delnic, lamda)
+    
+    return(N, p, maks_p, r, seznam_kolicine_delnic, imena_delnic)
 
 
 # preberi_podatke_za_delnice("Robust-knapsack-problem/podatki/podatki za delnice/prvih_11.txt",100)
     
 from collections import Counter
 
-def resitev_za_delnice(N, c, w, p, lamda, maks_w, seznam_kolicine_delnic, imena_delnic):
-    resitev1 = resitev(N,c,w,p,lamda,maks_w)[0]
-    z_zvezdica = resitev(N,c,w,p,lamda,maks_w)[1]
+def resitev_za_delnice(datoteka, budget):
+    N, p, maks_p, r, seznam_kolicine_delnic, imena_delnic, R = preberi_podatke_za_delnice(datoteka, budget)
+    lamda = 2
+    #lamda = doloci_lamdo(len(seznam_kolicine_delnic), datoteka, R)
+    resitev1 = resitev(N,budget,p, r,lamda,maks_p)[0]
+    z_zvezdica = resitev(N,budget, p, r,lamda, maks_p)[1]
     nov_seznam = []
     seznam_delnic = []
     for i in range(1, len(seznam_kolicine_delnic) + 1):  #iz seznama, ki ga dobimo pri rekurziji je potrebno 
@@ -478,7 +469,22 @@ def resitev_za_delnice(N, c, w, p, lamda, maks_w, seznam_kolicine_delnic, imena_
 #N, p, maks_p, r, seznam_kolicine_delnic, imena_delnic = (preberi_podatke_za_delnice('podatki\podatki za delnice\zadnjih_15.txt', 2000))
 #print(resitev_za_delnice(N, 2000, p, r, 2, maks_p, seznam_kolicine_delnic, imena_delnic))
 
+# pip3 install numpy
+from numpy import random
+def doloci_lamdo(stevilo_delnic, datoteka, R_popravljen):
+    stevilo_delnic = len(R_popravljen)  
+    R_skupen = sum(R_popravljen)
+    R_povprecen = (R_skupen / stevilo_delnic)   
+    if R_povprecen < 0:
+        R_povprecen = 0
+    if R_povprecen > 1:
+        R_povprecen = 1
+    seznam_lambd = random.binomial(n=stevilo_delnic, p = R_povprecen, size=100)
+    lamda = sum(seznam_lambd)//100 + 1
+       
 
+
+#print(resitev_za_delnice('podatki\podatki za delnice\zadnjih_15.txt', 200))
 
 ##### ČE ŠE NIMAŠ SI MOREŠ ZAGNAT TOLE V TERMINALU ###
 # python3 -m pip install pillow v bash (terminal)
@@ -807,15 +813,7 @@ def main():
 if __name__ == '__main__':
      main()
 
-def doloci_lamdo(stevilo_delnic, datoteka):
-    R =[] # mam seznam vseh teh procentov kok se dvigne 
-    R_popravljen = [] # seznam vseh delnic ki jih boma sploh gledla 
-    R_skupen = 0
-    for i in R_popravljen:
-        R_skupen += i
-    R_povprecen = (R_skupen// stevilo_delnic) + 1  # za gor zaokroženo število ki se jih spremeni za ziher 
-    lamda = stevilo_delnic * R_povprecen           # tu bom uporabu še binomsko da zgleda bolj fancy haha, sam sm na hit to napiso 
-    return lamda
+
 
 
 
