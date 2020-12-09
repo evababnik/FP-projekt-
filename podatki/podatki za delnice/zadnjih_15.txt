@@ -1,0 +1,16 @@
+490 "WRK" "WestRock Company" 44.16 45.21 3.75
+491 "WST" "West Pharmaceutical Services 265.54 268.6 78.31
+492 "WU" "The Western Union Company" 21.53 21.8 -18.86
+493 "WY" "Weyerhaeuser Company" 29.885 31.01 0.1
+494 "WYNN" "Wynn Resorts 110.27 113.1 -19.84
+495 "XEL" "Xcel Energy Inc" 65.805 66.7 4.91
+496 "XLNX" "Xilinx 144.76 149.11 51.65
+497 "XOM" "Exxon Mobil Corporation" 40.46 42.59 -41.39
+498 "XRAY" "DENTSPLY SIRONA Inc" 53.22 54.46 -5.28
+499 "XRX" "Xerox Holdings Corporation" 22.74 23.16 -37.67
+500 "XYL" "Xylem Inc" 97.81 99.3 24.64
+501 "YUM" "YUM! Brands 104.53 105.61 4.48
+502 "ZBH" "Zimmer Biomet Holdings 144.1 146.9 -2.75
+503 "ZBRA" "Zebra Technologies Corporation" 371.29 377.17 46.35
+504 "ZION" "Zions Bancorporation 42.27 43.18 -17.35
+505 "ZTS" "Zoetis Inc" 156.47 159.515 19.72

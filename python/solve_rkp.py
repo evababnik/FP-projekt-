@@ -442,6 +442,7 @@ from collections import Counter
 
 def resitev_za_delnice(N, c, w, p, lamda, maks_w, seznam_kolicine_delnic, imena_delnic):
     resitev1 = resitev(N,c,w,p,lamda,maks_w)[0]
+    z_zvezdica = resitev(N,c,w,p,lamda,maks_w)[1]
     nov_seznam = []
     seznam_delnic = []
     for i in range(1, len(seznam_kolicine_delnic) + 1):  #iz seznama, ki ga dobimo pri rekurziji je potrebno 
@@ -458,9 +459,9 @@ def resitev_za_delnice(N, c, w, p, lamda, maks_w, seznam_kolicine_delnic, imena_
 
     return(stevec, z_zvezdica)
 
-#print(preberi_podatke('N_symbol_Company_price_maxprice_er.txt', 300))
-#N, p, maks_p, r, seznam_kolicine_delnic, imena_delnic = (preberi_podatke_za_delnice('podatki\podatki za delnice\prvih_11.txt', 100))
-#print(resitev_za_delnice(N, 100, p, r, 2, maks_p, seznam_kolicine_delnic, imena_delnic))
+
+N, p, maks_p, r, seznam_kolicine_delnic, imena_delnic = (preberi_podatke_za_delnice('podatki\podatki za delnice\zadnjih_15.txt', 2000))
+print(resitev_za_delnice(N, 2000, p, r, 2, maks_p, seznam_kolicine_delnic, imena_delnic))
 
 
 
