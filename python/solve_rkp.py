@@ -32,10 +32,6 @@ def podatki(N, w, p, maks_w = None):
         N = [N[i] for i in vrstni_red]
         return (N[::-1], w[::-1], p[::-1], maks_w[::-1])
 
-# primer
-#print(podatki([1,2,3,4,5,6,7],[20,19,18,17,16,15,14],[20,10,14,13,11,2,24],[10,10,10,10,10,10,10]))
-
-
 # množico razdeli na dva enako velika seznama
 def particija(N):
     n = len(N)
@@ -140,7 +136,8 @@ def RKP(N, c, w, p, lamda = None,  maks_w = None):
         g_zvezdica = k_zvezdica - g1 #g_zvezdica = št.elementov v N1, k_zvezdica = št. vseh elementov
         return [z_zvedica, c_zvezdica, k_zvezdica, g_zvezdica]
 
-# Solve_KP vrne resitev predmetov in optimalno vrednost, če je lamda = 0, torej to je navadni problem nahrbtnika
+
+# Solve_KP vrne seznam predmetov in optimalno vrednost, če je lamda = 0, torej to je navadni problem nahrbtnika
 def solve_KP(N, c, w, p):  
     n = len(N)
     if n == 1:
@@ -180,10 +177,7 @@ def solve_KP(N, c, w, p):
                 c -= w[i - 1]
         return [seznam_stvari, z_zvezdica]
 
-#solve_KP([1,2,3], 2, [1,1,1], [3,4,3])
-#solve_KP({1,2,3,4,5,6}, 6, [1,1,1,2,3,9],[2,3,4,5,5,3])
-
-# solve_eKkP vrne resitev vseh predmetov in optimalno vrednost, če dodatno omejimo maksimalno števio uporabljenih predmetov s k 
+# solve_eKkP vrne seznam vseh predmetov in optimalno vrednost, če dodatno omejimo maksimalno števio uporabljenih predmetov s k 
 # rezulatat v smislu ([[4, 4, 3], [3, 6, 5]], 8), kar pomeni 4 predmet, teža = 4, vrednost 3 in 3 predmet, teža 6 in 5 vrednost.
 def solve_eKkP(N, c, w, p, k):
     n = len(N)
@@ -209,7 +203,6 @@ def solve_eKkP(N, c, w, p, k):
         z_zvezdica = z[n][c][k]
         z_zvezdica1 = z[n][c][k]
         c_zvezdica = 0
-        set_stvari = []
         seznam_stvari = []
         for i in range(n, 0, -1):
             if z_zvezdica1 <= 0:
@@ -219,7 +212,6 @@ def solve_eKkP(N, c, w, p, k):
                 continue
             else:
                 element = N[i - 1]
-                #set_stvari.append([element, w[i - 1], p[i - 1]])
                 seznam_stvari.append(element)
                 c_zvezdica += w[i - 1]
                 z_zvezdica1 -= p[i - 1]
@@ -355,8 +347,8 @@ def preberi_podatke(dat, kodna_tabela='utf-8'):
             maks_w.append(int(x[3]))
     
     return(N, w, p, maks_w)
-#N, w, p, maks_w = preberi_podatke('podatki\RKP_instances\Instances\RKP_00100_00100_3_10.txt')
-#print(resitev(N, 100, w, p, 1, maks_w))
+
+
 
 import random
 def naredi_podatke(stevilo, teza, max_cena):
@@ -592,7 +584,6 @@ class ROBUSTNI_PROBLEM:
         #self.fake.grid(row=1, column=3)
 
         self.label1.place(x=25, y= 25)
-
         self.slika1.place(x=163,y=169)
         self.prazno_polje1.grid(row=1, column = 2)
         self.shrani_in_naprej1.grid(row=1,column= 3)
@@ -600,9 +591,6 @@ class ROBUSTNI_PROBLEM:
         self.frame.grid()
 
     def shrani_in_naprej2(self):
-        #self.mnozica_N = self.stevilo_podatkov.get()
-        #print(self.mnozica_N)
-        #self.master.destroy()
         self.newWindow = tk.Toplevel(self.master)
         self.app4 = ROBUSTNI_PROBLEM_NADALJEVANJE(self.newWindow)
 
@@ -644,13 +632,16 @@ class NAVADNI_PROBLEM_NADALJEVANJE:
         self.quitButton2.grid(row= 8, column=0)
    
     def resitev_problema(self):
+        kapaciteta_c = self.kapaciteta.get()
+        try:
+            int(kapaciteta_c)
+        except ValueError:
+            kapaciteta_c = 0
+            self.lbl_value["text"] = f"Napaka v vnosu kapacitete"
+        
         kapaciteta_c = int(self.kapaciteta.get())
-        # if type(kapaciteta_c) == type(1):
-        #     kapaciteta_c = 0
-        # else: 
-        #     pass
-        #     if kapaciteta_c < 0:
-        #         kapaciteta_c = 0
+        if kapaciteta_c < 0:
+            kapaciteta_c = 0
 
         w = [(self.teza.get())]
         p = [self.vrednost.get()]
@@ -677,14 +668,6 @@ class NAVADNI_PROBLEM_NADALJEVANJE:
             pravi_seznam2.add(i)
         koncni_seznam = v_seznam(pravi_seznam2)
         self.lbl_value["text"] = f"seznam predmetov, ki jih dodamo v nahrbtnik {koncni_seznam} \n in optimalna vrednost predmetov je {z_zvezdica}"
-
-        #primer
-        # solve_KP([1,2,3], 2, [1,1,1], [3,4,3])
-        # rešitev [1,2], 7
-        #solve_KP({1,2,3,4,5,6,7}, 6, [1,1,1,2,3,9,1],[2,3,4,5,5,3,10])
-        #rešitev [[4, 3, 2, 1], 14]
-        #solve_KP({1,2,3,4,5}, 10, [1,3,3,2,4],[10,30,20,20,22])
-        # [[5, 4, 2, 1], 82]
 
     def close_all(self):
         self.master.destroy()
@@ -767,24 +750,6 @@ class ROBUSTNI_PROBLEM_NADALJEVANJE:
         seznam = resitev(N,kapaciteta_c, w, p, lamda, maks_w)
         pravi_seznam = seznam[0]
         z_zvezdica = seznam[1]
-
-        ###### ZAKAJ SI TA SEZNAM MAGIČNO VEDNO ZAPOMNE PREJŠNO REŠITEV??? 
-        # if self.števec == 1:
-        #     self.seznam = resitev(N,kapaciteta_c, w, p, lamda, maks_w)
-        #     print(self.seznam)
-        #     self.pravi_seznam = self.seznam[0]
-        #     self.z_zvezdica = self.seznam[1]
-        # #pravi_seznam = sorted(pravi_seznam)
-        #     self.pravi_seznam2 = set()
-        #     if self.pravi_seznam != []:
-        #         for i in self.pravi_seznam:
-        #             self.pravi_seznam2.add(i)
-        #         self.koncni_seznam = v_seznam(self.pravi_seznam2)
-        #         if self.koncni_seznam[0] == 0:
-        #             self.koncni_seznam = self.koncni_seznam[1:]
-        #     else:
-        #         self.koncni_seznam = []
-
         self.lbl_value["text"] = f"seznam predmetov, ki jih dodamo v nahrbtnik {pravi_seznam} \n in optimalna vrednost predmetov je {z_zvezdica}"
 
         
