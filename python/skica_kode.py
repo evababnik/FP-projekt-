@@ -1,29 +1,29 @@
 Psevodokodi za solve_RKP in rekurzija
 
-def solve_RKP(N, c, w, p, lamda = None,  max_w = None):
+def solve_RKP(N, c, w, p, gama = None,  max_w = None):
     Najprej uredimo podatke po padajoči teži (max_w - w)
     Če je max_w = None, uredimo podatke padajoče po teži (w)
 
     Naredimo matrike Z, K, G ter nastavimo začetne pogoje
     Element v prvi vrstici in prvem stolpcu matrike nastavimo na 0 vse ostale na minus neskončno:
     for d in range(c + 1): 
-        for s in range(lamda + 1): 
+        for s in range(gama + 1): 
             Z[d][s]= float("-inf")
     Z[0][0] = 0  
     Analogno naredimo še matriki K in G
 
     izberemo j-ti predmet:
     for j in range(len(N)): 
-        j-ti predmet poskusimo dodati v nahrbtnik v svoji nominalni teži pri pogoju, da smo že vstavili lamda predmetov
+        j-ti predmet poskusimo dodati v nahrbtnik v svoji nominalni teži pri pogoju, da smo že vstavili gama predmetov
         for d in range(c, w[j]-1, -1):  
-            if Z[d - w[j]][lamda] + p[j] > Z[d][lamda]:
-                Z[d][lamda] = Z[d - w[j]][lamda] + p[j] 
-                K[d][lamda] = 1 + K[d - w[j]][lamda]
+            if Z[d - w[j]][gama] + p[j] > Z[d][gama]:
+                Z[d][gama] = Z[d - w[j]][gama] + p[j] 
+                K[d][gama] = 1 + K[d - w[j]][gama]
                 if j  >= ((len(N) / 2)):
-                    G[d][lamda] = 1 + G[d - w[j]][lamda]
+                    G[d][gama] = 1 + G[d - w[j]][gama]
 
         j-ti predmet poskusimo dodati v svoji robustni teži:            
-        for s in range(lamda, 0, -1):
+        for s in range(gama, 0, -1):
             for d in range(c, maks_w[j] - 1, -1):
                 if Z[d - maks_w[j]][s - 1] + p[j] > Z[d][s]:
                     Z[d][s] = Z[d - maks_w[j]][s - 1] + p[j]
@@ -47,16 +47,16 @@ def solve_RKP(N, c, w, p, lamda = None,  max_w = None):
         g* = k* - g1
         return [z*, c*, k*, g*]
 
-def rekurzija(N, z*, k*, c*, lamda, w, maks_w, p, vstavljeni_predmeti=[]):
+def rekurzija(N, z*, k*, c*, gama, w, maks_w, p, vstavljeni_predmeti=[]):
     if len(N) == 1 and vstavljeni_predmeti == []:
-        if lamda != 0:
+        if gama != 0:
             if maks_w[0] <= c*:
                 return N
         else:
             if w[0] <= c*:
                 return N
     elif len(N) == 1 and vstavljeni_predmeti != []:
-        if lamda != 0:
+        if gama != 0:
             if maks_w[0] <= c*:
                 vstavljeni_predmeti.append(N[0])
                 return(vstavljeni_predmeti)
@@ -79,22 +79,22 @@ def rekurzija(N, z*, k*, c*, lamda, w, maks_w, p, vstavljeni_predmeti=[]):
            w1, w2 = w[:polovica + 1], w[polovica + 1:] 
            maks_w1, maks_w2 = maks_w[:polovica + 1], maks_w[polovica + 1:]
            p1, p2 = p[:polovica + 1], p[1+ polovica:]
-        if k* >= lamda: 
+        if k* >= gama: 
             najdi tako kombinacijo c1 + c2 = c*, da bo 
             z1(c1) + z2(c2) = z*, pri čemer z1(c1) ter z1(c2)
             dobimo kot:
-            z1(c1) = RKP(N1, c1, w1, p1, lamda, maks_w1)[0] 
+            z1(c1) = RKP(N1, c1, w1, p1, gama, maks_w1)[0] 
             z2(c2) = solve_KP(N2, c2, w2, p2)[1]
             solution_set_kp = solve_KP(N2, c2, w2, p2)[0]
             vstavljeni_predmeti.append(solution_set_kp)
-            k1* = RKP(N1, c1, w1, p1, lamda, maks_w1)[3]
-            return rekurzija(N1, z1(c1) , k1*, c1, lamda, w1, maks_w1, p1, vstavljeni_predmeti)        
+            k1* = RKP(N1, c1, w1, p1, gama, maks_w1)[3]
+            return rekurzija(N1, z1(c1) , k1*, c1, gama, w1, maks_w1, p1, vstavljeni_predmeti)        
         else: 
             najdi tako kombinacijo c1 + c2 = c*, da bo 
             z1(c1) + z2(c2) = z*, pri čemer z1(c1) ter z1(c2)
             dobimo kot:    
             z1(c1) = solve_eKkP(N1, c1, maks_w1, p1, k*)[1]
-            z2(c2) = RKP(N2, c* - c1, w2, p2, lamda - k*, maks_w2)[0]
+            z2(c2) = RKP(N2, c* - c1, w2, p2, gama - k*, maks_w2)[0]
             solution_set_eKkP = solve_eKkP(N1, c1, maks_w1, p1, k*)[0]
-            k2* = RKP(N2, c2, w2, p2, lamda - k*, maks_w2)[3]
-            return rekurzija(N2, z2(c2), k2*, c2,lamda - k*, w2, maks_w2, p2, vstavljeni_predmeti)
+            k2* = RKP(N2, c2, w2, p2, gama - k*, maks_w2)[3]
+            return rekurzija(N2, z2(c2), k2*, c2,gama - k*, w2, maks_w2, p2, vstavljeni_predmeti)
