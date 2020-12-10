@@ -8,4 +8,5 @@
 \contentsline {section}{\numberline {5}Pristop z dinamičnim programiranjem}{5}{section.5}%
 \contentsline {section}{\numberline {6}Opis kode}{6}{section.6}%
 \contentsline {paragraph}{}{6}{section*.11}%
-\contentsline {section}{\numberline {7}Viri in literatura}{8}{section.7}%
+\contentsline {section}{\numberline {7}Optimizacija portfeljev s pomočjo RKP}{7}{section.7}%
+\contentsline {section}{\numberline {8}Viri in literatura}{9}{section.8}%
