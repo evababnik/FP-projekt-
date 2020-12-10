@@ -64,11 +64,11 @@ def particija(N):
         return N1, N2
 
 # funkcija solve_RKP vrne optimalno vrednost, optimalno težo pri tej vrednosti, koliko predmetov uporabimo in koliko predmetov uporabimo iz N1 (prve polovice predmetov)
-def solve_RKP(N, c, w, p, lamda = None,  maks_w = None):
-    # slovar predmetov spremenimo v resitev predmetov
+def solve_RKP(N, c, w, p, gama = None,  maks_w = None):
+    # slovar predmetov spremenimo v seznam(resitev) predmetov
     N = v_seznam(N)
     if len(N) == 1:
-        if lamda != 0:
+        if gama != 0:
             if maks_w[0] <= c: #če imamo samo en element, ki spremeni svojo težo na maks_w <= c,
                 return [p[0], maks_w[0], 1, 0]  #je to edini element, ki ga damo v nahrbtnik 
             else:
@@ -85,9 +85,9 @@ def solve_RKP(N, c, w, p, lamda = None,  maks_w = None):
         else: 
             pravilni_podatki = podatki(N, w, p) # uporabiva funkcijo podatki, ki podatke spremeni v pravo obliko
             N, w, p = pravilni_podatki[0], pravilni_podatki[1], pravilni_podatki[2] 
-        if lamda == None or 0:
+        if gama == None or 0:
             maks_w = [c]* len(w)
-            lamda = 0 
+            gama = 0 
         if c < min(w):
             return [0, 0, 0, 0]
         if len(N) == len(w) == len(p) == len(maks_w): 
@@ -95,34 +95,34 @@ def solve_RKP(N, c, w, p, lamda = None,  maks_w = None):
         else: 
             raise ValueError("Napačno vneseni podatki")
         #naredimo matrike z, k, n in nastavimo začetne pogoje
-        z = matrika(lamda,c) #element matrike z[d][s] pomeni maksimalno vrednost pri
+        z = matrika(gama,c) #element matrike z[d][s] pomeni maksimalno vrednost pri
         for d in range(c + 1): #kapaciteti nahrbtnika d, pri čemer največ s predmetov spremeni
-            for s in range(lamda + 1): #svojo težo na maks_w
+            for s in range(gama + 1): #svojo težo na maks_w
                 z[d][s]= float("-inf")
         z[0][0] = 0     
         c_zvezdica = 0
 
-        k = matrika(lamda,c) #element matrike k[d][s] pomeni optimalno število predmetov v 
+        k = matrika(gama,c) #element matrike k[d][s] pomeni optimalno število predmetov v 
         for d in range(c + 1): #nahrbtniku pri kapaciteti nahrbtnika d, pri čemer največ s 
-            for s in range(lamda + 1): #predmetov spremeni svojo težo na maks_w
+            for s in range(gama + 1): #predmetov spremeni svojo težo na maks_w
                 k[d][s]= 0
         k[0][0] = 0
 
-        g = matrika(lamda,c) #element matrike g[d][s] pomeni optimalno število predmetov v 
+        g = matrika(gama,c) #element matrike g[d][s] pomeni optimalno število predmetov v 
         for d in range(c + 1): #v nahrbtniku iz množice N2 (druga polovica vseh stvari) pri
-            for s in range(lamda + 1): #kapaciteti nahbrnika d, pri čemer največ s predmetov
+            for s in range(gama + 1): #kapaciteti nahbrnika d, pri čemer največ s predmetov
                 g[d][s] = 0 #spremeni svojo težo na maks_w
         g[0][0] = 0
 
         for j in range(len(N)): # izberemo j-ti predmet 
             for d in range(c, w[j]-1, -1):  # in ga poskusimo dodati v svoji nominalni teži 
-                if z[d - w[j]][lamda] + p[j] > z[d][lamda]: #pri pogoju, da smo že vstavili 
-                    z[d][lamda] = z[d - w[j]][lamda] + p[j]  #lamda predmetov
-                    k[d][lamda] = 1 + k[d - w[j]][lamda]
+                if z[d - w[j]][gama] + p[j] > z[d][gama]: #pri pogoju, da smo že vstavili 
+                    z[d][gama] = z[d - w[j]][gama] + p[j]  #gama predmetov
+                    k[d][gama] = 1 + k[d - w[j]][gama]
                     if j  >= ((len(N) / 2)):
-                        g[d][lamda] = 1 + g[d - w[j]][lamda]
+                        g[d][gama] = 1 + g[d - w[j]][gama]
                       
-            for s in range(lamda, 0, -1): # poskusimo ga dodati v svoji robustni teži
+            for s in range(gama, 0, -1): # poskusimo ga dodati v svoji robustni teži
                 for d in range(c, maks_w[j] - 1, -1):
                     if z[d - maks_w[j]][s - 1] + p[j] > z[d][s]:
                         z[d][s] = z[d - maks_w[j]][s - 1] + p[j]
@@ -141,7 +141,7 @@ def solve_RKP(N, c, w, p, lamda = None,  maks_w = None):
         return [z_zvedica, c_zvezdica, k_zvezdica, g_zvezdica]
 
 
-# Solve_KP vrne seznam predmetov in optimalno vrednost, če je lamda = 0, torej to je navadni problem nahrbtnika
+# Solve_KP vrne seznam predmetov in optimalno vrednost, če je gama = 0, torej to je navadni problem nahrbtnika
 def solve_KP(N, c, w, p):  
     n = len(N)
     if n == 1:
@@ -230,9 +230,9 @@ def naredi_pravi_seznam(resitev): #funkcija vgnezden seznam spremeni v navaden s
             nov_sez.append(el)
     return(nov_sez)
 #funkcija, ki deluje na principu rekurzije in nam vrne seznam stvari, ki jih vstavimo v nahrbtnik
-def rekurzija(N, z_zvezdica, k_zvezdica, c_zvezdica, lamda, w, maks_w, p, resitev=[]):
+def rekurzija(N, z_zvezdica, k_zvezdica, c_zvezdica, gama, w, maks_w, p, resitev=[]):
     if len(N) == 1 and resitev == []:
-        if lamda != 0:
+        if gama != 0:
             if maks_w[0] <= c_zvezdica:
                 print(N)
                 return N
@@ -244,7 +244,7 @@ def rekurzija(N, z_zvezdica, k_zvezdica, c_zvezdica, lamda, w, maks_w, p, resite
             else:
                 print("V nahrbtnik ne moremo dati nobene stvari.")
     elif len(N) == 1 and resitev != []:
-        if lamda != 0:
+        if gama != 0:
             if maks_w[0] <= c_zvezdica:
                 resitev.append(N[0])
                 resitev = naredi_pravi_seznam(resitev)
@@ -278,12 +278,12 @@ def rekurzija(N, z_zvezdica, k_zvezdica, c_zvezdica, lamda, w, maks_w, p, resite
            p1 = p[:polovica + 1]
            p2 = p[1+ polovica:]
     
-        if k_zvezdica >= lamda: #če je število vstavljenih predmetov iz prve polovice stvari večje
+        if k_zvezdica >= gama: #če je število vstavljenih predmetov iz prve polovice stvari večje
                                 #od lamde (največ toliko predmetov lahko spremeni svojo težo iz w na maks w),
             for c_1 in range(c_zvezdica + 1): #potem seznam vstavljenih predmetov iz N2 dobimo s pomočjo
                 c1 = c_1                      #funkcije Solve_KP, problem za predmete iz N1, kjer največ
-                c2 = c1 - c_zvezdica          #lamda predmetov spremeni svojo težo, pa spet predstavlja 
-                z1_c_1 = solve_RKP(N1, c_1, w1, p1, lamda, maks_w1)[0] #robustni problem nahrbtnika, zato spet pokličemo
+                c2 = c1 - c_zvezdica          #gama predmetov spremeni svojo težo, pa spet predstavlja 
+                z1_c_1 = solve_RKP(N1, c_1, w1, p1, gama, maks_w1)[0] #robustni problem nahrbtnika, zato spet pokličemo
                 z2_c_2 = solve_KP(N2, c_zvezdica - c_1, w2, p2)[1] #funkcijo rekurzija
                 z1_c1 = z1_c_1
                 z2_c2 = z2_c_2
@@ -295,13 +295,13 @@ def rekurzija(N, z_zvezdica, k_zvezdica, c_zvezdica, lamda, w, maks_w, p, resite
                     break
             solution_set_kp = solve_KP(N2, c2, w2, p2)[0]
             resitev.append(solution_set_kp)
-            k1_zvezdica = solve_RKP(N1, c1, w1, p1, lamda, maks_w1)[3]
-            return rekurzija(N1, z1_c1 , k1_zvezdica, c1, lamda, w1, maks_w1, p1, resitev)        
+            k1_zvezdica = solve_RKP(N1, c1, w1, p1, gama, maks_w1)[3]
+            return rekurzija(N1, z1_c1 , k1_zvezdica, c1, gama, w1, maks_w1, p1, resitev)        
         else: 
-            for c_2 in range(c_zvezdica + 1):    #če je lamda večji od k, dobimo seznam predmetov iz množice
+            for c_2 in range(c_zvezdica + 1):    #če je gama večji od k, dobimo seznam predmetov iz množice
                 c2 = c_2                      #N1 s pomočjo funkcije solve_ekkp, za N2 pa spet pokličemo funkcijo rekurzija
                 c1 = c_zvezdica - c2
-                z2_c_2 = solve_RKP(N2, c_zvezdica - c1, w2, p2, lamda - k_zvezdica, maks_w2)[0]
+                z2_c_2 = solve_RKP(N2, c_zvezdica - c1, w2, p2, gama - k_zvezdica, maks_w2)[0]
                 z1_c_1 = solve_eKkP(N1, c1, maks_w1, p1, k_zvezdica)[1]
                 z1_c1 = z1_c_1
                 z2_c2 = z2_c_2
@@ -314,15 +314,15 @@ def rekurzija(N, z_zvezdica, k_zvezdica, c_zvezdica, lamda, w, maks_w, p, resite
                     break
             solution_set_eKkP = solve_eKkP(N1, c1, maks_w1, p1, k_zvezdica)[0]
             resitev.append(solution_set_eKkP)
-            k2_zvezdica = solve_RKP(N2, c2, w2, p2, lamda - k_zvezdica, maks_w2)[3]
+            k2_zvezdica = solve_RKP(N2, c2, w2, p2, gama - k_zvezdica, maks_w2)[3]
             c2 = c_zvezdica - c1
-            return rekurzija(N2, z2_c2, k2_zvezdica, c2,lamda - k_zvezdica, w2, maks_w2, p2, resitev)
+            return rekurzija(N2, z2_c2, k2_zvezdica, c2,gama - k_zvezdica, w2, maks_w2, p2, resitev)
  
-def resitev(N, c, w, p, lamda = None, maks_w = None): #funkcija nam vrne končno rešitev: 
-    k_zvezdica = solve_RKP(N, c, w, p, lamda, maks_w)[3]     #seznam vstavljenih predmetov in vrednost
-    z_zvezdica = solve_RKP(N, c, w, p, lamda, maks_w)[0]
-    c_zvezdica = solve_RKP(N, c, w, p, lamda, maks_w)[1]
-    resitev = rekurzija(N, z_zvezdica, k_zvezdica, c_zvezdica, lamda, w, maks_w, p)
+def resitev(N, c, w, p, gama = None, maks_w = None): #funkcija nam vrne končno rešitev: 
+    k_zvezdica = solve_RKP(N, c, w, p, gama, maks_w)[3]     #seznam vstavljenih predmetov in vrednost
+    z_zvezdica = solve_RKP(N, c, w, p, gama, maks_w)[0]
+    c_zvezdica = solve_RKP(N, c, w, p, gama, maks_w)[1]
+    resitev = rekurzija(N, z_zvezdica, k_zvezdica, c_zvezdica, gama, w, maks_w, p)
     while resitev != naredi_pravi_seznam(resitev):
         resitev = naredi_pravi_seznam(resitev)
     mnozica = set()
@@ -393,7 +393,7 @@ import random
 def naredi_podatke(stevilo, teza, max_cena): #funkcija zgenerira naključne podatke
     n = random.randint(1, stevilo)
     c = random.randint(0, teza)
-    lamda = random.randint(0, n)
+    gama = random.randint(0, n)
     N = []
     w = []
     maks_w = []
@@ -411,7 +411,7 @@ def naredi_podatke(stevilo, teza, max_cena): #funkcija zgenerira naključne poda
         val = random.randint(0, max_cena + 1)
         p.append(val)
 
-    return [N, c, w, p, lamda, maks_w]
+    return [N, c, w, p, gama, maks_w]
 
 
 def preberi_podatke_za_delnice(dat, budget, kodna_tabela='utf-8'): #funkcija prebere podatke o delnicah
@@ -453,10 +453,10 @@ from collections import Counter
 
 def resitev_za_delnice(datoteka, budget):
     N, p, maks_p, r, seznam_kolicine_delnic, imena_delnic, R = preberi_podatke_za_delnice(datoteka, budget)
-    #lamda = 2
-    lamda = doloci_lamdo(len(seznam_kolicine_delnic), R)
-    resitev1 = resitev(N,budget,p, r,lamda,maks_p)[0]
-    z_zvezdica = resitev(N,budget, p, r,lamda, maks_p)[1]
+    #gama = 2
+    gama = doloci_lamdo(len(seznam_kolicine_delnic), R)
+    resitev1 = resitev(N,budget,p, r,gama,maks_p)[0]
+    z_zvezdica = resitev(N,budget, p, r,gama, maks_p)[1]
     nov_seznam = []
     seznam_delnic = []
     for i in range(1, len(seznam_kolicine_delnic) + 1):  #iz seznama, ki ga dobimo pri rekurziji je potrebno 
@@ -479,7 +479,7 @@ def resitev_za_delnice(datoteka, budget):
 
 
 from numpy import random
-def doloci_lamdo(stevilo_delnic, R_popravljen):
+def doloci_gamo(stevilo_delnic, R_popravljen):
     stevilo_delnic = len(R_popravljen) 
     R_skupen = sum(R_popravljen)/100 
     R_povprecen = (R_skupen / stevilo_delnic)   
@@ -488,8 +488,8 @@ def doloci_lamdo(stevilo_delnic, R_popravljen):
     if R_povprecen > 1:
         R_povprecen = 1
     seznam_lambd = random.binomial(n=stevilo_delnic, p = R_povprecen, size=300)
-    lamda = sum(seznam_lambd)//300 + 1
-    return lamda
+    gama = sum(seznam_lambd)//300 + 1
+    return gama
 
 
 
@@ -735,8 +735,8 @@ class ROBUSTNI_PROBLEM_NADALJEVANJE:
         self.vprasanje_teza = tk.Label(self.master, text="2. Zapišite teže predmetov v pravilnem vrstnem redu, npr. 1,3,3,2,5 za 5 predmetov")
         self.vprasanje_vrednost = tk.Label(self.master, text="4. Zapišite vrednosti predmetov v pravilnem vrstnem redu, npr. 10,30,50,20,52 za 5 predmetov")
         self.vprasanje_maks_w = tk.Label(self.master, text="3. Zapišite maksimalne teže predmetov v pravilnem vrstnem redu, npr. 2,4,3,3,5 za 5 predmetov")
-        self.vprasanje_lamda = tk.Label(self.master, text="5. Zapišite največ koliko predmetov lahko spremeni svojo težo \n (število med 1 in številom predmetov) npr. 3")
-        self.lamda = tk.Entry(self.master, width = 20, selectborderwidth=2, bg= "gray90")
+        self.vprasanje_gama = tk.Label(self.master, text="5. Zapišite največ koliko predmetov lahko spremeni svojo težo \n (število med 1 in številom predmetov) npr. 3")
+        self.gama = tk.Entry(self.master, width = 20, selectborderwidth=2, bg= "gray90")
         self.kapaciteta = tk.Entry(self.master, width = 20, selectborderwidth=2, bg= "gray90")
         self.teza = tk.Entry(self.master, width = 20, selectborderwidth=2, bg= "gray90")
         self.teza_maks_w = tk.Entry(self.master, width = 20, selectborderwidth=2, bg= "gray90")
@@ -753,8 +753,8 @@ class ROBUSTNI_PROBLEM_NADALJEVANJE:
         self.teza_maks_w.grid(row=5,column=0)
         self.vprasanje_vrednost.grid(row=6, column=0)
         self.vrednost.grid(row=7, column=0)
-        self.vprasanje_lamda.grid(row=8, column=0)
-        self.lamda.grid(row=9, column=0)
+        self.vprasanje_gama.grid(row=8, column=0)
+        self.gama.grid(row=9, column=0)
         self.gumb_resitev.grid(row=10, column=0)
         self.lbl_value.grid(row=11, column=0)
         self.quitButton2.grid(row= 12, column=0)
@@ -777,7 +777,7 @@ class ROBUSTNI_PROBLEM_NADALJEVANJE:
         w = [(self.teza.get())]
         p = [self.vrednost.get()]
         maks_w = [self.teza_maks_w.get()]
-        lamda = int(self.lamda.get())
+        gama = int(self.gama.get())
         w1 = []
         for i in w[0].split(","):
             if i != ",":
@@ -797,7 +797,7 @@ class ROBUSTNI_PROBLEM_NADALJEVANJE:
         for i in range(1,len(p) + 1):
             N.add(i)
 
-        seznam = resitev(N,kapaciteta_c, w, p, lamda, maks_w)
+        seznam = resitev(N,kapaciteta_c, w, p, gama, maks_w)
         pravi_seznam = seznam[0]
         z_zvezdica = seznam[1]
         self.lbl_value["text"] = f"seznam predmetov, ki jih dodamo v nahrbtnik {pravi_seznam} \n in optimalna vrednost predmetov je {z_zvezdica}"
