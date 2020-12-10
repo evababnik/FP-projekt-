@@ -1,0 +1,34 @@
+17 "AES" "The AES Corporation" 20.795 21.34 4.87
+57 "BAC" "Bank of America Corporation" 28.79 29.15 -17.4
+61 "BEN" "Franklin Resources 23.37 24.185 -9.28
+67 "BKR" "Baker Hughes Company Class A" 21.55 22.4 -14.09
+85 "CCL" "Carnival Corporation & Plc" 22.97 23.89 -54.36
+106 "CNP" "CenterPoint Energy 22.455 23.08 -15.14
+135 "DISCA" "Discovery 27.825 28.835 -12.03
+136 "DISCK" "Discovery 24.665 25.56 -16.63
+149 "DXC" "DXC Technology Company" 24.04 24.41 -35.65
+181 "FE" "FirstEnergy Corp" 29.22 30.44 -39.36
+185 "FITB" "Fifth Third Bancorp" 27.02 27.46 -10.93
+190 "FOX" "Fox Corporation" 28.79 29.34 -19.48
+191 "FOXA" "Fox Corporation" 29.105 29.775 -19.94
+208 "GPS" "The Gap 20.84 21.675 20.31
+219 "HFC" "HollyFrontier Corporation" 26.72 27.85 -45.93
+226 "HPQ" "HP Inc" 23.375 23.755 15.23
+244 "IPG" "The Interpublic Group of Companies 23.585 23.94 3.2
+248 "IRM" "Iron Mountain Incorporated" 29.37 30.27 -7.5
+258 "JNPR" "Juniper Networks 21.4 21.86 -10.23
+304 "MGM" "MGM Resorts International" 29.51 30.3 -10.34
+313 "MOS" "The Mosaic Company" 22.045 22.74 1.89
+325 "NCLH" "Norwegian Cruise Line Holdings Ltd" 26.25 28.06 -54.63
+330 "NI" "NiSource Inc" 23.205 23.91 -14.08
+344 "NWL" "Newell Brands Inc" 20.505 21.08 12.36
+377 "PPL" "PPL Corporation" 28.69 29.235 -19.59
+410 "SLB" "Schlumberger Limited" 22.485 23.295 -43.21
+427 "T" "AT&T Inc" 29.47 30.925 -24.16
+440 "TPR" "Tapestry 28.985 29.755 10.27
+458 "UNM" "Unum Group" 23.295 23.88 -18.72
+483 "WFC" "Wells Fargo & Company" 28.415 29.29 -45.46
+487 "WMB" "The Williams Companies 21.42 22.35 -8.94
+492 "WU" "The Western Union Company" 21.53 21.8 -18.86
+493 "WY" "Weyerhaeuser Company" 29.885 31.01 0.1
+499 "XRX" "Xerox Holdings Corporation" 22.74 23.16 -37.67

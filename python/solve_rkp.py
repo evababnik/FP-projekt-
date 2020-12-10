@@ -489,7 +489,7 @@ def doloci_lamdo(stevilo_delnic, R):
 
 
 
-print(resitev_za_delnice('podatki\podatki za delnice\zadnjih_15.txt', 200))
+print(resitev_za_delnice('podatki\podatki za delnice\majhne_delnice.txt', 350))
 elapsed_time = time.time() - start_time
 print(elapsed_time)
 ##### ČE ŠE NIMAŠ SI MOREŠ ZAGNAT TOLE V TERMINALU ###
