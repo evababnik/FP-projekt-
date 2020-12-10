@@ -494,9 +494,9 @@ def doloci_lamdo(stevilo_delnic, R_popravljen):
 
 
 
-print(resitev_za_delnice('Robust-knapsack-problem/podatki/podatki za delnice/popravljeni_podatki.txt', 500))
-elapsed_time = time.time() - start_time
-print(elapsed_time)
+# print(resitev_za_delnice('Robust-knapsack-problem/podatki/podatki za delnice/popravljeni_podatki.txt', 500))
+# elapsed_time = time.time() - start_time
+# print(elapsed_time)
 
 
 import tkinter as tk
