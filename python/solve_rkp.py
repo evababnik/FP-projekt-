@@ -1,10 +1,19 @@
 """
 Robustni Problem Nahrbtinka
 """
+
+##### Za zagon programa boste potrebovali tudi paket pillow in numpy ###
+# Spodaj so primeri, ki so nama naložili želeno vsebino:
+
+# python3 -m pip install pillow (v terminal) ali
+# pip install pillow (v terminal)
+# pip3 install numpy (v terminal)
+
+
 import time
 start_time = time.time()
 def matrika(m,n):
-    return [[0] * (m+1) for _ in range(n+1)] #funkcija, ki naredi ničelno matriko m X n
+    return [[0] * (m+1) for _ in range(n+1)] #funkcija, ki naredi ničelno matriko (m+1) X (n+1)
 
 def v_seznam(N):
     N0 = []
@@ -54,11 +63,10 @@ def particija(N):
                 N2.append(el)
         return N1, N2
 
-# funkcija RKP vrne optimalno vrednost, optimalno težo pri tej vrednosti, koliko predmetov uporabimo in koliko predmetov uporabimo iz N1 (prve polovice predmetov)
-def RKP(N, c, w, p, lamda = None,  maks_w = None):
+# funkcija solve_RKP vrne optimalno vrednost, optimalno težo pri tej vrednosti, koliko predmetov uporabimo in koliko predmetov uporabimo iz N1 (prve polovice predmetov)
+def solve_RKP(N, c, w, p, lamda = None,  maks_w = None):
     # slovar predmetov spremenimo v resitev predmetov
     N = v_seznam(N)
-    # uporabiva funkcijo podatki, ki podatke spremeni v pravo obliko
     if len(N) == 1:
         if lamda != 0:
             if maks_w[0] <= c: #če imamo samo en element, ki spremeni svojo težo na maks_w <= c,
@@ -203,7 +211,6 @@ def solve_eKkP(N, c, w, p, k):   #algoritem je tu podoben kot pri Solve_KP, le d
             if z_zvezdica1 <= 0:
                 break
             elif z_zvezdica1 == z[i - 1][c][k]:
-                a = z[i - 1][c][k]
                 continue
             else:
                 element = N[i - 1]
@@ -276,7 +283,7 @@ def rekurzija(N, z_zvezdica, k_zvezdica, c_zvezdica, lamda, w, maks_w, p, resite
             for c_1 in range(c_zvezdica + 1): #potem seznam vstavljenih predmetov iz N2 dobimo s pomočjo
                 c1 = c_1                      #funkcije Solve_KP, problem za predmete iz N1, kjer največ
                 c2 = c1 - c_zvezdica          #lamda predmetov spremeni svojo težo, pa spet predstavlja 
-                z1_c_1 = RKP(N1, c_1, w1, p1, lamda, maks_w1)[0] #robustni problem nahrbtnika, zato spet pokličemo
+                z1_c_1 = solve_RKP(N1, c_1, w1, p1, lamda, maks_w1)[0] #robustni problem nahrbtnika, zato spet pokličemo
                 z2_c_2 = solve_KP(N2, c_zvezdica - c_1, w2, p2)[1] #funkcijo rekurzija
                 z1_c1 = z1_c_1
                 z2_c2 = z2_c_2
@@ -288,13 +295,13 @@ def rekurzija(N, z_zvezdica, k_zvezdica, c_zvezdica, lamda, w, maks_w, p, resite
                     break
             solution_set_kp = solve_KP(N2, c2, w2, p2)[0]
             resitev.append(solution_set_kp)
-            k1_zvezdica = RKP(N1, c1, w1, p1, lamda, maks_w1)[3]
+            k1_zvezdica = solve_RKP(N1, c1, w1, p1, lamda, maks_w1)[3]
             return rekurzija(N1, z1_c1 , k1_zvezdica, c1, lamda, w1, maks_w1, p1, resitev)        
         else: 
             for c_2 in range(c_zvezdica + 1):    #če je lamda večji od k, dobimo seznam predmetov iz množice
                 c2 = c_2                      #N1 s pomočjo funkcije solve_ekkp, za N2 pa spet pokličemo funkcijo rekurzija
                 c1 = c_zvezdica - c2
-                z2_c_2 = RKP(N2, c_zvezdica - c1, w2, p2, lamda - k_zvezdica, maks_w2)[0]
+                z2_c_2 = solve_RKP(N2, c_zvezdica - c1, w2, p2, lamda - k_zvezdica, maks_w2)[0]
                 z1_c_1 = solve_eKkP(N1, c1, maks_w1, p1, k_zvezdica)[1]
                 z1_c1 = z1_c_1
                 z2_c2 = z2_c_2
@@ -307,14 +314,14 @@ def rekurzija(N, z_zvezdica, k_zvezdica, c_zvezdica, lamda, w, maks_w, p, resite
                     break
             solution_set_eKkP = solve_eKkP(N1, c1, maks_w1, p1, k_zvezdica)[0]
             resitev.append(solution_set_eKkP)
-            k2_zvezdica = RKP(N2, c2, w2, p2, lamda - k_zvezdica, maks_w2)[3]
+            k2_zvezdica = solve_RKP(N2, c2, w2, p2, lamda - k_zvezdica, maks_w2)[3]
             c2 = c_zvezdica - c1
             return rekurzija(N2, z2_c2, k2_zvezdica, c2,lamda - k_zvezdica, w2, maks_w2, p2, resitev)
  
 def resitev(N, c, w, p, lamda = None, maks_w = None): #funkcija nam vrne končno rešitev: 
-    k_zvezdica = RKP(N, c, w, p, lamda, maks_w)[3]     #seznam vstavljenih predmetov in vrednost
-    z_zvezdica = RKP(N, c, w, p, lamda, maks_w)[0]
-    c_zvezdica = RKP(N, c, w, p, lamda, maks_w)[1]
+    k_zvezdica = solve_RKP(N, c, w, p, lamda, maks_w)[3]     #seznam vstavljenih predmetov in vrednost
+    z_zvezdica = solve_RKP(N, c, w, p, lamda, maks_w)[0]
+    c_zvezdica = solve_RKP(N, c, w, p, lamda, maks_w)[1]
     resitev = rekurzija(N, z_zvezdica, k_zvezdica, c_zvezdica, lamda, w, maks_w, p)
     while resitev != naredi_pravi_seznam(resitev):
         resitev = naredi_pravi_seznam(resitev)
@@ -470,14 +477,11 @@ def resitev_za_delnice(datoteka, budget):
 #N, p, maks_p, r, seznam_kolicine_delnic, imena_delnic = (preberi_podatke_za_delnice('podatki\podatki za delnice\zadnjih_15.txt', 2000))
 #print(resitev_za_delnice(N, 2000, p, r, 2, maks_p, seznam_kolicine_delnic, imena_delnic))
 
-# pip3 install numpy
+
 from numpy import random
-def doloci_lamdo(stevilo_delnic, R):
-    R_popravljen = []
-    for el in R:
-        R_popravljen.append(el * 0.01)
-    stevilo_delnic = len(R_popravljen)  
-    R_skupen = sum(R_popravljen)
+def doloci_lamdo(stevilo_delnic, R_popravljen):
+    stevilo_delnic = len(R_popravljen) 
+    R_skupen = sum(R_popravljen)/100 
     R_povprecen = (R_skupen / stevilo_delnic)   
     if R_povprecen < 0:
         R_povprecen = 0
@@ -489,13 +493,10 @@ def doloci_lamdo(stevilo_delnic, R):
 
 
 
-print(resitev_za_delnice('podatki\podatki za delnice\majhne_delnice.txt', 350))
-elapsed_time = time.time() - start_time
-print(elapsed_time)
-##### ČE ŠE NIMAŠ SI MOREŠ ZAGNAT TOLE V TERMINALU ###
-# python3 -m pip install pillow v bash (terminal)
+# print(resitev_za_delnice('Robust-knapsack-problem/podatki/podatki za delnice/popravljeni_podatki.txt', 500))
+# elapsed_time = time.time() - start_time
+# print(elapsed_time)
 
-# pip install pillow (za windows)
 
 import tkinter as tk
 
