@@ -1,8 +1,8 @@
-Psevodokodi za solve_RKP in rekurzija
+psevodokodi za solve_RKP in rekurzija
 
 def solve_RKP(N, c, w, p, gama = None,  max_w = None):
-    Najprej uredimo podatke po padajoči teži (max_w - w)
-    Če je max_w = None, uredimo podatke padajoče po teži (w)
+    najprej uredimo podatke po padajoči teži (max_w - w)
+    če je max_w = None, uredimo podatke padajoče po teži (w)
 
     Naredimo matrike Z, K, G ter nastavimo začetne pogoje
     Element v prvi vrstici in prvem stolpcu matrike nastavimo na 0 vse ostale na minus neskončno:
@@ -10,7 +10,7 @@ def solve_RKP(N, c, w, p, gama = None,  max_w = None):
         for s in range(gama + 1): 
             Z[d][s]= float("-inf")
     Z[0][0] = 0  
-    Analogno naredimo še matriki K in G
+    analogno naredimo še matriki K in G
 
     izberemo j-ti predmet:
     for j in range(len(N)): 
@@ -31,17 +31,17 @@ def solve_RKP(N, c, w, p, gama = None,  max_w = None):
                     if j  >= ((len(N) / 2)):
                         G[d][s] = 1 + G[d - maks_w[j]][s - 1]
 
-        Največji člen matrike Z je z*:
+        največji člen matrike Z je z*:
         z* = max([max(i) for i in Z])
 
-        Pogledamo kje v matriki se nahaja z*:
+        pogledamo kje v matriki se nahaja z*:
         pozicija = [[index, vrstica.index(z_zvedica)] for index, vrstica in enumerate(Z) if z_zvedica in vrstica]
 
         vrstica ter stolpec maksimalne vrednosti predstavljata skupno težo vstavljenih predmetov:
         c* = pozicija[0][0]
         število_predmetov_s_povečano_težo = pozicija[0][-1] #to je število predmetov, ki se jim je spremenila teža
 
-        Najdemo k* ter g1, ki pomeni koliko elementov iz N2(druga polovica predmetov v N) je v optimalni rešitvi:
+        najdemo k* ter g1, ki pomeni koliko elementov iz N2(druga polovica predmetov v N) je v optimalni rešitvi:
         g1 = G[c*][število_predmetov_s_povečano_težo] 
         k* = K[c*][število_predmetov_s_povečano_težo] 
         g* = k* - g1
