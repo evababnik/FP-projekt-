@@ -1,4 +1,4 @@
-# Psevodokodi za solve_RKP in rekurzija 
+Psevodokodi za solve_RKP in rekurzija 
 
 def solve_RKP(N, c, w, p, lamda = None,  max_w = None):
     # slovar predmetov spremenimo v resitev predmetov
