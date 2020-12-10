@@ -230,7 +230,9 @@ def naredi_pravi_seznam(resitev): #funkcija vgnezden seznam spremeni v navaden s
             nov_sez.append(el)
     return(nov_sez)
 #funkcija, ki deluje na principu rekurzije in nam vrne seznam stvari, ki jih vstavimo v nahrbtnik
-def rekurzija(N, z_zvezdica, k_zvezdica, c_zvezdica, gama, w, maks_w, p, resitev=[]):
+def rekurzija(N, z_zvezdica, k_zvezdica, c_zvezdica, gama, w, maks_w, p, resitev=None):
+    if resitev is None:
+        resitev = []
     if len(N) == 1 and resitev == []:
         if gama != 0:
             if maks_w[0] <= c_zvezdica:
@@ -454,7 +456,7 @@ from collections import Counter
 def resitev_za_delnice(datoteka, budget):
     N, p, maks_p, r, seznam_kolicine_delnic, imena_delnic, R = preberi_podatke_za_delnice(datoteka, budget)
     #gama = 2
-    gama = doloci_lamdo(len(seznam_kolicine_delnic), R)
+    gama = doloci_gamo(len(seznam_kolicine_delnic), R)
     resitev1 = resitev(N,budget,p, r,gama,maks_p)[0]
     z_zvezdica = resitev(N,budget, p, r,gama, maks_p)[1]
     nov_seznam = []
@@ -493,7 +495,7 @@ def doloci_gamo(stevilo_delnic, R_popravljen):
 
 
 
-# print(resitev_za_delnice('Robust-knapsack-problem/podatki/podatki za delnice/popravljeni_podatki.txt', 500))
+print(resitev_za_delnice('podatki\podatki za delnice\zadnjih_15.txt', 200))
 # elapsed_time = time.time() - start_time
 # print(elapsed_time)
 
