@@ -4,8 +4,8 @@ def solve_RKP(N, c, w, p, gama = None,  max_w = None):
     najprej uredimo podatke po padajoči teži (max_w - w)
     če je max_w = None, uredimo podatke padajoče po teži (w)
 
-    Naredimo matrike Z, K, G ter nastavimo začetne pogoje
-    Element v prvi vrstici in prvem stolpcu matrike nastavimo na 0 vse ostale na minus neskončno:
+    naredimo matrike Z, K, G ter nastavimo začetne pogoje
+    element v prvi vrstici in prvem stolpcu matrike nastavimo na 0 vse ostale na minus neskončno:
     for d in range(c + 1): 
         for s in range(gama + 1): 
             Z[d][s]= float("-inf")
