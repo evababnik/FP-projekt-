@@ -17,7 +17,8 @@
 \usepackage{amsthm}
 
 \usepackage[output-decimal-marker={,}]{siunitx}
-
+\theoremstyle{definition}
+\newtheorem{definition}{Lema}
 \begin{document}
 \title{Robustni problem nahrbtnika}
 \author{Eva Babnik in Jan Založnik}
@@ -170,7 +171,33 @@ predmetov, ki jih damo v nahrbtnik) ter $g^{*}$ (število predmetov iz prve polo
 vrednosti potrebujemo kasneje v funkciji \textit{rekurzija}, da lahko dobimo seznam predmetov,ki jih bomo položili v nahrbtnik. V primeru ko 
 ne podamo neobveznih argumentov $\Gamma$ in $max\_w$ nam funkcija \textit{solve\_RKP} vrne podobne optimalne vrednosti kot prej, le da tokrat 
 reši KP.
+\par
 
+
+Optimalni seznam stvari, ki jih vstavimo v nahrbtnik sva dobila s pomočjo funkcije $rekurzija$,
+ki sprejme argumente $N, z^*, k^*, c^*,  \Gamma, w, \overline{w}_{j}, p$ in neobvezen argument 
+$rešitev$,  pri čemer sva množico stvari $N$ razdelila na dva dela: $N = N_1 \cup N_2$ , za 
+katera velja $N_1 = \{1, ..., n / 2\} $ in $N_2 = \{n / 2 + 1, ..., n\}$. Za primer ko je $n$ 
+liho število, pa sva za elemente množice $N_1$ vzela prvih $n / 2 + 1$ predmetov. Po izračunu
+optimalne vrednosti s pomočjo funkcije $RKP$ sva optimalni seznam stvari dobila rekurzivno za 
+vsako množico stvari $N_i$, pri čemer sva si pomagala še z dvema funkcijama, pri katerih gre 
+za različici problema nahrbtnika; s funkcijo \textit{Solve\_KP}, ki reši navadni problem
+nahrbtnika, ki je opisan na začetku poročila in s funkcijo \textit{Solve\_EkKP}, ki reši 
+problem nahrbtnika z omejenim številom predmetov, ki je podobnen navadnemu problemu nahrbtnika, 
+le da tu dodamo še omejitev:
+\begin{equation}
+\sum_{i=1}^{n}x_i = k
+\end{equation} kjer $k$ pomeni dovoljeno število predmetov v nahrbtniku.
+Najna delitev problema da dva dela temelji na naslednji lemi:
+\begin{definition}
+Če je $k^* \geq \Gamma$, potem je optimalna rešitev sestavljena iz rešitve za robustni problem 
+nahrbtnika s parametrom $\Gamma$ za predmete iz množice $N_1$ in iz rešitve za navadni problem 
+nahrbtnika za predmete iz množice $N_2$, pri čemer upoštevamo njihove nominalne teže. 
+V primeru ko  je $k* < \Gamma$, pa je optimalna rešitev sestavljena iz rešitev za
+\textit{E\-kKp} s parametrom $k^*$ za predmete iz množice $N_1$ z njihovimi maksimalnimi 
+težami in iz rešitve za robustni problem nahrbtnika s parametrom   $\Gamma - k^*$ za predmete 
+iz množice $N_2$.
+\end{definition}
 
 
 
