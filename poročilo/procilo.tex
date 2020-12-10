@@ -186,6 +186,7 @@ nahrbtnika, ki je opisan na začetku poročila in s funkcijo \textit{Solve\_EkKP
 problem nahrbtnika z omejenim številom predmetov, ki je podobnen navadnemu problemu nahrbtnika, 
 le da tu dodamo še omejitev:
 \begin{equation}
+\tag*{}   
 \sum_{i=1}^{n}x_i = k
 \end{equation} kjer $k$ pomeni dovoljeno število predmetov v nahrbtniku.
 Najna delitev problema da dva dela temelji na naslednji lemi:
@@ -198,6 +199,33 @@ V primeru ko  je $k* < \Gamma$, pa je optimalna rešitev sestavljena iz rešitev
 težami in iz rešitve za robustni problem nahrbtnika s parametrom   $\Gamma - k^*$ za predmete 
 iz množice $N_2$.
 \end{definition}
+
+\section{Optimizacija portfeljev s pomočjo RKP}
+Kodo za robustni problem nahrbtinka sva nato uporabila na poenostavljenem finančnem modelu,
+kjer naju je zanimalo iz katerih delnic sestaviti optimalni portelj, pri čemer so cene delnic
+negotove. 
+\par
+Recimo, da imamo M delnic, pri čemer imamo za vsako delnico $j$ na voljo ceno $P_j$, visoko ceno 
+$\overline{P}_{j}$ in nizko ceno $\underline{P}_{j}$, ter pričakovani donos delnice $R_j$. Zanima 
+nas koliko delnic posameznega podjetja $j$ kupiti, da bo pričakovani dobiček čimvišji in da ob tem nakupu
+ne bomo presegli količine denarja $B$, namenjenega investiranju. Opisan primer lahko formuliramo 
+na naslednji način:
+\begin{equation}
+\tag*{}
+     max \sum_{j \in M} P_{j}(1 + R_{j})N_{j}x_{j}
+\end{equation}
+\begin{equation}
+\tag*{}
+    \sum_{j \in M} p_{j}N_{j}x_{j} \leq B    
+\end{equation}
+\begin{equation}
+\tag*{}
+    p_{j} \in [P_{j} - \underline{P}_{j}, P_{j} + \overline{P}_{j}]
+\end{equation}
+\begin{equation}
+\tag*{}
+    x_{j} \in \{0,1\}, j \in M
+\end{equation}
 
 
 
