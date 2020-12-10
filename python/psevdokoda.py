@@ -35,3 +35,55 @@ def solve_RKP(N, c, w, p, lamda = None,  max_w = None):
         k_zvezdica = k[c_zvezdica][stevilo_predmetov_s_povecano_tezo] #na istem mestu kot z_zvezdica se nahaja tudi število vseh vstavljenih predmetov v optimalni rešitvi
         g_zvezdica = k_zvezdica - g1 #g_zvezdica = št.elementov v N1, k_zvezdica = št. vseh elementov
         return [z_zvedica, c_zvezdica, k_zvezdica, g_zvezdica]
+
+def rekurzija(N, z*, k*, c*, lamda, w, maks_w, p, vstavljeni_predmeti=[]):
+    if len(N) == 1 and vstavljeni_predmeti == []:
+        if lamda != 0:
+            if maks_w[0] <= c*:
+                return N
+        else:
+            if w[0] <= c*:
+                return N
+    elif len(N) == 1 and vstavljeni_predmeti != []:
+        if lamda != 0:
+            if maks_w[0] <= c*:
+                vstavljeni_predmeti.append(N[0])
+                return(vstavljeni_predmeti)
+            else: 
+                return(vstavljeni_predmeti)
+        else:
+            if w[0] <= c*:
+                vstavljeni_predmeti.append(N[0])
+                return(vstavljeni_predmeti)
+    else:
+        uredi predmete po padajoči vrednosti (maks_w - w)
+        polovica =(len(N) / 2 )
+        if n % 2 == 0: 
+           N1, N2 = N[:polovica], N[polovica:]
+           w1, w2 = w[:polovica], w[polovica:] 
+           maks_w1, maks_w2 = maks_w[:polovica], maks_w[polovica:]
+           p1, p2 = p[:polovica], p[polovica:]
+        else:
+           N1, N2 = N[:polovica + 1], w[polovica + 1:]
+           w1, w2 = w[:polovica + 1], w[polovica + 1:] 
+           maks_w1, maks_w2 = maks_w[:polovica + 1], maks_w[polovica + 1:]
+           p1, p2 = p[:polovica + 1], p[1+ polovica:]
+        if k* >= lamda: 
+            najdi tako kombinacijo c1 + c2 = c*, da bo 
+            z1(c1) + z2(c2) = z*, pri čemer z1(c1) ter z1(c2)
+            dobimo kot:
+            z1(c1) = RKP(N1, c1, w1, p1, lamda, maks_w1)[0] 
+            z2(c2) = solve_KP(N2, c2, w2, p2)[1]
+            solution_set_kp = solve_KP(N2, c2, w2, p2)[0]
+            vstavljeni_predmeti.append(solution_set_kp)
+            k1* = RKP(N1, c1, w1, p1, lamda, maks_w1)[3]
+            return rekurzija(N1, z1(c1) , k1*, c1, lamda, w1, maks_w1, p1, vstavljeni_predmeti)        
+        else: 
+            najdi tako kombinacijo c1 + c2 = c*, da bo 
+            z1(c1) + z2(c2) = z*, pri čemer z1(c1) ter z1(c2)
+            dobimo kot:    
+            z1(c1) = solve_eKkP(N1, c1, maks_w1, p1, k*)[1]
+            z2(c2) = RKP(N2, c* - c1, w2, p2, lamda - k*, maks_w2)[0]
+            solution_set_eKkP = solve_eKkP(N1, c1, maks_w1, p1, k*)[0]
+            k2* = RKP(N2, c2, w2, p2, lamda - k*, maks_w2)[3]
+            return rekurzija(N2, z2(c2), k2*, c2,lamda - k*, w2, maks_w2, p2, vstavljeni_predmeti)

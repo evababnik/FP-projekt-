@@ -211,7 +211,6 @@ def solve_eKkP(N, c, w, p, k):   #algoritem je tu podoben kot pri Solve_KP, le d
             if z_zvezdica1 <= 0:
                 break
             elif z_zvezdica1 == z[i - 1][c][k]:
-                a = z[i - 1][c][k]
                 continue
             else:
                 element = N[i - 1]
