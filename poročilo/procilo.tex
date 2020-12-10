@@ -46,7 +46,7 @@ Poročilo se prične s kratko predstavitvijo navadnega oziroma klasičnega probl
 robustnega problema nahrbtnika. V robustnem primer problema nahrbtnika prav tako kot pri klasičnemu problemu iščemo 
 množico predmetov, ki jih bomo položili v nahrbtnik in njihovo optimalno vrednost, vendar v tem primeru nimamo točnih podatkov o 
 vseh težah predmetov. Za njihove teže vemo le, da so element določenega zaprtega intervala, ki torej ima zgornjo in spodnjo mejo.
-Poleg intervalov tež predmetov pa še vemo maksimalno število elementov, ki lahko spremeni svojo težo, to število označimo z $\lambda$.
+Poleg intervalov tež predmetov pa še vemo maksimalno število elementov, ki lahko spremeni svojo težo, to število označimo z $\Gamma$.
 \paragraph{}
 Za sledeči problem sva s pomočjo dinamičnega programiranja napisala rekurzivne enačbe, na katerih bazira
 najina koda v programskem jeziku \textit{python}. Napisala sva program, ki reši tako klasični problem nahrbtnika kot 
@@ -158,8 +158,8 @@ za izračun RKP.
 \medskip
 
 \begin{figure}[hb!]
-    \includegraphics[width=13cm]{opis_kode1.png}
-    \caption{Prvi del kode}
+    \includegraphics[width=13cm]{opis_kode.png}
+    \caption{\textit{solve\_RKP}}
     \label{fig:koda1}    
 \end{figure}
 \paragraph{}
