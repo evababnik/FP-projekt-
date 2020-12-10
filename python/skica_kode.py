@@ -1,5 +1,3 @@
-psevodokodi za solve_RKP in rekurzija
-
 def solve_RKP(N, c, w, p, gama = None,  max_w = None):
     najprej uredimo podatke po padajoči teži (max_w - w)
     če je max_w = None, uredimo podatke padajoče po teži (w)
