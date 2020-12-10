@@ -65,7 +65,7 @@ def particija(N):
 
 # funkcija solve_RKP vrne optimalno vrednost, optimalno težo pri tej vrednosti, koliko predmetov uporabimo in koliko predmetov uporabimo iz N1 (prve polovice predmetov)
 def solve_RKP(N, c, w, p, lamda = None,  maks_w = None):
-    # slovar predmetov spremenimo v resitev predmetov
+    # slovar predmetov spremenimo v seznam(resitev) predmetov
     N = v_seznam(N)
     if len(N) == 1:
         if lamda != 0:
