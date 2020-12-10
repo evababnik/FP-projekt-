@@ -140,7 +140,8 @@ def solve_RKP(N, c, w, p, gama = None,  maks_w = None):
         g_zvezdica = k_zvezdica - g1 #g_zvezdica = št.elementov v N1, k_zvezdica = št. vseh elementov
         return [z_zvedica, c_zvezdica, k_zvezdica, g_zvezdica]
 
-
+# Primer iz poročila
+# solve_RKP({1,2,3,4,5,6,7,8,9,10}, 20, [4,2,6,5,2,1,7,3,5,2], [8,5,17,10,14,4,6,8,9,25], 4, [5,4,6,7,4,4,7,4,5,3])
 # Solve_KP vrne seznam predmetov in optimalno vrednost, če je gama = 0, torej to je navadni problem nahrbtnika
 def solve_KP(N, c, w, p):  
     n = len(N)
@@ -495,7 +496,7 @@ def doloci_gamo(stevilo_delnic, R_popravljen):
 
 
 
-print(resitev_za_delnice('podatki\podatki za delnice\zadnjih_15.txt', 200))
+# print(resitev_za_delnice('podatki\podatki za delnice\zadnjih_15.txt', 200))
 # elapsed_time = time.time() - start_time
 # print(elapsed_time)
 
@@ -657,7 +658,7 @@ class NAVADNI_PROBLEM_NADALJEVANJE:
     def __init__(self, master):
         self.master = master
         self.frame = tk.Frame(self.master)
-        self.master.title("Robustni problem nahrbtnika")
+        self.master.title("Navadni problem nahrbtnika")
         self.master.geometry("590x284+440+300")
         
         # gumbi 
@@ -801,6 +802,7 @@ class ROBUSTNI_PROBLEM_NADALJEVANJE:
 
         seznam = resitev(N,kapaciteta_c, w, p, gama, maks_w)
         pravi_seznam = seznam[0]
+        pravi_seznam = sorted(pravi_seznam)
         z_zvezdica = seznam[1]
         self.lbl_value["text"] = f"seznam predmetov, ki jih dodamo v nahrbtnik {pravi_seznam} \n in optimalna vrednost predmetov je {z_zvezdica}"
 

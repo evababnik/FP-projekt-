@@ -4,5 +4,9 @@
 \BOOKMARK [1][-]{section.4}{Robustni problem nahrbtnika}{}% 4
 \BOOKMARK [1][-]{section.5}{Pristop z dinamicnim programiranjem}{}% 5
 \BOOKMARK [1][-]{section.6}{Opis kode}{}% 6
-\BOOKMARK [1][-]{section.7}{Optimizacija portfeljev s pomocjo RKP}{}% 7
-\BOOKMARK [1][-]{section.8}{Viri in literatura}{}% 8
+\BOOKMARK [2][-]{subsection.6.1}{Solve\137RKP}{section.6}% 7
+\BOOKMARK [3][-]{subsubsection.6.1.1}{Primer Solve\137RKP}{subsection.6.1}% 8
+\BOOKMARK [2][-]{subsection.6.2}{Rekurzija}{section.6}% 9
+\BOOKMARK [1][-]{section.7}{Optimizacija portfeljev s pomocjo RKP}{}% 10
+\BOOKMARK [1][-]{section.8}{Graficni vmesnik}{}% 11
+\BOOKMARK [1][-]{section.9}{Viri in literatura}{}% 12
