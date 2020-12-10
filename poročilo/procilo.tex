@@ -154,6 +154,13 @@ dosegli večjo težo.
 V prilogi sva dodala kodo napisano v \textit{pythonu}, ki je ustrezno komentirana pri bolj zapletenih 
 funkcijah, tukaj pa bova še podrobneje prikazala funkciji \textit{solve\_RKP} in \textit{rekurzija}, ki sta glavni komponenti
 za izračun RKP. 
+\medskip
+
+\begin{figure}[hb!]
+    \includegraphics[width=13cm]{opis_kode1.png}
+    \caption{Prvi del kode}
+    \label{fig:koda1}    
+\end{figure}
 \paragraph{}
 Funkcija \textit{solve\_RKP} sprejme štiri obvezne argumente: množico predmetov $N$ oblike
 $\{1, \dots, n\}$, kjer je $n$ število predmetov; kapaciteto nahrbtnika $c$; teže predmetov $w$; vrednosti predmetov $p$ in dva neobvezna
@@ -163,6 +170,8 @@ predmetov, ki jih damo v nahrbtnik) ter $g^{*}$ (število predmetov iz prve polo
 vrednosti potrebujemo kasneje v funkciji \textit{rekurzija}, da lahko dobimo seznam predmetov,ki jih bomo položili v nahrbtnik. V primeru ko 
 ne podamo neobveznih argumentov $\Gamma$ in $max\_w$ nam funkcija \textit{solve\_RKP} vrne podobne optimalne vrednosti kot prej, le da tokrat 
 reši KP.
+
+
 
 
 

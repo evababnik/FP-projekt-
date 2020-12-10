@@ -1,7 +1,6 @@
 def solve_RKP(N, c, w, p, gama = None,  max_w = None):
     najprej uredimo podatke po padajoči teži (max_w - w)
     če je max_w = None, uredimo podatke padajoče po teži (w)
-
     naredimo matrike Z, K, G ter nastavimo začetne pogoje
     element v prvi vrstici in prvem stolpcu matrike nastavimo na 0 vse ostale na minus neskončno:
     for d in range(c + 1): 
@@ -9,7 +8,6 @@ def solve_RKP(N, c, w, p, gama = None,  max_w = None):
             Z[d][s]= float("-inf")
     Z[0][0] = 0  
     analogno naredimo še matriki K in G
-
     izberemo j-ti predmet:
     for j in range(len(N)): 
         j-ti predmet poskusimo dodati v nahrbtnik v svoji nominalni teži pri pogoju, da smo že vstavili gama predmetov
@@ -19,7 +17,6 @@ def solve_RKP(N, c, w, p, gama = None,  max_w = None):
                 K[d][gama] = 1 + K[d - w[j]][gama]
                 if j  >= ((len(N) / 2)):
                     G[d][gama] = 1 + G[d - w[j]][gama]
-
         j-ti predmet poskusimo dodati v svoji robustni teži:            
         for s in range(gama, 0, -1):
             for d in range(c, maks_w[j] - 1, -1):
@@ -28,13 +25,10 @@ def solve_RKP(N, c, w, p, gama = None,  max_w = None):
                     K[d][s] = 1 + K[d - maks_w[j]][s-1] 
                     if j  >= ((len(N) / 2)):
                         G[d][s] = 1 + G[d - maks_w[j]][s - 1]
-
         največji člen matrike Z je z*:
         z* = max([max(i) for i in Z])
-
         pogledamo kje v matriki se nahaja z*:
         pozicija = [[index, vrstica.index(z_zvedica)] for index, vrstica in enumerate(Z) if z_zvedica in vrstica]
-
         vrstica ter stolpec maksimalne vrednosti predstavljata skupno težo vstavljenih predmetov:
         c* = pozicija[0][0]
         število_predmetov_s_povečano_težo = pozicija[0][-1] #to je število predmetov, ki se jim je spremenila teža
