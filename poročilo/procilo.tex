@@ -32,10 +32,15 @@
 
 \newpage
 \section{Uvod}
-
+\medskip
+Namen tega poročila je, da predstaviva robustni problem nahrbtnika in kodo s katero sva ga rešila. Kodo bova sproti 
+ustrezno komentirala ter dodala njeno časovno zahtevnost. Vključila bova tudi nekaj primerov in zraven dodala še časovne vrednosti, ki jih je program
+potreboval za izračun rešitve. Program bova potem poskušala uporabiti na finančnem modelu. Podatke iz ameriške borze bova
+uporabila na kodi za robustni problem in tako poskušala sestaviti optimalni portfelj. Prav tako bova tudi tu dodala primere in 
+njihovo časovno zahtevnost.
 
 \section{Povzetek}
-
+\medskip
 Poročilo se prične s kratko predstavitvijo navadnega oziroma klasičnega problema nahrbtnika in nato še z razlago 
 robustnega problema nahrbtnika. V robustnem primer problema nahrbtnika prav tako kot pri klasičnemu problemu iščemo 
 množico predmetov, ki jih bomo položili v nahrbtnik in njihovo optimalno vrednost, vendar v tem primeru nimamo točnih podatkov o 
@@ -113,7 +118,7 @@ iz množice $\{ 1,\dots,j \} \in N $ in naj jih le $\Gamma $ spremeni težo iz n
 Torej velja $d = 0, 1, \dots, c$; $s = 0, 1, \dots, \Gamma$ in $ j = 0, 1, \dots, n$.
 Ključna lastnost pravilnosti tega pristopa je predpostavka, da so predmeti razvrščeni po padajoči teži $\hat{w}_j$. 
 Problem lahko zapišemo z naslednjimi rekurzivnimi zvezami: 
-\begin{equation}
+\begin{equation}  
     \tag*{}
     \begin{matrix}
     \bar{z}(d, s, j) = max\{ \bar{z}(d, s, j - 1), \bar{z}(d - \hat{w}_j, s- 1, j - 1) + p_j\} \\
@@ -122,7 +127,7 @@ Problem lahko zapišemo z naslednjimi rekurzivnimi zvezami:
     z(d, j) = max\{z(d, j - 1), z (d - w_j, j - 1) + p_j\} \\
     \text{za} \; \; d = 0,\dots, c\;\;\text{in}\;\: j = \Gamma + 1,\dots, n.
     \end{matrix}
-\end{equation}
+\end{equation} 
 
 \noindent Začetna vrednost je $\bar{z}(d, s, 0) = -\infty$ za $d = 0, \dots,c$ in s = $0, \dots, \Gamma$. 
 Nato nastavimo $\bar{z}(0, 0, 0) = 0$. Oba zapisa sta med seboj povezana z enakostjo $z(d, \Gamma) = 
@@ -134,6 +139,7 @@ max\{z(d, n) |\; d = 1, \dots, c \\
 max\{\bar{z}(d, s, n) |\; d = 1, \dots, c; \;s = 1, \dots, \Gamma -1\}
 \end{cases}
 \end{equation}
+\medskip
 kjer porabimo tudi celotno kapaciteto nahrbtnika $c^{*} \leq c$.
 \par
 Algoritem dinamičnega programiranja je sestavljen iz dveh korakov. V prvem koraku dobimo optimalno 
