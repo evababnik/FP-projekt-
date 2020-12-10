@@ -1,11 +1,11 @@
 # Fdb version 3
-["pdflatex"] 1607617714 "/Users/zaloznikjan/Desktop/fp/Robust-knapsack-problem/poročilo/procilo.tex" "/Users/zaloznikjan/Desktop/fp/Robust-knapsack-problem/poročilo/procilo.pdf" "procilo" 1607617717
-  "/Users/zaloznikjan/Desktop/fp/Robust-knapsack-problem/poročilo/opis_kode1.png" 1607616502 387543 3700527ec034e13fc0144f783650184c ""
-  "/Users/zaloznikjan/Desktop/fp/Robust-knapsack-problem/poročilo/procilo.aux" 1607617716 1977 10ac8119037d9152730849e6150860d4 "pdflatex"
-  "/Users/zaloznikjan/Desktop/fp/Robust-knapsack-problem/poročilo/procilo.lof" 1607617716 106 6dbbfbc000f1efffd7cc7d843d096f3a "pdflatex"
-  "/Users/zaloznikjan/Desktop/fp/Robust-knapsack-problem/poročilo/procilo.out" 1607617716 364 2f5776230aa5a1b829bc7ce35b219ab2 "pdflatex"
-  "/Users/zaloznikjan/Desktop/fp/Robust-knapsack-problem/poročilo/procilo.tex" 1607617706 11243 3aa02f5498c4db3c30f1cfd77ccc33c9 ""
-  "/Users/zaloznikjan/Desktop/fp/Robust-knapsack-problem/poročilo/procilo.toc" 1607617716 668 a6c0ee1d3bd0578a58a9a4f19301c637 "pdflatex"
+["pdflatex"] 1607620047 "/Users/zaloznikjan/Desktop/fp/Robust-knapsack-problem/poročilo/procilo.tex" "/Users/zaloznikjan/Desktop/fp/Robust-knapsack-problem/poročilo/procilo.pdf" "procilo" 1607620050
+  "/Users/zaloznikjan/Desktop/fp/Robust-knapsack-problem/poročilo/opis_kode.png" 1607618020 428701 65de1e2224466dc1abdc6e2de266b907 ""
+  "/Users/zaloznikjan/Desktop/fp/Robust-knapsack-problem/poročilo/procilo.aux" 1607620049 1992 05736f4d959859f032c9a7f0027c9458 "pdflatex"
+  "/Users/zaloznikjan/Desktop/fp/Robust-knapsack-problem/poročilo/procilo.lof" 1607620049 113 9d67b2c373c132cd3e3f5fa1238104f2 "pdflatex"
+  "/Users/zaloznikjan/Desktop/fp/Robust-knapsack-problem/poročilo/procilo.out" 1607620049 364 2f5776230aa5a1b829bc7ce35b219ab2 "pdflatex"
+  "/Users/zaloznikjan/Desktop/fp/Robust-knapsack-problem/poročilo/procilo.tex" 1607620043 11247 525381058f3b0a38129e1e1f5a95a237 ""
+  "/Users/zaloznikjan/Desktop/fp/Robust-knapsack-problem/poročilo/procilo.toc" 1607620049 668 a6c0ee1d3bd0578a58a9a4f19301c637 "pdflatex"
   "/usr/local/texlive/2020/texmf-dist/fonts/enc/dvips/lm/lm-ec.enc" 1254269338 2375 baa924870cfb487815765f9094cf3728 ""
   "/usr/local/texlive/2020/texmf-dist/fonts/enc/dvips/lm/lm-mathex.enc" 1202520719 3486 c7eadf5dcc57b3b2d11736679f6636ba ""
   "/usr/local/texlive/2020/texmf-dist/fonts/enc/dvips/lm/lm-mathit.enc" 1202520719 2405 5dcf2c1b967ee25cc46c58cd52244aed ""
@@ -143,9 +143,9 @@
   "/usr/local/texlive/2020/texmf-var/web2c/pdftex/pdflatex.fmt" 1587068173 2432950 08f75a0c15bfce66b95d90e84a340d7b ""
   "/usr/local/texlive/2020/texmf.cnf" 1586288231 577 d60164b4589a341208aff7a667fbbdcb ""
   (generated)
-  "/Users/zaloznikjan/Desktop/fp/Robust-knapsack-problem/poročilo/procilo.aux"
-  "/Users/zaloznikjan/Desktop/fp/Robust-knapsack-problem/poročilo/procilo.pdf"
-  "/Users/zaloznikjan/Desktop/fp/Robust-knapsack-problem/poročilo/procilo.out"
-  "/Users/zaloznikjan/Desktop/fp/Robust-knapsack-problem/poročilo/procilo.toc"
   "/Users/zaloznikjan/Desktop/fp/Robust-knapsack-problem/poročilo/procilo.lof"
+  "/Users/zaloznikjan/Desktop/fp/Robust-knapsack-problem/poročilo/procilo.pdf"
+  "/Users/zaloznikjan/Desktop/fp/Robust-knapsack-problem/poročilo/procilo.toc"
+  "/Users/zaloznikjan/Desktop/fp/Robust-knapsack-problem/poročilo/procilo.out"
+  "/Users/zaloznikjan/Desktop/fp/Robust-knapsack-problem/poročilo/procilo.aux"
   "/Users/zaloznikjan/Desktop/fp/Robust-knapsack-problem/poročilo/procilo.log"

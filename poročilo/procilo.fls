@@ -230,13 +230,13 @@ INPUT /usr/local/texlive/2020/texmf-dist/fonts/tfm/public/lm/ec-lmbx12.tfm
 OUTPUT /Users/zaloznikjan/Desktop/fp/Robust-knapsack-problem/poročilo/procilo.toc
 INPUT /Users/zaloznikjan/Desktop/fp/Robust-knapsack-problem/poročilo/procilo.lof
 INPUT /Users/zaloznikjan/Desktop/fp/Robust-knapsack-problem/poročilo/procilo.lof
-OUTPUT /Users/zaloznikjan/Desktop/fp/Robust-knapsack-problem/poročilo/procilo.lof
 INPUT /usr/local/texlive/2020/texmf-dist/fonts/tfm/public/lm/ec-lmri12.tfm
+OUTPUT /Users/zaloznikjan/Desktop/fp/Robust-knapsack-problem/poročilo/procilo.lof
 INPUT /usr/local/texlive/2020/texmf-dist/fonts/tfm/public/lm/ec-lmr8.tfm
 INPUT /usr/local/texlive/2020/texmf-dist/fonts/tfm/public/lm/ec-lmr6.tfm
-INPUT /Users/zaloznikjan/Desktop/fp/Robust-knapsack-problem/poročilo/opis_kode1.png
-INPUT /Users/zaloznikjan/Desktop/fp/Robust-knapsack-problem/poročilo/opis_kode1.png
-INPUT /Users/zaloznikjan/Desktop/fp/Robust-knapsack-problem/poročilo/opis_kode1.png
+INPUT /Users/zaloznikjan/Desktop/fp/Robust-knapsack-problem/poročilo/opis_kode.png
+INPUT /Users/zaloznikjan/Desktop/fp/Robust-knapsack-problem/poročilo/opis_kode.png
+INPUT /Users/zaloznikjan/Desktop/fp/Robust-knapsack-problem/poročilo/opis_kode.png
 INPUT /usr/local/texlive/2020/texmf-dist/tex/latex/lm/t1lmtt.fd
 INPUT /usr/local/texlive/2020/texmf-dist/tex/latex/lm/t1lmtt.fd
 INPUT /usr/local/texlive/2020/texmf-dist/fonts/tfm/public/lm/ec-lmtt12.tfm
