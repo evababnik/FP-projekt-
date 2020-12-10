@@ -152,23 +152,23 @@ dosegli večjo težo.
 
 \section{Opis kode}
 \medskip
-V prilogi sva dodala kodo napisano v \textit{pythonu}, ki je ustrezno komentirana pri bolj zapletenih 
+V prilogi sva dodala kodo napisano v \textit{pythonu}, ki je ustrezno komentirana pri vseh bolj zapletenih 
 funkcijah, tukaj pa bova še podrobneje prikazala funkciji \textit{solve\_RKP} in \textit{rekurzija}, ki sta glavni komponenti
 za izračun RKP. 
 \medskip
 
 \begin{figure}[hb!]
     \includegraphics[width=13cm]{opis_kode.png}
-    \caption{\textit{solve\_RKP}}
+    \caption{Skica kode \textit{solve\_RKP}}
     \label{fig:koda1}    
 \end{figure}
 \paragraph{}
-Funkcija \textit{solve\_RKP} sprejme štiri obvezne argumente: množico predmetov $N$ oblike
+\noindent Funkcija \textit{solve\_RKP} sprejme štiri obvezne argumente: množico predmetov $N$ oblike
 $\{1, \dots, n\}$, kjer je $n$ število predmetov; kapaciteto nahrbtnika $c$; teže predmetov $w$; vrednosti predmetov $p$ in dva neobvezna
 argumenta $\Gamma$, ki označuje maksimalno število predmetov s spremenjeno težo ter $\bar{w} = max\_w$, ki prikazuje robustne teže predmetov. 
 Vrne nam sledeče podatke: $z^{*}$ (optimalna vrednost predmetov, ki bodo v nahrbtniku), $c^{*}$ (optimalno težo predmetov v nahrbtniku), $k^{*}$ (število 
 predmetov, ki jih damo v nahrbtnik) ter $g^{*}$ (število predmetov iz prve polovice množice $N$, ki jih dodamo v nahrbtnik). Vse te optimalne 
-vrednosti potrebujemo kasneje v funkciji \textit{rekurzija}, da lahko dobimo seznam predmetov,ki jih bomo položili v nahrbtnik. V primeru ko 
+vrednosti potrebujemo kasneje v funkciji \textit{rekurzija}, da lahko dobimo seznam predmetov, ki jih bomo položili v nahrbtnik. V primeru ko 
 ne podamo neobveznih argumentov $\Gamma$ in $max\_w$ nam funkcija \textit{solve\_RKP} vrne podobne optimalne vrednosti kot prej, le da tokrat 
 reši KP.
 \par
