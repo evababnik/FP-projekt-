@@ -7,6 +7,10 @@
 \contentsline {section}{\numberline {4}Robustni problem nahrbtnika}{4}{section.4}%
 \contentsline {section}{\numberline {5}Pristop z dinamičnim programiranjem}{5}{section.5}%
 \contentsline {section}{\numberline {6}Opis kode}{6}{section.6}%
-\contentsline {paragraph}{}{6}{section*.11}%
-\contentsline {section}{\numberline {7}Optimizacija portfeljev s pomočjo RKP}{7}{section.7}%
-\contentsline {section}{\numberline {8}Viri in literatura}{9}{section.8}%
+\contentsline {subsection}{\numberline {6.1}Solve\_RKP}{6}{subsection.6.1}%
+\contentsline {paragraph}{}{6}{section*.12}%
+\contentsline {subsubsection}{\numberline {6.1.1}Primer Solve\_RKP}{7}{subsubsection.6.1.1}%
+\contentsline {subsection}{\numberline {6.2}Rekurzija}{7}{subsection.6.2}%
+\contentsline {section}{\numberline {7}Optimizacija portfeljev s pomočjo RKP}{8}{section.7}%
+\contentsline {section}{\numberline {8}Grafični vmesnik}{9}{section.8}%
+\contentsline {section}{\numberline {9}Viri in literatura}{11}{section.9}%

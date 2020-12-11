@@ -14,6 +14,7 @@
 \usepackage{graphicx}
 \usepackage{amsbsy}
 \usepackage{mathtools}
+\usepackage{subcaption}
 \usepackage{amsthm}
 
 \usepackage[output-decimal-marker={,}]{siunitx}
@@ -151,29 +152,48 @@ elementi z najmanjšimi indeksi (torej tisti, ki so bili v nahrbtnik položeni p
 dosegli večjo težo.
 
 \section{Opis kode}
-\medskip
-V prilogi sva dodala kodo napisano v \textit{pythonu}, ki je ustrezno komentirana pri bolj zapletenih 
+V prilogi sva dodala kodo napisano v \textit{pythonu}, ki je ustrezno komentirana pri vseh bolj zapletenih 
 funkcijah, tukaj pa bova še podrobneje prikazala funkciji \textit{solve\_RKP} in \textit{rekurzija}, ki sta glavni komponenti
-za izračun RKP. 
+za izračun RKP. Kot je že bilo omenjeno je zelo pomembno, da so predmeti razvrščeni po padajoči teži $\bar{w}_j$, zato je najlažje 
+če napišemo dodatno funkcijo, ki sama razporedi podatke v pravilni vrstni red, da nam to ni potrebno delati ročno. 
 \medskip
-
-\begin{figure}[hb!]
+\subsection{Solve\_RKP}
+\begin{figure}[h]
     \includegraphics[width=13cm]{opis_kode.png}
-    \caption{\textit{solve\_RKP}}
+    \caption{Skica kode \textit{solve\_RKP}}
     \label{fig:koda1}    
 \end{figure}
+
 \paragraph{}
-Funkcija \textit{solve\_RKP} sprejme štiri obvezne argumente: množico predmetov $N$ oblike
+\noindent Funkcija \textit{solve\_RKP} sprejme štiri obvezne argumente: množico predmetov $N$ oblike
 $\{1, \dots, n\}$, kjer je $n$ število predmetov; kapaciteto nahrbtnika $c$; teže predmetov $w$; vrednosti predmetov $p$ in dva neobvezna
 argumenta $\Gamma$, ki označuje maksimalno število predmetov s spremenjeno težo ter $\bar{w} = max\_w$, ki prikazuje robustne teže predmetov. 
 Vrne nam sledeče podatke: $z^{*}$ (optimalna vrednost predmetov, ki bodo v nahrbtniku), $c^{*}$ (optimalno težo predmetov v nahrbtniku), $k^{*}$ (število 
 predmetov, ki jih damo v nahrbtnik) ter $g^{*}$ (število predmetov iz prve polovice množice $N$, ki jih dodamo v nahrbtnik). Vse te optimalne 
-vrednosti potrebujemo kasneje v funkciji \textit{rekurzija}, da lahko dobimo seznam predmetov,ki jih bomo položili v nahrbtnik. V primeru ko 
+vrednosti potrebujemo kasneje v funkciji \textit{rekurzija}, da lahko dobimo seznam predmetov, ki jih bomo položili v nahrbtnik. V primeru ko 
 ne podamo neobveznih argumentov $\Gamma$ in $max\_w$ nam funkcija \textit{solve\_RKP} vrne podobne optimalne vrednosti kot prej, le da tokrat 
 reši KP.
 \par
 
+\subsubsection{Primer Solve\_RKP}
 
+Recimo, da imamo 10 predmetov, ki jih želimo položiti v nahrbtnik s kapaciteto 20 kilogramov. Recimo, da so podatki za te predmete so sledeči: 
+$N = \{1, \dots, 10\}$, $c = 20$, $w = [4, 2, 6, 5, 2, 1, 7, 3, 5, 2]$, $p = [8, 5, 17, 10, 14, 4, 6, 8, 9, 25]$, $\Gamma = 4$, 
+$max\_w = [5, 4, 6, 7, 4, 4, 7, 4, 5, 3]$, kjer so podatki $w$ in $max\_w$ predstavljeni v kilogramih, podatki $p$ pa v evrih. Če sedaj ta problem 
+rešimo s funkcjo \textit{Solve\_RKP} dobimo naslednjo rešitev:
+
+\begin{figure}[h]
+    \includegraphics[width=14cm, height = 1.4cm]{primer1.png}
+    \caption{Rešitev 1. primera}
+    \label{fig:koda2}    
+\end{figure}
+
+\noindent Funkcija \textit{solve\_RKP} nam vrne seznam iz katerega razberemo, da je optimalna rešitev 66
+ \euro, bomo v nahrbtnik položili $4$ predmete od tega $3$ predmete iz prve polovice množice predmetov $N$ ter da bomo nahrbtnik čisto napolnili.
+
+
+\subsection{Rekurzija}
+\medskip
 Optimalni seznam stvari, ki jih vstavimo v nahrbtnik sva dobila s pomočjo funkcije $rekurzija$,
 ki sprejme argumente $N, z^*, k^*, c^*,  \Gamma, w, \overline{w}_{j}, p$ in neobvezen argument 
 $rešitev$,  pri čemer sva množico stvari $N$ razdelila na dva dela: $N = N_1 \cup N_2$ , za 
@@ -261,10 +281,32 @@ kar ni idealno, saj ravno z diverzifikacijo zmanjšujemo tveganje.
 
 
 
+\section{Grafični vmesnik}
 
+V prilogi, natančneje v \textit{koda\_RKP} sva s pomočjo \textit{pythonove} knjižnice \textit{tkinter}
+naredila aplikacijo z grafičnim vmesnikom. Ta vas najprej vpraša, kakšen tip problema imate, torej ali 
+je to KP ali RKP in vam nato izbrani problem na kratko predstavi in vam pove, kako pravilno vnesti podatke 
+na naslednji strani.
 
+\begin{figure}[h!]
+    \centering
+    \begin{subfigure}[b]{0.8\linewidth}
+      \includegraphics[width=\linewidth]{graficni_prikaz_RKP.png}
+      \caption{Robustni problem nahrbtinka}
+      \smallskip
+    \end{subfigure}
+    \begin{subfigure}[b]{0.8\linewidth}
+      \includegraphics[width=\linewidth]{graficni_prikaz_KP.png}
+      \caption{Navadni problem nahrbtinka}
+    \end{subfigure}
+    \caption{Primerjava istega primera v robustni in klasični obliki}
+    \label{fig:koda2}
+  \end{figure}
 
-
+\noindent Če zopet uporabimo primer iz 6.1.1, nam bo aplikacija izpisala seznam predmetov, ki jih 
+postavimo v nahrbtnik in optimalno vrednost predmetov, kot je razvidno iz slike \ref{fig:koda2}.a$)$. Če vstavimo 
+iste podatke še v okno navadni problem nahrbtnika s to razliko, da je $\Gamma = 0$ dobimo optimalno vrednost 81 in 
+seznam predmetov, ki jih položimo v nahrbtnik.
 
 \newpage
 \section{Viri in literatura}
