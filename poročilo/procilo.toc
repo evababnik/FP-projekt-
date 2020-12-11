@@ -11,8 +11,9 @@
 \contentsline {paragraph}{}{6}{section*.12}%
 \contentsline {subsubsection}{\numberline {6.1.1}Primer Solve\_RKP}{7}{subsubsection.6.1.1}%
 \contentsline {subsection}{\numberline {6.2}Rekurzija}{7}{subsection.6.2}%
-\contentsline {section}{\numberline {7}Časovna zahtevnost}{8}{section.7}%
-\contentsline {section}{\numberline {8}Optimizacija portfeljev s pomočjo RKP}{8}{section.8}%
-\contentsline {subsection}{\numberline {8.1}UPORABA RKP NA PODATKIH O DELNICAH S\&P 500}{10}{subsection.8.1}%
-\contentsline {section}{\numberline {9}Grafični vmesnik}{10}{section.9}%
-\contentsline {section}{\numberline {10}Viri in literatura}{11}{section.10}%
+\contentsline {subsubsection}{\numberline {6.2.1}Primer \textit {rekurzije}}{9}{subsubsection.6.2.1}%
+\contentsline {section}{\numberline {7}Grafični vmesnik}{9}{section.7}%
+\contentsline {section}{\numberline {8}Časovna zahtevnost}{10}{section.8}%
+\contentsline {section}{\numberline {9}Optimizacija portfeljev s pomočjo RKP}{11}{section.9}%
+\contentsline {subsection}{\numberline {9.1}UPORABA RKP NA PODATKIH O DELNICAH S\&P 500}{12}{subsection.9.1}%
+\contentsline {section}{\numberline {10}Viri in literatura}{13}{section.10}%

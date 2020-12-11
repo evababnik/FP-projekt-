@@ -322,6 +322,8 @@ def rekurzija(N, z_zvezdica, k_zvezdica, c_zvezdica, gama, w, maks_w, p, resitev
             c2 = c_zvezdica - c1
             return rekurzija(N2, z2_c2, k2_zvezdica, c2,gama - k_zvezdica, w2, maks_w2, p2, resitev)
  
+# rekurzija({1,2,3,4,5,6,7,8,9,10},66,3,20,4,[4,2,6,5,2,1,7,3,5,2],[5,4,6,7,4,4,7,4,5,3], [8,5,17,10,14,4,6,8,9,25])
+
 def resitev(N, c, w, p, gama = None, maks_w = None): #funkcija nam vrne končno rešitev: 
     k_zvezdica = solve_RKP(N, c, w, p, gama, maks_w)[3]     #seznam vstavljenih predmetov in vrednost
     z_zvezdica = solve_RKP(N, c, w, p, gama, maks_w)[0]
@@ -336,6 +338,7 @@ def resitev(N, c, w, p, gama = None, maks_w = None): #funkcija nam vrne končno 
         resitev = v_seznam(mnozica)  #poteka v primeru, da ne vstavimo nobenega elementa v seznam
         if resitev[0] == 0:          #vstavi 0
             resitev = resitev[1:]
+    resitev = sorted(resitev)
     return(resitev, z_zvezdica)
 
 def preberi_podatke(dat, kodna_tabela='utf-8'): #prebere podatke iz mape INSTANCES
