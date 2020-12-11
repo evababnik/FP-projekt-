@@ -103,43 +103,43 @@ def solve_RKP(N, c, w, p, gama = None,  maks_w = None):
         z[0][0] = 0     
         c_zvezdica = 0
 
-        k = matrika(gama,c) #element matrike k[d][s] pomeni optimalno število predmetov v 
+        g = matrika(gama,c) #element matrike g[d][s] pomeni optimalno število predmetov v 
         for d in range(c + 1): #nahrbtniku pri kapaciteti nahrbtnika d, pri čemer največ s 
             for s in range(gama + 1): #predmetov spremeni svojo težo na maks_w
-                k[d][s]= 0
-        k[0][0] = 0
+                g[d][s]= 0
+        g[0][0] = 0
 
-        g = matrika(gama,c) #element matrike g[d][s] pomeni optimalno število predmetov v 
+        k = matrika(gama,c) #element matrike k[d][s] pomeni optimalno število predmetov v 
         for d in range(c + 1): #v nahrbtniku iz množice N2 (druga polovica vseh stvari) pri
             for s in range(gama + 1): #kapaciteti nahbrnika d, pri čemer največ s predmetov
                 g[d][s] = 0 #spremeni svojo težo na maks_w
-        g[0][0] = 0
+        k[0][0] = 0
 
         for j in range(len(N)): # izberemo j-ti predmet 
             for d in range(c, w[j]-1, -1):  # in ga poskusimo dodati v svoji nominalni teži 
                 if z[d - w[j]][gama] + p[j] > z[d][gama]: #pri pogoju, da smo že vstavili 
                     z[d][gama] = z[d - w[j]][gama] + p[j]  #gama predmetov
-                    k[d][gama] = 1 + k[d - w[j]][gama]
+                    g[d][gama] = 1 + g[d - w[j]][gama]
                     if j  >= ((len(N) / 2)):
-                        g[d][gama] = 1 + g[d - w[j]][gama]
+                        k[d][gama] = 1 + k[d - w[j]][gama]
                       
             for s in range(gama, 0, -1): # poskusimo ga dodati v svoji robustni teži
                 for d in range(c, maks_w[j] - 1, -1):
                     if z[d - maks_w[j]][s - 1] + p[j] > z[d][s]:
                         z[d][s] = z[d - maks_w[j]][s - 1] + p[j]
-                        k[d][s] = 1 + k[d - maks_w[j]][s-1] 
+                        g[d][s] = 1 + g[d - maks_w[j]][s-1] 
                         if j  >= ((len(N) / 2)):
-                            g[d][s] = 1 + g[d - maks_w[j]][s - 1]
+                            k[d][s] = 1 + k[d - maks_w[j]][s - 1]
 
 
         z_zvedica = max([max(l) for l in z]) #tako dobimo max vrednost (največji element matrike z)
         pozicija = [[index, vrstica.index(z_zvedica)] for index, vrstica in enumerate(z) if z_zvedica in vrstica]
         c_zvezdica = pozicija[0][0] #vrstica in stolpec max vrednosti predstavljata skupno težo vstavljenih predmetov
         stevilo_predmetov_s_povecano_tezo = pozicija[0][-1] #in število predmetov, ki se jim spremeni teža
-        g1 = g[c_zvezdica][stevilo_predmetov_s_povecano_tezo] #g1 se v g nahaja na istem mestu kot z_zvezdica(pomeni koliko elementov iz N2 je v optimalni rešitvi)
-        k_zvezdica = k[c_zvezdica][stevilo_predmetov_s_povecano_tezo] #na istem mestu kot z_zvezdica se nahaja tudi število vseh vstavljenih predmetov v optimalni rešitvi
-        g_zvezdica = k_zvezdica - g1 #g_zvezdica = št.elementov v N1, k_zvezdica = št. vseh elementov
-        return [z_zvedica, c_zvezdica, k_zvezdica, g_zvezdica]
+        k1 = k[c_zvezdica][stevilo_predmetov_s_povecano_tezo] #k1 se v k nahaja na istem mestu kot z_zvezdica(pomeni koliko elementov iz N2 je v optimalni rešitvi)
+        g_zvezdica = g[c_zvezdica][stevilo_predmetov_s_povecano_tezo] #na istem mestu kot z_zvezdica se nahaja tudi število vseh vstavljenih predmetov v optimalni rešitvi
+        k_zvezdica = g_zvezdica - k1 #k_zvezdica = št.elementov v N1, g_zvezdica = št. vseh elementov
+        return [z_zvedica, c_zvezdica, g_zvezdica, k_zvezdica]
 
 # Primer iz poročila
 # solve_RKP({1,2,3,4,5,6,7,8,9,10}, 20, [4,2,6,5,2,1,7,3,5,2], [8,5,17,10,14,4,6,8,9,25], 4, [5,4,6,7,4,4,7,4,5,3])
