@@ -457,7 +457,7 @@ from collections import Counter
 def resitev_za_delnice(datoteka, budget):
     N, p, maks_p, r, seznam_kolicine_delnic, imena_delnic, R = preberi_podatke_za_delnice(datoteka, budget)
     #gama = 2
-    gama = doloci_gamo(len(seznam_kolicine_delnic), R)
+    gama = doloci_gamo(R)
     resitev1 = resitev(N,budget,p, r,gama,maks_p)[0]
     z_zvezdica = resitev(N,budget, p, r,gama, maks_p)[1]
     nov_seznam = []
