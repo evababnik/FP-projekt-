@@ -12,6 +12,7 @@ Robustni Problem Nahrbtinka
 
 import time
 start_time = time.time()
+
 def matrika(m,n):
     return [[0] * (m+1) for _ in range(n+1)] #funkcija, ki naredi ničelno matriko (m+1) X (n+1)
 
@@ -168,7 +169,7 @@ def solve_KP(N, c, w, p):
         seznam_stvari = [] #seznam_stvari predstavlja seznam stvari, ki smo jih dali v nahrbtnik
         #set_stvari = []
         for i in range(n, 0, -1):  
-            if z_zvezdica1 <= 0: #seznam stvari dobimo tako, da za vsak element i v obratnem vrstnem
+            if z_zvezdica1 <= 0 or c <= 0: #seznam stvari dobimo tako, da za vsak element i v obratnem vrstnem
                 break            #redu pogledamo kakšna je optimalna vrednost, če v nahrbtnik lahko
             if z_zvezdica1 == z[i - 1][c]: #vstavimo samo elemente iz množice {0, 1, ..., i}
                 continue                   #če je ta vrednost enaka optimalni vrednosti, potem nadaljujemo
@@ -209,7 +210,7 @@ def solve_eKkP(N, c, w, p, k):   #algoritem je tu podoben kot pri Solve_KP, le d
         c_zvezdica = 0
         seznam_stvari = []
         for i in range(n, 0, -1):
-            if z_zvezdica1 <= 0:
+            if z_zvezdica1 <= 0 or c <= 0:
                 break
             elif z_zvezdica1 == z[i - 1][c][k]:
                 continue
@@ -354,10 +355,10 @@ def preberi_podatke(dat, kodna_tabela='utf-8'): #prebere podatke iz mape INSTANC
     return(N, w, p, maks_w)
 
 
-N, w, p, maks_w = preberi_podatke("Robust-knapsack-problem/podatki/podatki_za_merjenje_časa/n_500.txt")
-resitev(N, 50, w, p, 1,  maks_w)
-elapsed_time = time.time() - start_time
-print(elapsed_time)
+# N, w, p, maks_w = preberi_podatke("Robust-knapsack-problem/podatki/podatki_za_merjenje_časa/n_2000.txt")
+# resitev(N, 200, w, p, 50,  maks_w)
+# elapsed_time = time.time() - start_time
+# print(elapsed_time)
 
 # ta funkcija prebere podatke iz S&P 500.txt in jih prilagodi, tako da potem dela program preberi_podatke_za_delnice() 
 def popravi_podatke(dat, kodna_tabela="utf-8"):
@@ -456,6 +457,20 @@ def preberi_podatke_za_delnice(dat, budget, kodna_tabela='utf-8'): #funkcija pre
 
 
 # preberi_podatke_za_delnice("Robust-knapsack-problem/podatki/podatki za delnice/prvih_11.txt",100)
+from numpy import random
+def doloci_gamo(R_popravljen):
+    stevilo_delnic = len(R_popravljen) 
+    R_skupen = sum(R_popravljen)/100 
+    R_povprecen = (R_skupen / stevilo_delnic)   
+    if R_povprecen < 0:
+        R_povprecen = 0
+    if R_povprecen > 1:
+        R_povprecen = 1
+    seznam_lambd = random.binomial(n=stevilo_delnic, p = R_povprecen, size=300)
+    gama = sum(seznam_lambd)//300 + 1
+    return gama
+
+
     
 from collections import Counter
 
@@ -481,23 +496,11 @@ def resitev_za_delnice(datoteka, budget):
 
     return(stevec, z_zvezdica)
 
+# print(resitev_za_delnice("Robust-knapsack-problem/podatki/podatki_za_delnice/popravljeni_podatki.txt", 1000))
+# elapsed_time = time.time() - start_time
+# print(elapsed_time)
 
-#N, p, maks_p, r, seznam_kolicine_delnic, imena_delnic = (preberi_podatke_za_delnice('podatki\podatki za delnice\zadnjih_15.txt', 2000))
-#print(resitev_za_delnice(N, 2000, p, r, 2, maks_p, seznam_kolicine_delnic, imena_delnic))
 
-
-from numpy import random
-def doloci_gamo(R_popravljen):
-    stevilo_delnic = len(R_popravljen) 
-    R_skupen = sum(R_popravljen)/100 
-    R_povprecen = (R_skupen / stevilo_delnic)   
-    if R_povprecen < 0:
-        R_povprecen = 0
-    if R_povprecen > 1:
-        R_povprecen = 1
-    seznam_lambd = random.binomial(n=stevilo_delnic, p = R_povprecen, size=300)
-    gama = sum(seznam_lambd)//300 + 1
-    return gama
 
 
 
