@@ -325,6 +325,7 @@ def rekurzija(N, z_zvezdica, k_zvezdica, c_zvezdica, gama, w, maks_w, p, resitev
 # rekurzija({1,2,3,4,5,6,7,8,9,10},66,3,20,4,[4,2,6,5,2,1,7,3,5,2],[5,4,6,7,4,4,7,4,5,3], [8,5,17,10,14,4,6,8,9,25])
 
 def resitev(N, c, w, p, gama = None, maks_w = None): #funkcija nam vrne končno rešitev: 
+    n = len(N)
     k_zvezdica = solve_RKP(N, c, w, p, gama, maks_w)[3]     #seznam vstavljenih predmetov in vrednost
     z_zvezdica = solve_RKP(N, c, w, p, gama, maks_w)[0]
     c_zvezdica = solve_RKP(N, c, w, p, gama, maks_w)[1]
@@ -339,9 +340,12 @@ def resitev(N, c, w, p, gama = None, maks_w = None): #funkcija nam vrne končno 
         if resitev[0] == 0:          #vstavi 0
             resitev = resitev[1:]
     resitev = sorted(resitev)
+    with open('resitev' "%s" % n +'-' "%s" % c + '-' "%s.txt" % gama, 'w', encoding='utf-8') as izhodna:
+        for el in resitev:
+            izhodna.write("{} {} {} {}\n".format(N[el - 1], p[el - 1], w[el - 1], maks_w[el - 1]))
     return(resitev, z_zvezdica)
 
-def preberi_podatke(dat, kodna_tabela='utf-8'): #prebere podatke iz mape INSTANCES
+def preberi_podatke(dat, kodna_tabela='utf-8'): #prebere podatke iz mape GENERIRANI PODATKI
     with open(dat, encoding=kodna_tabela) as datoteka: #dobimo seznam elementov in                              
         N = []                                #njihovih vrednosti, teže in maks teže
         w = []
@@ -358,8 +362,8 @@ def preberi_podatke(dat, kodna_tabela='utf-8'): #prebere podatke iz mape INSTANC
     return(N, w, p, maks_w)
 
 
-# N, w, p, maks_w = preberi_podatke("Robust-knapsack-problem/podatki/podatki_za_merjenje_časa/n_2000.txt")
-# resitev(N, 200, w, p, 50,  maks_w)
+N, w, p, maks_w = preberi_podatke('podatki\generirani_podatki\podatki_552-67-16.txt')
+resitev(N, 67, w, p, 16,  maks_w)
 # elapsed_time = time.time() - start_time
 # print(elapsed_time)
 
@@ -397,7 +401,7 @@ def popravi_podatke(dat, kodna_tabela="utf-8"):
     with open("Robust-knapsack-problem/podatki/podatki za delnice/popravljeni_podatki.txt","w") as nova_datoteka:
         for i in range(len(N)):
             nova_datoteka.write("{} {} {} {} {} {}\n".format(int(N[i].strip('""')), kratica_podjetja[i], ime_podjetja[i], w[i], maks_w[i], float(r[i].strip('""'))))
-
+    
 
 #popravi_podatke("Robust-knapsack-problem/podatki/podatki za delnice/S&P 500.txt")
 

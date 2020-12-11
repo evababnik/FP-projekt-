@@ -1,19 +1,19 @@
 \babel@toc {slovene}{}
 \contentsline {section}{\numberline {1}Uvod}{3}{section.1}%
 \contentsline {section}{\numberline {2}Povzetek}{3}{section.2}%
-\contentsline {paragraph}{}{3}{section*.3}%
 \contentsline {paragraph}{}{3}{section*.4}%
+\contentsline {paragraph}{}{3}{section*.5}%
 \contentsline {section}{\numberline {3}Problem nahrbtnika}{4}{section.3}%
 \contentsline {section}{\numberline {4}Robustni problem nahrbtnika}{4}{section.4}%
 \contentsline {section}{\numberline {5}Pristop z dinamičnim programiranjem}{5}{section.5}%
 \contentsline {section}{\numberline {6}Opis kode}{6}{section.6}%
 \contentsline {subsection}{\numberline {6.1}Solve\_RKP}{6}{subsection.6.1}%
-\contentsline {paragraph}{}{6}{section*.12}%
+\contentsline {paragraph}{}{6}{section*.13}%
 \contentsline {subsubsection}{\numberline {6.1.1}Primer Solve\_RKP}{7}{subsubsection.6.1.1}%
 \contentsline {subsection}{\numberline {6.2}Rekurzija}{7}{subsection.6.2}%
 \contentsline {subsubsection}{\numberline {6.2.1}Primer \textit {rekurzije}}{9}{subsubsection.6.2.1}%
 \contentsline {section}{\numberline {7}Grafični vmesnik}{9}{section.7}%
 \contentsline {section}{\numberline {8}Časovna zahtevnost}{10}{section.8}%
 \contentsline {section}{\numberline {9}Optimizacija portfeljev s pomočjo RKP}{11}{section.9}%
-\contentsline {subsection}{\numberline {9.1}UPORABA RKP NA PODATKIH O DELNICAH S\&P 500}{12}{subsection.9.1}%
-\contentsline {section}{\numberline {10}Viri in literatura}{13}{section.10}%
+\contentsline {subsection}{\numberline {9.1}Uporaba RKP na delnicah $S\&P$ $500$}{12}{subsection.9.1}%
+\contentsline {section}{\numberline {10}Viri in literatura}{14}{section.10}%

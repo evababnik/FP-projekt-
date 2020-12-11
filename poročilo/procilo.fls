@@ -121,6 +121,8 @@ INPUT /usr/local/texlive/2020/texmf-dist/tex/latex/caption/caption3.sty
 INPUT /usr/local/texlive/2020/texmf-dist/tex/latex/caption/caption3.sty
 INPUT /usr/local/texlive/2020/texmf-dist/tex/latex/amscls/amsthm.sty
 INPUT /usr/local/texlive/2020/texmf-dist/tex/latex/amscls/amsthm.sty
+INPUT /usr/local/texlive/2020/texmf-dist/tex/latex/multirow/multirow.sty
+INPUT /usr/local/texlive/2020/texmf-dist/tex/latex/multirow/multirow.sty
 INPUT /usr/local/texlive/2020/texmf-dist/tex/latex/siunitx/siunitx.sty
 INPUT /usr/local/texlive/2020/texmf-dist/tex/latex/siunitx/siunitx.sty
 INPUT /usr/local/texlive/2020/texmf-dist/tex/latex/l3kernel/expl3.sty
@@ -238,6 +240,9 @@ OUTPUT /Users/zaloznikjan/Desktop/fp/Robust-knapsack-problem/poročilo/procilo.t
 INPUT /Users/zaloznikjan/Desktop/fp/Robust-knapsack-problem/poročilo/procilo.lof
 INPUT /Users/zaloznikjan/Desktop/fp/Robust-knapsack-problem/poročilo/procilo.lof
 OUTPUT /Users/zaloznikjan/Desktop/fp/Robust-knapsack-problem/poročilo/procilo.lof
+INPUT /Users/zaloznikjan/Desktop/fp/Robust-knapsack-problem/poročilo/procilo.lot
+INPUT /Users/zaloznikjan/Desktop/fp/Robust-knapsack-problem/poročilo/procilo.lot
+OUTPUT /Users/zaloznikjan/Desktop/fp/Robust-knapsack-problem/poročilo/procilo.lot
 INPUT /usr/local/texlive/2020/texmf-dist/fonts/tfm/public/lm/ec-lmr8.tfm
 INPUT /usr/local/texlive/2020/texmf-dist/fonts/tfm/public/lm/ec-lmr6.tfm
 INPUT /usr/local/texlive/2020/texmf-dist/fonts/tfm/public/lm/ec-lmbx12.tfm
