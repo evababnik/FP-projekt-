@@ -482,7 +482,7 @@ def resitev_za_delnice(datoteka, budget):
 
 
 from numpy import random
-def doloci_gamo(stevilo_delnic, R_popravljen):
+def doloci_gamo(R_popravljen):
     stevilo_delnic = len(R_popravljen) 
     R_skupen = sum(R_popravljen)/100 
     R_povprecen = (R_skupen / stevilo_delnic)   
