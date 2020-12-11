@@ -353,7 +353,10 @@ def preberi_podatke(dat, kodna_tabela='utf-8'): #prebere podatke iz mape INSTANC
     
     return(N, w, p, maks_w)
 
-
+N, W, p, maks_w = preberi_podatke('podatki\RKP_instances\Instances\RKP_00100_00100_1_01.txt')
+c = 100
+gama = 1
+print(resitev(N, c, W, p, gama, maks_w ))
 # ta funkcija prebere podatke iz S&P 500.txt in jih prilagodi, tako da potem dela program preberi_podatke_za_delnice() 
 def popravi_podatke(dat, kodna_tabela="utf-8"):
     with open(dat, encoding=kodna_tabela) as datoteka:
