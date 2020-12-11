@@ -39,20 +39,16 @@ def solve_RKP(N, c, w, p, gama = None,  max_w = None):
         g* = k* - g1
         return [z*, c*, k*, g*]
 
-def rekurzija(N, z*, k*, c*, gama, w, maks_w, p, vstavljeni_predmeti=[]):
+def rekurzija(N, z*, k*, c*, gama, w, maks_w, p, vstavljeni_predmeti=None):
+    if vstavljeni_predmeti is None:
+        vstavljeni_predmeti = []
     if len(N) == 1 and vstavljeni_predmeti == []:
-        if gama != 0:
-            if maks_w[0] <= c*:
-                return N
-        else:
-            if w[0] <= c*:
-                return N
+        return [N if gama != 0 and maks_w[0] <= c* or if gama == 0 and w[0] <= c*]
     elif len(N) == 1 and vstavljeni_predmeti != []:
-        if gama != 0:
-            if maks_w[0] <= c*:
+        if gama != 0 and maks_w[0] <= c*:
                 vstavljeni_predmeti.append(N[0])
                 return(vstavljeni_predmeti)
-            else: 
+        elif gama != 0 and maks_w[0] > c*: 
                 return(vstavljeni_predmeti)
         else:
             if w[0] <= c*:
