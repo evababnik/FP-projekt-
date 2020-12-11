@@ -207,16 +207,17 @@ negotove.
 \par
 Recimo, da imamo M delnic, pri čemer imamo za vsako delnico $j$ na voljo ceno $P_j$, visoko ceno 
 $\overline{P}_{j}$ in nizko ceno $\underline{P}_{j}$, ter pričakovani donos delnice $R_j$. Zanima 
-nas koliko delnic posameznega podjetja $j$ kupiti, da bo pričakovani dobiček čimvišji in da ob tem nakupu
-ne bomo presegli količine denarja $B$, namenjenega investiranju. Opisan primer lahko formuliramo 
-na naslednji način:
+nas koliko delnic posameznega podjetja $j$ kupiti, da bo pričakovani dobiček čim višji in da ob tem nakupu
+ne bomo presegli količine denarja $B$, namenjenega investiranju. Ob tem pa je potrebno tudi upoštevati,
+da največ $\Gamma$ delnic spremeni svojo vrednost iz nominalne na maksimalno.Opisani primer lahko
+formuliramo na naslednji način:
 \begin{equation}
 \tag*{}
      max \sum_{j \in M} P_{j}(1 + R_{j})N_{j}x_{j}
 \end{equation}
 \begin{equation}
 \tag*{}
-    \sum_{j \in M} p_{j}N_{j}x_{j} \leq B    
+    \sum_{j \in J}p_{j}N_{j}x_{j} + \sum_{j \in \hat{J}}\overline{P}_{j}N_{j}x_{j} \leq B,\quad \forall \hat{J} \subseteq J \; \text{in}\; |\hat{J}| \leq \Gamma    
 \end{equation}
 \begin{equation}
 \tag*{}
@@ -226,6 +227,39 @@ na naslednji način:
 \tag*{}
     x_{j} \in \{0,1\}, j \in M
 \end{equation}
+Da bi dobila rešitev tega modela sva kodi dodala
+funkcije \textit{preberi_podatke_za_delnice},
+\textit{resitev_za_delnice} in \textit{doloci_gamo}. Prva funkcija prebere
+datoteko, v kateri so za vsako delnico podatki o imenu,
+nominalni ceni, maksimalni ceni ter pričakovanem donosu.
+Funkcija nato za vsako delnico izračnua največ koliko enakih
+delnic po njihovi maksimalni ceni ob danem proračunu lahko kupimo in temu prilagdi sezname $p$,
+$maks_p$ in $r$. Npr. je naš proračun enak $10$ in maksimalna cena delnice $i$ enaka
+$5$, bomo torej delnico $i$ šteli dvakrat, prav tako pa bomo v zgoraj omenjenih seznamih
+podvojili tudi njene vrednosti. Funkcija \textit{resitev_za_delnice} pa pokliče funkcijo \textit{rekurzija}
+in nato poišče katere delnice pripadajo dobljeni optimalni rešitvi.
+\par
+$\Gamma$ tu ni podana skupaj s podatki, ampak jo iz podatkov izračunamo s pomočjo funckije \textit{doloci_gamo}.
+V tem modelu je $\Gamma$ namreč slučajna spremenljivka in jo lahko ob nekaterih predpostavkah (ki 
+sicer v realnosti ne držijo popolnoma) dobimo verjetnostno, pri čemer sva predpostavila, da je $\Gamma$
+binomsko porazdeljena. Najina ideja je bila torej ugotoviti, kdaj bo trenutna cena delnice $P_j$ narasla na 
+$\overline{P_j}$. Sklepala sva, da večji pričakovani donos $R_j$ pomeni večjo verjetnost, da
+bo cena delnice v danem trenutku narasla na $\overline{P_j}$, zato sva izračunala povprečen $\overline{R}$. 
+Predpostavila sva, da je $\overline{R}$ kar enak verjetnosti $p$, ki predstavlja verjetnost,
+da bo vrednost opazovanih delnic narasla. Nato sva s pomočjo funcije $random.binomial(stevilo_delnic, p)$ 
+simulirala vrednosti slučajne spremenljivke $\Gamma$.
+
+\subsection{UPORABA RKP NA PODATKIH DELNICA S&P 500}
+Z zgoraj opisanim finančnim RKP modelom sva nato izračunala optimalni portfelj na podlagi 
+o cenah in donosih delnic \textit{S&P 500}, kjer gre za 500 največjih in najbolj likvidnih
+ameriških podjetij, kjer sva iskala maksimalni donos portfelja glede na različne proračune $B$.
+Ob tem je potrebno poudariti, da veva, da dobljene rešitve niso najbolj optimalne, saj
+ostalih dejavnikov, ki močno vplivajo na sestavo optimalnega portfelja (kot je npr. tveganje), 
+sploh nisva upoštevala. V rezultatu dobimo zelo nerazpršen portfelj,
+kar ni idealno, saj ravno z diverzifikacijo zmanjšujemo tveganje. 
+
+
+
 
 
 
