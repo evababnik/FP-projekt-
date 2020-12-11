@@ -354,6 +354,11 @@ def preberi_podatke(dat, kodna_tabela='utf-8'): #prebere podatke iz mape INSTANC
     return(N, w, p, maks_w)
 
 
+N, w, p, maks_w = preberi_podatke("Robust-knapsack-problem/podatki/podatki_za_merjenje_časa/n_500.txt")
+resitev(N, 50, w, p, 1,  maks_w)
+elapsed_time = time.time() - start_time
+print(elapsed_time)
+
 # ta funkcija prebere podatke iz S&P 500.txt in jih prilagodi, tako da potem dela program preberi_podatke_za_delnice() 
 def popravi_podatke(dat, kodna_tabela="utf-8"):
     with open(dat, encoding=kodna_tabela) as datoteka:
