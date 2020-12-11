@@ -16,7 +16,7 @@
 \usepackage{mathtools}
 \usepackage{subcaption}
 \usepackage{amsthm}
-
+\usepackage{multirow}
 \usepackage[output-decimal-marker={,}]{siunitx}
 \theoremstyle{definition}
 \newtheorem{definition}{Lema}
@@ -31,7 +31,7 @@
 \tableofcontents
 %\renewcommand{\listfigurename}{karkoli}
 \listoffigures
-
+\listoftables
 \newpage
 \section{Uvod}
 \medskip
@@ -185,7 +185,7 @@ rešimo s funkcjo \textit{Solve\_RKP} dobimo naslednjo rešitev:
 \begin{figure}[h]
     \includegraphics[width=14cm, height = 1.4cm]{primer1.png}
     \caption{Rešitev 1. primera}
-    \label{fig:koda2}    
+    \label{fig:koda3}    
 \end{figure}
 
 \noindent Funkcija \textit{solve\_RKP} nam vrne seznam iz katerega razberemo, da je optimalna rešitev 66
@@ -194,6 +194,13 @@ rešimo s funkcjo \textit{Solve\_RKP} dobimo naslednjo rešitev:
 
 \subsection{Rekurzija}
 \medskip
+
+\begin{figure}[h!]
+    \includegraphics[width=13cm]{rekurzija_cela.png}
+    \caption{Skica kode \textit{rekurzija}}
+    \label{fig:koda4}    
+\end{figure}
+
 Optimalni seznam stvari, ki jih vstavimo v nahrbtnik sva dobila s pomočjo funkcije $rekurzija$,
 ki sprejme argumente $N, z^*, k^*, c^*,  \Gamma, w, \overline{w}_{j}, p$ in neobvezen argument 
 $rešitev$,  pri čemer sva množico stvari $N$ razdelila na dva dela: $N = N_1 \cup N_2$ , za 
@@ -219,7 +226,48 @@ V primeru ko  je $k* < \Gamma$, pa je optimalna rešitev sestavljena iz rešitev
 težami in iz rešitve za robustni problem nahrbtnika s parametrom   $\Gamma - k^*$ za predmete 
 iz množice $N_2$.
 \end{definition}
+
+\subsubsection{Primer \textit{rekurzije}}
+
+Recimo, da imamo iste podatke kot v primeru 6.1.1 in vrednosti $z^{*}$, $c^{*}$ ter $g^{*}$, ki jih dobimo 
+iz rešitve \textit{solve\_RKP}. Podatke vstavimo v funkcijo \textit{rekurzija} in dobimo seznam predmetov, 
+ki ji položimo v nahrbtink: 
+
+\begin{figure}[h]
+    \includegraphics[width=14cm, height = 1cm]{primer_rekurzija.png}
+    \caption{Rešitev rekurzije}
+    \label{fig:koda6}    
+\end{figure}
+
+\section{Grafični vmesnik}
+
+V prilogi, natančneje v \textit{koda\_RKP} sva s pomočjo \textit{pythonove} knjižnice \textit{tkinter}
+naredila aplikacijo z grafičnim vmesnikom. Ta vas najprej vpraša, kakšen tip problema imate, torej ali 
+je to KP ali RKP in vam nato izbrani problem na kratko predstavi in vam pove, kako pravilno vnesti podatke 
+na naslednji strani.
+
+\begin{figure}[h!]
+    \centering
+    \begin{subfigure}[b]{0.8\linewidth}
+      \includegraphics[width=\linewidth]{graficni_prikaz_RKP.png}
+      \caption{Robustni problem nahrbtinka}
+      \smallskip
+    \end{subfigure}
+    \begin{subfigure}[b]{0.8\linewidth}
+      \includegraphics[width=\linewidth]{graficni_prikaz_KP.png}
+      \caption{Navadni problem nahrbtinka}
+    \end{subfigure}
+    \caption{Primerjava istega primera v robustni in klasični obliki}
+    \label{fig:koda2}
+  \end{figure}
+
+\noindent Če zopet uporabimo primer iz 6.1.1, nam bo aplikacija izpisala seznam predmetov, ki jih 
+postavimo v nahrbtnik in optimalno vrednost predmetov, kot je razvidno iz slike \ref{fig:koda2}.a$)$. Če vstavimo 
+iste podatke še v okno navadni problem nahrbtnika s to razliko, da je $\Gamma = 0$ dobimo optimalno vrednost 81 in 
+seznam predmetov, ki jih položimo v nahrbtnik.
+
 \section{Časovna zahtevnost}
+\medskip
 Pogledali si bomo časovni zahtevnosti zgoraj opisanih funkcij, torej \textit{solve\_RKP}
 in \textit{rekurzija}. 
 Pri oceni časovne zahtevnosti funkcije \textit{solve\_RKP} 
@@ -232,12 +280,38 @@ $\mathcal{O}(\Gamma n c)$.
 Ko pokličemo funckijo \textit{rekurzija} ta v primeru,
 ko je $k^* \geq \Gamma$ največ 
 časa porabi pri klicanju funkcije \textit{solve\_RKP($c^*, \Gamma, N_1$)},
-ki porabi $\mathcal{O}(\Gamma \frac{n}{2} c^*)$ časa in pri klicanju funkcije \textit{solve\_KP} s stvarmi iz množice
- $N_2$, ki porabi $\mathical{O}\(\frac{n}{2} c^*\)$ časa. V primeru,
+ki porabi $\mathcal{O}(\Gamma \frac{n}{2} c^*)$ časa in pri klicanju funkcije \textit{solve\_KP} s stvarmi iz množice 
+$N_2$, ki porabi $\mathcal{O}(\frac{n}{2} c^*)$ časa. V primeru,
  ko je $k^* < \Gamma$ pa funkcija največ časa porabi ko pokliče funkcijo \textit{solve\_EkKP} v času $\mathcal{O}(\Gamma \frac{n}{2} c*)$
- in funckijo \textit{solve\_RKP} v času $\mathcal{O}(\Gamma \frac{n}{2} c^*)$. Časovna zahtevnost funkcije \testit{rekurzija}
+ in funckijo \textit{solve\_RKP} v času $\mathcal{O}(\Gamma \frac{n}{2} c^*)$. Časovna zahtevnost funkcije \textit{rekurzija}
  znaša torej $\mathcal{O}(\Gamma \frac{n}{2} c^*)$.
+ \par
+ V tabeli je prikazana časovna zahtevnost algoritma v odvisnosti od $\Gamma$, $c$ in $n$, čas pa je merjen v sekundah.
+ Meritve sva izvedla na naključno generiranih podatkih, dobljenih s funkcijo \textit{naredi\_podatke}.
+ Podatki se nahajajo v mapi \textit{podatki\_za\_merjenje\_casa}.
+ 
+     
+ 
+ \begin{table}[]
+    \centering
+    \begin{tabular}{c|c|c|c|c|}
+    \cline{3-5}
+    \multicolumn{2}{c|}{}                                     & $c$ = 50  & $c$ = 100  & $c$ = 200  \\ \hline
+    \multicolumn{1}{|c|}{\multirow{3}{*}{$n$ = 500}}  & $\Gamma$ = 1 & 0.9400  & 2.1294   & 7.4316   \\ \cline{2-5} 
+    \multicolumn{1}{|c|}{}                          & $\Gamma$ = 10 & 2.1714  & 9.5391   & 36.5587  \\ \cline{2-5} 
+    \multicolumn{1}{|c|}{}                          & $\Gamma$ = 50 & 7.4621  & 25.7643  & 97.5244  \\ \hline
+    \multicolumn{1}{|c|}{\multirow{3}{*}{$n$ = 1000}} & $\Gamma$ = 1  & 1.4711  & 7.2800   & 16.7107  \\ \cline{2-5} 
+    \multicolumn{1}{|c|}{}                          & $\Gamma$ = 10 & 6.2347  & 23.3414  & 77.9351  \\ \cline{2-5} 
+    \multicolumn{1}{|c|}{}                          & $\Gamma$ = 50 & 11.1123 & 59.1479  & 302.4103 \\ \hline
+    \multicolumn{1}{|c|}{\multirow{3}{*}{$n$ = 2000}} & $\Gamma$ = 1  & 4.3077  & 9.7543   & 37.6998  \\ \cline{2-5} 
+    \multicolumn{1}{|c|}{}                          & $\Gamma$ = 10 & 14.2596 & 52.3112  & 195.0519 \\ \cline{2-5} 
+    \multicolumn{1}{|c|}{}                          & $\Gamma$ = 50 & 26.1064 & 106.8547 & 700.8570 \\ \hline
+    \end{tabular}
+    \caption{\label{tab:Tabela 1}Časovna zahtevnost algortima v odvisnosti od $n$, $\Gamma$ in $c$.}
+\end{table}
+
 \section{Optimizacija portfeljev s pomočjo RKP}
+\medskip
 Kodo za robustni problem nahrbtinka sva nato uporabila na poenostavljenem finančnem modelu,
 kjer naju je zanimalo iz katerih delnic sestaviti optimalni portelj, pri čemer so cene delnic
 negotove. 
@@ -286,7 +360,7 @@ Predpostavila sva, da je $\overline{R}$ kar enak verjetnosti $p$, ki predstavlja
 da bo vrednost opazovanih delnic narasla. Nato sva s pomočjo funcije $random.binomial(stevilo_delnic, p)$ 
 simulirala vrednosti slučajne spremenljivke $\Gamma$.
 
-\subsection{UPORABA RKP NA PODATKIH O DELNICAH S\&P 500}
+\subsection{Uporaba RKP na delnicah $S\&P$ $500$}
 Z zgoraj opisanim finančnim RKP modelom sva nato izračunala optimalni portfelj na podlagi 
 o cenah in donosih delnic \textit{S\&P 500}, kjer gre za 500 največjih in najbolj likvidnih
 ameriških podjetij, kjer sva iskala maksimalni donos portfelja glede na različne proračune $B$.
@@ -294,36 +368,26 @@ Ob tem je potrebno poudariti, da veva, da dobljene rešitve niso najbolj optimal
 ostalih dejavnikov, ki močno vplivajo na sestavo optimalnega portfelja (kot je npr. tveganje), 
 sploh nisva upoštevala. V rezultatu dobimo zelo nerazpršen portfelj,
 kar ni idealno, saj ravno z diverzifikacijo zmanjšujemo tveganje. 
+\par
+Optimalne portfelje za delnice $S\&P 500$ sva izračunala za proračune $B = 50$, $B = 100$, $B = 500$,
+$B = 1000$ in $B = 2000$. V tabeli je prikazana časovna zahtevnost za posamezne 
+primere ter sestava optimalnega portfelja, pri čemer so imena podjetji zapisana z njihovimi
+kraticami.
+\begin{table}[]
+    \resizebox{\textwidth}{!}{
+    \begin{tabular}{c|c|c|c|c|c|}
+    \cline{2-6}
+                                                                                                  & B = 50                                                              & B = 100                                                                    & B = 500                                                                     & B = 1000                                                            & B = 2000                                                         \\ \hline
+    \multicolumn{1}{|c|}{Čas}                                                                     & 3.9939                                                              & 8.0711                                                                     & 259.5398                                                                    & 931.2960                                                            & 5063.1349                                                        \\ \hline
+    \multicolumn{1}{|c|}{\begin{tabular}[c]{@{}c@{}}Sestava optimalnega\\ portfelja\end{tabular}} & \begin{tabular}[c]{@{}c@{}}CARR: 1, AMCR: 1,\\ HBAN: 1\end{tabular} & \begin{tabular}[c]{@{}c@{}}CARR: 2, ZION: 1,\\ HWM: 1, HFC: 1\end{tabular} & \begin{tabular}[c]{@{}c@{}}Carr: 4, Etsy: 2\\ Nwsa: 1, Intc: 1\end{tabular} & \begin{tabular}[c]{@{}c@{}}Etsy: 5, Carr: 4,\\ Vtrs: 1\end{tabular} & \begin{tabular}[c]{@{}c@{}}Wts: 7, Wrk: 1,\\ Xyl: 1\end{tabular} \\ \hline
+    \multicolumn{1}{|c|}{Dobiček}                                                                 & 123                                                                 & 272                                                                        & 1583                                                                        & 3246                                                                & 3477                                                             \\ \hline
+    \end{tabular}}
+    \caption{\label{tab: Tabela 2} Časovna zahtevnost finančnega RKP modela in dobljeni rezultati}
+    
+    \end{table}
 
 
 
-
-\section{Grafični vmesnik}
-
-V prilogi, natančneje v \textit{koda\_RKP} sva s pomočjo \textit{pythonove} knjižnice \textit{tkinter}
-naredila aplikacijo z grafičnim vmesnikom. Ta vas najprej vpraša, kakšen tip problema imate, torej ali 
-je to KP ali RKP in vam nato izbrani problem na kratko predstavi in vam pove, kako pravilno vnesti podatke 
-na naslednji strani.
-
-\begin{figure}[h!]
-    \centering
-    \begin{subfigure}[b]{0.8\linewidth}
-      \includegraphics[width=\linewidth]{graficni_prikaz_RKP.png}
-      \caption{Robustni problem nahrbtinka}
-      \smallskip
-    \end{subfigure}
-    \begin{subfigure}[b]{0.8\linewidth}
-      \includegraphics[width=\linewidth]{graficni_prikaz_KP.png}
-      \caption{Navadni problem nahrbtinka}
-    \end{subfigure}
-    \caption{Primerjava istega primera v robustni in klasični obliki}
-    \label{fig:koda2}
-  \end{figure}
-
-\noindent Če zopet uporabimo primer iz 6.1.1, nam bo aplikacija izpisala seznam predmetov, ki jih 
-postavimo v nahrbtnik in optimalno vrednost predmetov, kot je razvidno iz slike \ref{fig:koda2}.a$)$. Če vstavimo 
-iste podatke še v okno navadni problem nahrbtnika s to razliko, da je $\Gamma = 0$ dobimo optimalno vrednost 81 in 
-seznam predmetov, ki jih položimo v nahrbtnik.
 
 \newpage
 \section{Viri in literatura}

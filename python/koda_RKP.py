@@ -12,6 +12,7 @@ Robustni Problem Nahrbtinka
 
 import time
 start_time = time.time()
+
 def matrika(m,n):
     return [[0] * (m+1) for _ in range(n+1)] #funkcija, ki naredi ničelno matriko (m+1) X (n+1)
 
@@ -168,7 +169,7 @@ def solve_KP(N, c, w, p):
         seznam_stvari = [] #seznam_stvari predstavlja seznam stvari, ki smo jih dali v nahrbtnik
         #set_stvari = []
         for i in range(n, 0, -1):  
-            if z_zvezdica1 <= 0: #seznam stvari dobimo tako, da za vsak element i v obratnem vrstnem
+            if z_zvezdica1 <= 0 or c <= 0: #seznam stvari dobimo tako, da za vsak element i v obratnem vrstnem
                 break            #redu pogledamo kakšna je optimalna vrednost, če v nahrbtnik lahko
             if z_zvezdica1 == z[i - 1][c]: #vstavimo samo elemente iz množice {0, 1, ..., i}
                 continue                   #če je ta vrednost enaka optimalni vrednosti, potem nadaljujemo
@@ -209,7 +210,7 @@ def solve_eKkP(N, c, w, p, k):   #algoritem je tu podoben kot pri Solve_KP, le d
         c_zvezdica = 0
         seznam_stvari = []
         for i in range(n, 0, -1):
-            if z_zvezdica1 <= 0:
+            if z_zvezdica1 <= 0 or c <= 0:
                 break
             elif z_zvezdica1 == z[i - 1][c][k]:
                 continue
@@ -321,7 +322,10 @@ def rekurzija(N, z_zvezdica, k_zvezdica, c_zvezdica, gama, w, maks_w, p, resitev
             c2 = c_zvezdica - c1
             return rekurzija(N2, z2_c2, k2_zvezdica, c2,gama - k_zvezdica, w2, maks_w2, p2, resitev)
  
+# rekurzija({1,2,3,4,5,6,7,8,9,10},66,3,20,4,[4,2,6,5,2,1,7,3,5,2],[5,4,6,7,4,4,7,4,5,3], [8,5,17,10,14,4,6,8,9,25])
+
 def resitev(N, c, w, p, gama = None, maks_w = None): #funkcija nam vrne končno rešitev: 
+    n = len(N)
     k_zvezdica = solve_RKP(N, c, w, p, gama, maks_w)[3]     #seznam vstavljenih predmetov in vrednost
     z_zvezdica = solve_RKP(N, c, w, p, gama, maks_w)[0]
     c_zvezdica = solve_RKP(N, c, w, p, gama, maks_w)[1]
@@ -335,9 +339,13 @@ def resitev(N, c, w, p, gama = None, maks_w = None): #funkcija nam vrne končno 
         resitev = v_seznam(mnozica)  #poteka v primeru, da ne vstavimo nobenega elementa v seznam
         if resitev[0] == 0:          #vstavi 0
             resitev = resitev[1:]
+    resitev = sorted(resitev)
+    with open('resitev' "%s" % n +'-' "%s" % c + '-' "%s.txt" % gama, 'w', encoding='utf-8') as izhodna:
+        for el in resitev:
+            izhodna.write("{} {} {} {}\n".format(N[el - 1], p[el - 1], w[el - 1], maks_w[el - 1]))
     return(resitev, z_zvezdica)
 
-def preberi_podatke(dat, kodna_tabela='utf-8'): #prebere podatke iz mape INSTANCES
+def preberi_podatke(dat, kodna_tabela='utf-8'): #prebere podatke iz mape GENERIRANI PODATKI
     with open(dat, encoding=kodna_tabela) as datoteka: #dobimo seznam elementov in                              
         N = []                                #njihovih vrednosti, teže in maks teže
         w = []
@@ -353,10 +361,12 @@ def preberi_podatke(dat, kodna_tabela='utf-8'): #prebere podatke iz mape INSTANC
     
     return(N, w, p, maks_w)
 
-N, W, p, maks_w = preberi_podatke('podatki\RKP_instances\Instances\RKP_00100_00100_1_01.txt')
-c = 100
-gama = 1
-print(resitev(N, c, W, p, gama, maks_w ))
+
+N, w, p, maks_w = preberi_podatke('podatki\generirani_podatki\podatki_552-67-16.txt')
+resitev(N, 67, w, p, 16,  maks_w)
+# elapsed_time = time.time() - start_time
+# print(elapsed_time)
+
 # ta funkcija prebere podatke iz S&P 500.txt in jih prilagodi, tako da potem dela program preberi_podatke_za_delnice() 
 def popravi_podatke(dat, kodna_tabela="utf-8"):
     with open(dat, encoding=kodna_tabela) as datoteka:
@@ -391,7 +401,7 @@ def popravi_podatke(dat, kodna_tabela="utf-8"):
     with open("Robust-knapsack-problem/podatki/podatki za delnice/popravljeni_podatki.txt","w") as nova_datoteka:
         for i in range(len(N)):
             nova_datoteka.write("{} {} {} {} {} {}\n".format(int(N[i].strip('""')), kratica_podjetja[i], ime_podjetja[i], w[i], maks_w[i], float(r[i].strip('""'))))
-
+    
 
 #popravi_podatke("Robust-knapsack-problem/podatki/podatki za delnice/S&P 500.txt")
 
@@ -454,13 +464,27 @@ def preberi_podatke_za_delnice(dat, budget, kodna_tabela='utf-8'): #funkcija pre
 
 
 # preberi_podatke_za_delnice("Robust-knapsack-problem/podatki/podatki za delnice/prvih_11.txt",100)
+from numpy import random
+def doloci_gamo(R_popravljen):
+    stevilo_delnic = len(R_popravljen) 
+    R_skupen = sum(R_popravljen)/100 
+    R_povprecen = (R_skupen / stevilo_delnic)   
+    if R_povprecen < 0:
+        R_povprecen = 0
+    if R_povprecen > 1:
+        R_povprecen = 1
+    seznam_lambd = random.binomial(n=stevilo_delnic, p = R_povprecen, size=300)
+    gama = sum(seznam_lambd)//300 + 1
+    return gama
+
+
     
 from collections import Counter
 
 def resitev_za_delnice(datoteka, budget):
     N, p, maks_p, r, seznam_kolicine_delnic, imena_delnic, R = preberi_podatke_za_delnice(datoteka, budget)
     #gama = 2
-    gama = doloci_gamo(len(seznam_kolicine_delnic), R)
+    gama = doloci_gamo(R)
     resitev1 = resitev(N,budget,p, r,gama,maks_p)[0]
     z_zvezdica = resitev(N,budget, p, r,gama, maks_p)[1]
     nov_seznam = []
@@ -479,23 +503,11 @@ def resitev_za_delnice(datoteka, budget):
 
     return(stevec, z_zvezdica)
 
+# print(resitev_za_delnice("Robust-knapsack-problem/podatki/podatki_za_delnice/popravljeni_podatki.txt", 1000))
+# elapsed_time = time.time() - start_time
+# print(elapsed_time)
 
-#N, p, maks_p, r, seznam_kolicine_delnic, imena_delnic = (preberi_podatke_za_delnice('podatki\podatki za delnice\zadnjih_15.txt', 2000))
-#print(resitev_za_delnice(N, 2000, p, r, 2, maks_p, seznam_kolicine_delnic, imena_delnic))
 
-
-from numpy import random
-def doloci_gamo(stevilo_delnic, R_popravljen):
-    stevilo_delnic = len(R_popravljen) 
-    R_skupen = sum(R_popravljen)/100 
-    R_povprecen = (R_skupen / stevilo_delnic)   
-    if R_povprecen < 0:
-        R_povprecen = 0
-    if R_povprecen > 1:
-        R_povprecen = 1
-    seznam_lambd = random.binomial(n=stevilo_delnic, p = R_povprecen, size=300)
-    gama = sum(seznam_lambd)//300 + 1
-    return gama
 
 
 

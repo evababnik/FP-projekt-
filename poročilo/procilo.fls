@@ -487,6 +487,15 @@ INPUT C:\Users\Eva\AppData\Roaming\MiKTeX\tex\latex\amscls\amsthm.sty
 INPUT C:\Users\Eva\AppData\Roaming\MiKTeX\tex\latex\amscls\amsthm.sty
 INPUT C:\Users\Eva\AppData\Roaming\MiKTeX\tex\latex\amscls\amsthm.sty
 INPUT C:\Users\Eva\AppData\Roaming\MiKTeX\tex\latex\amscls\amsthm.sty
+INPUT C:\Users\Eva\AppData\Roaming\MiKTeX\tex\latex\multirow\multirow.sty
+INPUT C:\Users\Eva\AppData\Roaming\MiKTeX\tex\latex\multirow\multirow.sty
+INPUT C:\Users\Eva\AppData\Roaming\MiKTeX\tex\latex\multirow\multirow.sty
+INPUT C:\Users\Eva\AppData\Roaming\MiKTeX\tex\latex\multirow\multirow.sty
+INPUT C:\Users\Eva\AppData\Roaming\MiKTeX\tex\latex\multirow\multirow.sty
+INPUT C:\Users\Eva\AppData\Roaming\MiKTeX\tex\latex\multirow\multirow.sty
+INPUT C:\Users\Eva\AppData\Roaming\MiKTeX\tex\latex\multirow\multirow.sty
+INPUT C:\Users\Eva\AppData\Roaming\MiKTeX\tex\latex\multirow\multirow.sty
+INPUT C:\Users\Eva\AppData\Roaming\MiKTeX\tex\latex\multirow\multirow.sty
 INPUT C:\Users\Eva\AppData\Roaming\MiKTeX\tex\latex\siunitx\siunitx.sty
 INPUT C:\Users\Eva\AppData\Roaming\MiKTeX\tex\latex\siunitx\siunitx.sty
 INPUT C:\Users\Eva\AppData\Roaming\MiKTeX\tex\latex\siunitx\siunitx.sty
@@ -591,8 +600,18 @@ INPUT C:\Users\Eva\AppData\Roaming\MiKTeX\tex\generic\gettitlestring\gettitlestr
 INPUT C:\Users\Eva\AppData\Roaming\MiKTeX\tex\generic\gettitlestring\gettitlestring.sty
 INPUT C:\Users\Eva\AppData\Roaming\MiKTeX\tex\generic\gettitlestring\gettitlestring.sty
 INPUT C:\Users\Eva\AppData\Roaming\MiKTeX\tex\generic\gettitlestring\gettitlestring.sty
-OUTPUT c:\Users\Eva\Documents\Robust-knapsack-problem\poročilo\procilo.out
+INPUT c:\Users\Eva\Documents\Robust-knapsack-problem\poročilo\procilo.out
+INPUT c:\Users\Eva\Documents\Robust-knapsack-problem\poročilo\procilo.out
+INPUT c:\Users\Eva\Documents\Robust-knapsack-problem\poročilo\procilo.out
+INPUT c:\Users\Eva\Documents\Robust-knapsack-problem\poročilo\procilo.out
+INPUT c:\Users\Eva\Documents\Robust-knapsack-problem\poročilo\procilo.out
+INPUT c:\Users\Eva\Documents\Robust-knapsack-problem\poročilo\procilo.out
+INPUT c:\Users\Eva\Documents\Robust-knapsack-problem\poročilo\procilo.out
+INPUT c:\Users\Eva\Documents\Robust-knapsack-problem\poročilo\procilo.out
 OUTPUT c:\Users\Eva\Documents\Robust-knapsack-problem\poročilo\procilo.pdf
+INPUT c:\Users\Eva\Documents\Robust-knapsack-problem\poročilo\procilo.out
+INPUT c:\Users\Eva\Documents\Robust-knapsack-problem\poročilo\procilo.out
+OUTPUT c:\Users\Eva\Documents\Robust-knapsack-problem\poročilo\procilo.out
 INPUT C:\Program Files\MiKTeX\tex\context\base\mkii\supp-pdf.mkii
 INPUT C:\Program Files\MiKTeX\tex\context\base\mkii\supp-pdf.mkii
 INPUT C:\Program Files\MiKTeX\tex\context\base\mkii\supp-pdf.mkii
@@ -699,10 +718,20 @@ INPUT C:\Program Files\MiKTeX\fonts\tfm\public\amsfonts\symbols\msbm7.tfm
 INPUT C:\Users\Eva\AppData\Local\MiKTeX\pdftex\config\pdftex.map
 INPUT C:\Program Files\MiKTeX\fonts\tfm\public\lm\ec-lmr17.tfm
 INPUT C:\Program Files\MiKTeX\fonts\tfm\public\lm\ec-lmbx12.tfm
-OUTPUT c:\Users\Eva\Documents\Robust-knapsack-problem\poročilo\procilo.toc
-OUTPUT c:\Users\Eva\Documents\Robust-knapsack-problem\poročilo\procilo.lof
+INPUT c:\Users\Eva\Documents\Robust-knapsack-problem\poročilo\procilo.toc
+INPUT c:\Users\Eva\Documents\Robust-knapsack-problem\poročilo\procilo.toc
+INPUT c:\Users\Eva\Documents\Robust-knapsack-problem\poročilo\procilo.toc
 INPUT C:\Program Files\MiKTeX\fonts\tfm\public\lm\ec-lmbx12.tfm
 INPUT C:\Program Files\MiKTeX\fonts\tfm\public\lm\ec-lmri12.tfm
+OUTPUT c:\Users\Eva\Documents\Robust-knapsack-problem\poročilo\procilo.toc
+INPUT c:\Users\Eva\Documents\Robust-knapsack-problem\poročilo\procilo.lof
+INPUT c:\Users\Eva\Documents\Robust-knapsack-problem\poročilo\procilo.lof
+INPUT c:\Users\Eva\Documents\Robust-knapsack-problem\poročilo\procilo.lof
+OUTPUT c:\Users\Eva\Documents\Robust-knapsack-problem\poročilo\procilo.lof
+INPUT c:\Users\Eva\Documents\Robust-knapsack-problem\poročilo\procilo.lot
+INPUT c:\Users\Eva\Documents\Robust-knapsack-problem\poročilo\procilo.lot
+INPUT c:\Users\Eva\Documents\Robust-knapsack-problem\poročilo\procilo.lot
+OUTPUT c:\Users\Eva\Documents\Robust-knapsack-problem\poročilo\procilo.lot
 INPUT C:\Program Files\MiKTeX\fonts\tfm\public\lm\ec-lmr8.tfm
 INPUT C:\Program Files\MiKTeX\fonts\tfm\public\lm\ec-lmr6.tfm
 INPUT C:\Program Files\MiKTeX\fonts\tfm\public\lm\ec-lmbx12.tfm
@@ -721,6 +750,21 @@ INPUT c:\Users\Eva\Documents\Robust-knapsack-problem\poročilo\primer1.png
 INPUT c:\Users\Eva\Documents\Robust-knapsack-problem\poročilo\primer1.png
 INPUT c:\Users\Eva\Documents\Robust-knapsack-problem\poročilo\primer1.png
 INPUT C:\Users\Eva\AppData\Roaming\MiKTeX\fonts\tfm\public\eurosym\feymr10.tfm
+INPUT c:\Users\Eva\Documents\Robust-knapsack-problem\poročilo\rekurzija_cela.png
+INPUT c:\Users\Eva\Documents\Robust-knapsack-problem\poročilo\rekurzija_cela.png
+INPUT c:\Users\Eva\Documents\Robust-knapsack-problem\poročilo\rekurzija_cela.png
+INPUT c:\Users\Eva\Documents\Robust-knapsack-problem\poročilo\rekurzija_cela.png
+INPUT c:\Users\Eva\Documents\Robust-knapsack-problem\poročilo\rekurzija_cela.png
+INPUT c:\Users\Eva\Documents\Robust-knapsack-problem\poročilo\rekurzija_cela.png
+INPUT c:\Users\Eva\Documents\Robust-knapsack-problem\poročilo\rekurzija_cela.png
+INPUT C:\Program Files\MiKTeX\fonts\tfm\public\lm\ec-lmbxi10.tfm
+INPUT c:\Users\Eva\Documents\Robust-knapsack-problem\poročilo\primer_rekurzija.png
+INPUT c:\Users\Eva\Documents\Robust-knapsack-problem\poročilo\primer_rekurzija.png
+INPUT c:\Users\Eva\Documents\Robust-knapsack-problem\poročilo\primer_rekurzija.png
+INPUT c:\Users\Eva\Documents\Robust-knapsack-problem\poročilo\primer_rekurzija.png
+INPUT c:\Users\Eva\Documents\Robust-knapsack-problem\poročilo\primer_rekurzija.png
+INPUT c:\Users\Eva\Documents\Robust-knapsack-problem\poročilo\primer_rekurzija.png
+INPUT c:\Users\Eva\Documents\Robust-knapsack-problem\poročilo\primer_rekurzija.png
 INPUT c:\Users\Eva\Documents\Robust-knapsack-problem\poročilo\graficni_prikaz_RKP.png
 INPUT c:\Users\Eva\Documents\Robust-knapsack-problem\poročilo\graficni_prikaz_RKP.png
 INPUT c:\Users\Eva\Documents\Robust-knapsack-problem\poročilo\graficni_prikaz_RKP.png
@@ -753,6 +797,8 @@ INPUT C:\Users\Eva\AppData\Roaming\MiKTeX\fonts\type1\public\eurosym\feymr10.pfb
 INPUT C:\Users\Eva\AppData\Roaming\MiKTeX\fonts\type1\public\eurosym\feymr10.pfb
 INPUT C:\Program Files\MiKTeX\fonts\type1\public\lm\lmbx12.pfb
 INPUT C:\Program Files\MiKTeX\fonts\type1\public\lm\lmbx12.pfb
+INPUT C:\Program Files\MiKTeX\fonts\type1\public\lm\lmbxi10.pfb
+INPUT C:\Program Files\MiKTeX\fonts\type1\public\lm\lmbxi10.pfb
 INPUT C:\Program Files\MiKTeX\fonts\type1\public\lm\lmex10.pfb
 INPUT C:\Program Files\MiKTeX\fonts\type1\public\lm\lmex10.pfb
 INPUT C:\Program Files\MiKTeX\fonts\type1\public\lm\lmmi12.pfb
