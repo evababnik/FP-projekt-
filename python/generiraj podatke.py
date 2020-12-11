@@ -1,10 +1,10 @@
 import random
 
-def naredi_podatke(stevilo, teza, max_cena): #funkcija zgenerira naključne podatke
+def naredi_podatke(n, c, gama, max_cena): #funkcija zgenerira naključne podatke
     
-    n = random.randint(1, stevilo)
-    c = random.randint(0, teza)
-    gama = random.randint(0, int(n / 3))
+    #n = random.randint(1, stevilo)
+    #c = random.randint(0, teza)
+    #gama = random.randint(0, int(n / 3))
     N = []
     w = []
     maks_w = []
@@ -27,4 +27,4 @@ def naredi_podatke(stevilo, teza, max_cena): #funkcija zgenerira naključne poda
 
     return [N, c, w, p, gama, maks_w]
 
-print(naredi_podatke(200, 100, 70))
+print(naredi_podatke(2000, 50, 1, 100))
