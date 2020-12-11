@@ -219,7 +219,24 @@ V primeru ko  je $k* < \Gamma$, pa je optimalna rešitev sestavljena iz rešitev
 težami in iz rešitve za robustni problem nahrbtnika s parametrom   $\Gamma - k^*$ za predmete 
 iz množice $N_2$.
 \end{definition}
-
+\section{Časovna zahtevnost}
+Pogledali si bomo časovni zahtevnosti zgoraj opisanih funkcij, torej \textit{solve\_RKP}
+in \textit{rekurzija}. 
+Pri oceni časovne zahtevnosti funkcije \textit{solve\_RKP} 
+si najprej poglejmo matrike $z$, $k$, $g$. Ker se nahajajo v istih 
+zankah, je dovolj da si pogledamo, kaj se med izvajajem algoritma
+dogaja z matriko $z$, kjer gremo v zunanji zanki skozi vse elemente $j = 1, ...,n$.
+Za vsak $j$ upoštevamo vse $s \leq \Gamma$, v notranji zanki pa gremo še
+skozi vse možne kapacitete nahrbtinka $d = 0, ..., c$. Tako dobimo časovno zahtevnost
+$\mathcal{O}(\Gamma n c)$.
+Ko pokličemo funckijo \textit{rekurzija} ta v primeru,
+ko je $k^* \geq \Gamma$ največ 
+časa porabi pri klicanju funkcije \textit{solve\_RKP($c^*, \Gamma, N_1$)},
+ki porabi $\mathcal{O}(\Gamma \frac{n}{2} c^*)$ časa in pri klicanju funkcije \textit{solve\_KP} s stvarmi iz množice
+ $N_2$, ki porabi $\mathical{O}\(\frac{n}{2} c^*\)$ časa. V primeru,
+ ko je $k^* < \Gamma$ pa funkcija največ časa porabi ko pokliče funkcijo \textit{solve\_EkKP} v času $\mathcal{O}(\Gamma \frac{n}{2} c*)$
+ in funckijo \textit{solve\_RKP} v času $\mathcal{O}(\Gamma \frac{n}{2} c^*)$. Časovna zahtevnost funkcije \testit{rekurzija}
+ znaša torej $\mathcal{O}(\Gamma \frac{n}{2} c^*)$.
 \section{Optimizacija portfeljev s pomočjo RKP}
 Kodo za robustni problem nahrbtinka sva nato uporabila na poenostavljenem finančnem modelu,
 kjer naju je zanimalo iz katerih delnic sestaviti optimalni portelj, pri čemer so cene delnic
@@ -248,18 +265,18 @@ formuliramo na naslednji način:
     x_{j} \in \{0,1\}, j \in M
 \end{equation}
 Da bi dobila rešitev tega modela sva kodi dodala
-funkcije \textit{preberi_podatke_za_delnice},
-\textit{resitev_za_delnice} in \textit{doloci_gamo}. Prva funkcija prebere
+funkcije \textit{preberi\_podatke\_za\_delnice},
+\textit{resitev\_za\_delnice} in \textit{doloci\_gamo}. Prva funkcija prebere
 datoteko, v kateri so za vsako delnico podatki o imenu,
 nominalni ceni, maksimalni ceni ter pričakovanem donosu.
 Funkcija nato za vsako delnico izračnua največ koliko enakih
 delnic po njihovi maksimalni ceni ob danem proračunu lahko kupimo in temu prilagdi sezname $p$,
-$maks_p$ in $r$. Npr. je naš proračun enak $10$ in maksimalna cena delnice $i$ enaka
+$maks_p$ in $r$. Recimo da je naš proračun enak $10$ in maksimalna cena delnice $i$ enaka
 $5$, bomo torej delnico $i$ šteli dvakrat, prav tako pa bomo v zgoraj omenjenih seznamih
-podvojili tudi njene vrednosti. Funkcija \textit{resitev_za_delnice} pa pokliče funkcijo \textit{rekurzija}
+podvojili tudi njene vrednosti. Funkcija \textit{resitev\_za\_delnice} pa pokliče funkcijo \textit{rekurzija}
 in nato poišče katere delnice pripadajo dobljeni optimalni rešitvi.
 \par
-$\Gamma$ tu ni podana skupaj s podatki, ampak jo iz podatkov izračunamo s pomočjo funckije \textit{doloci_gamo}.
+$\Gamma$ tu ni podana skupaj s podatki, ampak jo iz podatkov izračunamo s pomočjo funckije \textit{doloci\_gamo}.
 V tem modelu je $\Gamma$ namreč slučajna spremenljivka in jo lahko ob nekaterih predpostavkah (ki 
 sicer v realnosti ne držijo popolnoma) dobimo verjetnostno, pri čemer sva predpostavila, da je $\Gamma$
 binomsko porazdeljena. Najina ideja je bila torej ugotoviti, kdaj bo trenutna cena delnice $P_j$ narasla na 
@@ -269,9 +286,9 @@ Predpostavila sva, da je $\overline{R}$ kar enak verjetnosti $p$, ki predstavlja
 da bo vrednost opazovanih delnic narasla. Nato sva s pomočjo funcije $random.binomial(stevilo_delnic, p)$ 
 simulirala vrednosti slučajne spremenljivke $\Gamma$.
 
-\subsection{UPORABA RKP NA PODATKIH DELNICA S&P 500}
+\subsection{UPORABA RKP NA PODATKIH O DELNICAH S\&P 500}
 Z zgoraj opisanim finančnim RKP modelom sva nato izračunala optimalni portfelj na podlagi 
-o cenah in donosih delnic \textit{S&P 500}, kjer gre za 500 največjih in najbolj likvidnih
+o cenah in donosih delnic \textit{S\&P 500}, kjer gre za 500 največjih in najbolj likvidnih
 ameriških podjetij, kjer sva iskala maksimalni donos portfelja glede na različne proračune $B$.
 Ob tem je potrebno poudariti, da veva, da dobljene rešitve niso najbolj optimalne, saj
 ostalih dejavnikov, ki močno vplivajo na sestavo optimalnega portfelja (kot je npr. tveganje), 
