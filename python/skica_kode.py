@@ -14,17 +14,17 @@ def solve_RKP(N, c, w, p, gama = None,  max_w = None):
         for d in range(c, w[j]-1, -1):  
             if Z[d - w[j]][gama] + p[j] > Z[d][gama]:
                 Z[d][gama] = Z[d - w[j]][gama] + p[j] 
-                K[d][gama] = 1 + K[d - w[j]][gama]
+                G[d][gama] = 1 + G[d - w[j]][gama]
                 if j  >= ((len(N) / 2)):
-                    G[d][gama] = 1 + G[d - w[j]][gama]
+                    K[d][gama] = 1 + K[d - w[j]][gama]
         j-ti predmet poskusimo dodati v svoji robustni teži:            
         for s in range(gama, 0, -1):
             for d in range(c, maks_w[j] - 1, -1):
                 if Z[d - maks_w[j]][s - 1] + p[j] > Z[d][s]:
                     Z[d][s] = Z[d - maks_w[j]][s - 1] + p[j]
-                    K[d][s] = 1 + K[d - maks_w[j]][s-1] 
+                    G[d][s] = 1 + G[d - maks_w[j]][s-1] 
                     if j  >= ((len(N) / 2)):
-                        G[d][s] = 1 + G[d - maks_w[j]][s - 1]
+                        K[d][s] = 1 + K[d - maks_w[j]][s - 1]
         največji člen matrike Z je z*:
         z* = max([max(i) for i in Z])
         pogledamo kje v matriki se nahaja z*:
@@ -33,11 +33,11 @@ def solve_RKP(N, c, w, p, gama = None,  max_w = None):
         c* = pozicija[0][0]
         število_predmetov_s_povečano_težo = pozicija[0][-1] #to je število predmetov, ki se jim je spremenila teža
 
-        najdemo k* ter g1, ki pomeni koliko elementov iz N2(druga polovica predmetov v N) je v optimalni rešitvi:
-        g1 = G[c*][število_predmetov_s_povečano_težo] 
-        k* = K[c*][število_predmetov_s_povečano_težo] 
-        g* = k* - g1
-        return [z*, c*, k*, g*]
+        najdemo g* ter k1, ki pomeni koliko elementov iz N2(druga polovica predmetov v N) je v optimalni rešitvi:
+        k1 = K[c*][število_predmetov_s_povečano_težo] 
+        g* = G[c*][število_predmetov_s_povečano_težo] 
+        g* = g* - k1
+        return [z*, c*, g*, k*]
 
 def rekurzija(N, z*, k*, c*, gama, w, maks_w, p, vstavljeni_predmeti=None):
     if vstavljeni_predmeti is None:
