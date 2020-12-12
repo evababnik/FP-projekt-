@@ -189,7 +189,7 @@ rešimo s funkcjo \textit{Solve\_RKP} dobimo naslednjo rešitev:
 \end{figure}
 
 \noindent Funkcija \textit{solve\_RKP} nam vrne seznam iz katerega razberemo, da je optimalna rešitev 66
- \euro, bomo v nahrbtnik položili $4$ predmete od tega $3$ predmete iz prve polovice množice predmetov $N$ ter da bomo nahrbtnik čisto napolnili.
+ \euro, v nahrbtnik bomo položili $4$ predmete od tega $3$ predmete iz prve polovice množice predmetov $N$ ter da bomo nahrbtnik čisto napolnili.
 
 
 \subsection{Rekurzija}
@@ -287,8 +287,9 @@ $N_2$, ki porabi $\mathcal{O}(\frac{n}{2} c^*)$ časa. V primeru,
  znaša torej $\mathcal{O}(\Gamma \frac{n}{2} c^*)$.
  \par
  V tabeli je prikazana časovna zahtevnost algoritma v odvisnosti od $\Gamma$, $c$ in $n$, čas pa je merjen v sekundah.
- Meritve sva izvedla na naključno generiranih podatkih, dobljenih s funkcijo \textit{naredi\_podatke}.
- Podatki se nahajajo v mapi \textit{podatki\_za\_merjenje\_casa}.
+ Meritve sva izvedla na naključno generiranih podatkih, dobljenih s funkcijo \textit{naredi\_podatke}. Vse meritve sva opravila 
+ s prenosnim računalnikom Macbook (early 2016) s procesorjem 1,2 GHz Dual-Core Intel Core m5 in 8GB spomina.
+ Podatki se nahajajo v mapi \textit{podatki\_za\_merjenje\_časa}.
  
      
  
@@ -372,7 +373,7 @@ kar ni idealno, saj ravno z diverzifikacijo zmanjšujemo tveganje.
 Optimalne portfelje za delnice $S\&P 500$ sva izračunala za proračune $B = 50$, $B = 100$, $B = 500$,
 $B = 1000$ in $B = 2000$. V tabeli je prikazana časovna zahtevnost za posamezne 
 primere ter sestava optimalnega portfelja, pri čemer so imena podjetji zapisana z njihovimi
-kraticami.
+kraticami. 
 \begin{table}[]
     \resizebox{\textwidth}{!}{
     \begin{tabular}{c|c|c|c|c|c|}
