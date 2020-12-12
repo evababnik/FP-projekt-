@@ -362,8 +362,8 @@ def preberi_podatke(dat, kodna_tabela='utf-8'): #prebere podatke iz mape GENERIR
     return(N, w, p, maks_w)
 
 
-N, w, p, maks_w = preberi_podatke('podatki\generirani_podatki\podatki_552-67-16.txt')
-resitev(N, 67, w, p, 16,  maks_w)
+# N, w, p, maks_w = preberi_podatke('podatki\generirani_podatki\podatki_552-67-16.txt')
+# resitev(N, 67, w, p, 16,  maks_w)
 # elapsed_time = time.time() - start_time
 # print(elapsed_time)
 
