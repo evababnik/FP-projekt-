@@ -284,9 +284,9 @@ ki porabi $\mathcal{O}(\Gamma \frac{n}{2} c^*)$ časa in pri klicanju funkcije \
 $N_2$, ki porabi $\mathcal{O}(\frac{n}{2} c^*)$ časa. V primeru,
  ko je $k^* < \Gamma$ pa funkcija največ časa porabi ko pokliče funkcijo \textit{solve\_EkKP} v času $\mathcal{O}(\Gamma \frac{n}{2} c*)$
  in funckijo \textit{solve\_RKP} v času $\mathcal{O}(\Gamma \frac{n}{2} c^*)$. Časovna zahtevnost funkcije \textit{rekurzija}
- znaša torej $\mathcal{O}(\Gamma \frac{n}{2} c^*)$.
+ znaša torej $\mathcal{O}(\Gamma n c)$.
  \par
- V tabeli je prikazana časovna zahtevnost algoritma v odvisnosti od $\Gamma$, $c$ in $n$, čas pa je merjen v sekundah.
+ V tabeli $($\ref{tab:tab1}$)$ je prikazana časovna zahtevnost algoritma v odvisnosti od $\Gamma$, $c$ in $n$, čas pa je merjen v sekundah.
  Meritve sva izvedla na naključno generiranih podatkih, dobljenih s funkcijo \textit{naredi\_podatke}.
  Podatki se nahajajo v mapi \textit{podatki\_za\_merjenje\_casa}.
  
@@ -307,7 +307,7 @@ $N_2$, ki porabi $\mathcal{O}(\frac{n}{2} c^*)$ časa. V primeru,
     \multicolumn{1}{|c|}{}                          & $\Gamma$ = 10 & 14.2596 & 52.3112  & 195.0519 \\ \cline{2-5} 
     \multicolumn{1}{|c|}{}                          & $\Gamma$ = 50 & 26.1064 & 106.8547 & 700.8570 \\ \hline
     \end{tabular}
-    \caption{\label{tab:Tabela 1}Časovna zahtevnost algortima v odvisnosti od $n$, $\Gamma$ in $c$.}
+    \caption{\label{tab:tab1}Časovna zahtevnost algortima v odvisnosti od $n$, $\Gamma$ in $c$.}
 \end{table}
 
 \section{Optimizacija portfeljev s pomočjo RKP}
@@ -369,8 +369,8 @@ ostalih dejavnikov, ki močno vplivajo na sestavo optimalnega portfelja (kot je 
 sploh nisva upoštevala. V rezultatu dobimo zelo nerazpršen portfelj,
 kar ni idealno, saj ravno z diverzifikacijo zmanjšujemo tveganje. 
 \par
-Optimalne portfelje za delnice $S\&P 500$ sva izračunala za proračune $B = 50$, $B = 100$, $B = 500$,
-$B = 1000$ in $B = 2000$. V tabeli je prikazana časovna zahtevnost za posamezne 
+Optimalne portfelje za delnice $S\&P$ $500$ sva izračunala za proračune $B = 50$, $B = 100$, $B = 500$,
+$B = 1000$ in $B = 2000$. V tabeli $($\ref{tab:tab2}$)$ je prikazana časovna zahtevnost za posamezne 
 primere ter sestava optimalnega portfelja, pri čemer so imena podjetji zapisana z njihovimi
 kraticami.
 \begin{table}[]
@@ -382,7 +382,7 @@ kraticami.
     \multicolumn{1}{|c|}{\begin{tabular}[c]{@{}c@{}}Sestava optimalnega\\ portfelja\end{tabular}} & \begin{tabular}[c]{@{}c@{}}CARR: 1, AMCR: 1,\\ HBAN: 1\end{tabular} & \begin{tabular}[c]{@{}c@{}}CARR: 2, ZION: 1,\\ HWM: 1, HFC: 1\end{tabular} & \begin{tabular}[c]{@{}c@{}}Carr: 4, Etsy: 2\\ Nwsa: 1, Intc: 1\end{tabular} & \begin{tabular}[c]{@{}c@{}}Etsy: 5, Carr: 4,\\ Vtrs: 1\end{tabular} & \begin{tabular}[c]{@{}c@{}}Wts: 7, Wrk: 1,\\ Xyl: 1\end{tabular} \\ \hline
     \multicolumn{1}{|c|}{Dobiček}                                                                 & 123                                                                 & 272                                                                        & 1583                                                                        & 3246                                                                & 3477                                                             \\ \hline
     \end{tabular}}
-    \caption{\label{tab: Tabela 2} Časovna zahtevnost finančnega RKP modela in dobljeni rezultati}
+    \caption{\label{tab:tab2} Časovna zahtevnost finančnega RKP modela in dobljeni rezultati}
     
     \end{table}
 
