@@ -44,7 +44,7 @@ njihovo časovno zahtevnost.
 \section{Povzetek}
 \medskip
 Poročilo se prične s kratko predstavitvijo navadnega oziroma klasičnega problema nahrbtnika in nato še z razlago 
-robustnega problema nahrbtnika. V robustnem primer problema nahrbtnika prav tako kot pri klasičnemu problemu iščemo 
+robustnega problema nahrbtnika. Prav tako kot v klasičnem primeru problema nahrbtnika tudi pri robustnemu problemu iščemo 
 množico predmetov, ki jih bomo položili v nahrbtnik in njihovo optimalno vrednost, vendar v tem primeru nimamo točnih podatkov o 
 vseh težah predmetov. Za njihove teže vemo le, da so element določenega zaprtega intervala, ki torej ima zgornjo in spodnjo mejo.
 Poleg intervalov tež predmetov pa še vemo maksimalno število elementov, ki lahko spremeni svojo težo, to število označimo z $\Gamma$.
@@ -52,7 +52,7 @@ Poleg intervalov tež predmetov pa še vemo maksimalno število elementov, ki la
 Za sledeči problem sva s pomočjo dinamičnega programiranja napisala rekurzivne enačbe, na katerih bazira
 najina koda v programskem jeziku \textit{python}. Napisala sva program, ki reši tako klasični problem nahrbtnika kot 
 tudi robustni problem nahrbtnika in za rešitev vrne optimalni seznam predmetov, ki jih položimo v nahrbtnik in skupno 
-optimalno vrednost le-teh. Sestavila pa sva tudi enostavnejši grafični program, ki omogoča, da lahko problem reši tudi posameznik, 
+optimalno vrednost le-teh. Sestavila pa sva tudi enostavnejši grafični prikaz, ki omogoča, da lahko problem reši tudi posameznik, 
 ki nima nikakršnega predznanja v programiranju.
 \paragraph{}
 Nato sva kodo malo modificirala in jo uporabila na malo poenostavljenem finančnem modelu. 
@@ -167,7 +167,7 @@ za izračun RKP. Kot je že bilo omenjeno je zelo pomembno, da so predmeti razvr
 \paragraph{}
 \noindent Funkcija \textit{solve\_RKP} sprejme štiri obvezne argumente: množico predmetov $N$ oblike
 $\{1, \dots, n\}$, kjer je $n$ število predmetov; kapaciteto nahrbtnika $c$; teže predmetov $w$; vrednosti predmetov $p$ in dva neobvezna
-argumenta $\Gamma$, ki označuje maksimalno število predmetov s spremenjeno težo ter $\bar{w} = max\_w$, ki prikazuje robustne teže predmetov. 
+argumenta $\Gamma$, ki označuje maksimalno število predmetov s spremenjeno težo ter $max\_w := \bar{w}$, ki prikazuje robustne teže predmetov. 
 Vrne nam sledeče podatke: $z^{*}$ (optimalna vrednost predmetov, ki bodo v nahrbtniku), $c^{*}$ (optimalno težo predmetov v nahrbtniku), $g^{*}$ (število 
 predmetov, ki jih damo v nahrbtnik) ter $k^{*}$ (število predmetov iz prve polovice množice $N$, ki jih dodamo v nahrbtnik). Vse te optimalne 
 vrednosti potrebujemo kasneje v funkciji \textit{rekurzija}, da lahko dobimo seznam predmetov, ki jih bomo položili v nahrbtnik. V primeru ko 
@@ -177,7 +177,7 @@ reši KP.
 
 \subsubsection{Primer Solve\_RKP}
 
-Recimo, da imamo 10 predmetov, ki jih želimo položiti v nahrbtnik s kapaciteto 20 kilogramov. Recimo, da so podatki za te predmete so sledeči: 
+Recimo, da imamo 10 predmetov, ki jih želimo položiti v nahrbtnik s kapaciteto 20 kilogramov. Recimo, da so podatki za te predmete sledeči: 
 $N = \{1, \dots, 10\}$, $c = 20$, $w = [4, 2, 6, 5, 2, 1, 7, 3, 5, 2]$, $p = [8, 5, 17, 10, 14, 4, 6, 8, 9, 25]$, $\Gamma = 4$, 
 $max\_w = [5, 4, 6, 7, 4, 4, 7, 4, 5, 3]$, kjer so podatki $w$ in $max\_w$ predstavljeni v kilogramih, podatki $p$ pa v evrih. Če sedaj ta problem 
 rešimo s funkcjo \textit{Solve\_RKP} dobimo naslednjo rešitev:
@@ -202,21 +202,21 @@ rešimo s funkcjo \textit{Solve\_RKP} dobimo naslednjo rešitev:
 \end{figure}
 
 Optimalni seznam stvari, ki jih vstavimo v nahrbtnik sva dobila s pomočjo funkcije $rekurzija$,
-ki sprejme argumente $N, z^*, k^*, c^*,  \Gamma, w, \overline{w}_{j}, p$ in neobvezen argument 
+ki sprejme argumente $N, z^*, k^*, c^*,  \Gamma, w, \overline{w}, p$ in neobvezen argument 
 $rešitev$,  pri čemer sva množico stvari $N$ razdelila na dva dela: $N = N_1 \cup N_2$ , za 
 katera velja $N_1 = \{1, ..., n / 2\} $ in $N_2 = \{n / 2 + 1, ..., n\}$. Za primer ko je $n$ 
-liho število, pa sva za elemente množice $N_1$ vzela prvih $n / 2 + 1$ predmetov. Po izračunu
+liho število, pa sva za elemente množice $N_1$ vzela prvih $\frac{n +1}{2} $ predmetov. Po izračunu
 optimalne vrednosti s pomočjo funkcije $RKP$ sva optimalni seznam stvari dobila rekurzivno za 
 vsako množico stvari $N_i$, pri čemer sva si pomagala še z dvema funkcijama, pri katerih gre 
 za različici problema nahrbtnika; s funkcijo \textit{Solve\_KP}, ki reši navadni problem
 nahrbtnika, ki je opisan na začetku poročila in s funkcijo \textit{Solve\_EkKP}, ki reši 
-problem nahrbtnika z omejenim številom predmetov, ki je podobnen navadnemu problemu nahrbtnika, 
+problem nahrbtnika z omejenim številom predmetov, ki je podoben navadnemu problemu nahrbtnika, 
 le da tu dodamo še omejitev:
 \begin{equation}
 \tag*{}   
 \sum_{i=1}^{n}x_i = k
 \end{equation} kjer $k$ pomeni dovoljeno število predmetov v nahrbtniku.
-Najna delitev problema da dva dela temelji na naslednji lemi:
+Najina delitev problema na dva dela temelji na naslednji lemi:
 \begin{definition}
 Če je $k^* \geq \Gamma$, potem je optimalna rešitev sestavljena iz rešitve za robustni problem 
 nahrbtnika s parametrom $\Gamma$ za predmete iz množice $N_1$ in iz rešitve za navadni problem 
@@ -229,13 +229,13 @@ iz množice $N_2$.
 
 \subsubsection{Primer \textit{rekurzije}}
 
-Recimo, da imamo iste podatke kot v primeru 6.1.1 in vrednosti $z^{*}$, $c^{*}$ ter $g^{*}$, ki jih dobimo 
+Recimo, da imamo iste podatke kot v primeru 6.1.1 in vrednosti $z^{*}$, $c^{*}$ ter $k^{*}$, ki jih dobimo 
 iz rešitve \textit{solve\_RKP}. Podatke vstavimo v funkcijo \textit{rekurzija} in dobimo seznam predmetov, 
 ki ji položimo v nahrbtink: 
 
 \begin{figure}[h]
     \includegraphics[width=14cm, height = 1cm]{primer_rekurzija.png}
-    \caption{Rešitev rekurzije}
+    \caption{Rešitev \textit{rekurzije}}
     \label{fig:koda6}    
 \end{figure}
 
@@ -271,29 +271,29 @@ seznam predmetov, ki jih položimo v nahrbtnik.
 Pogledali si bomo časovni zahtevnosti zgoraj opisanih funkcij, torej \textit{solve\_RKP}
 in \textit{rekurzija}. 
 Pri oceni časovne zahtevnosti funkcije \textit{solve\_RKP} 
-si najprej poglejmo matrike $z$, $k$, $g$. Ker se nahajajo v istih 
+si najprej poglejmo matrike $Z$, $K$, $G$. Ker se nahajajo v istih 
 zankah, je dovolj da si pogledamo, kaj se med izvajajem algoritma
-dogaja z matriko $z$, kjer gremo v zunanji zanki skozi vse elemente $j = 1, ...,n$.
+dogaja z matriko $Z$, kjer gremo v zunanji zanki skozi vse elemente $j = 1, ...,n$.
 Za vsak $j$ upoštevamo vse $s \leq \Gamma$, v notranji zanki pa gremo še
 skozi vse možne kapacitete nahrbtinka $d = 0, ..., c$. Tako dobimo časovno zahtevnost
 $\mathcal{O}(\Gamma n c)$.
 Ko pokličemo funckijo \textit{rekurzija} ta v primeru,
 ko je $k^* \geq \Gamma$ največ 
 časa porabi pri klicanju funkcije \textit{solve\_RKP($c^*, \Gamma, N_1$)},
-ki porabi $\mathcal{O}(\Gamma \frac{n}{2} c^*)$ časa in pri klicanju funkcije \textit{solve\_KP} s stvarmi iz množice 
+ki porabi $\mathcal{O}(\Gamma \frac{n}{2} c^*)$ časa in pri klicanju funkcije \textit{solve\_KP} s predmeti iz množice 
 $N_2$, ki porabi $\mathcal{O}(\frac{n}{2} c^*)$ časa. V primeru,
  ko je $k^* < \Gamma$ pa funkcija največ časa porabi ko pokliče funkcijo \textit{solve\_EkKP} v času $\mathcal{O}(\Gamma \frac{n}{2} c*)$
  in funckijo \textit{solve\_RKP} v času $\mathcal{O}(\Gamma \frac{n}{2} c^*)$. Časovna zahtevnost funkcije \textit{rekurzija}
- znaša torej $\mathcal{O}(\Gamma \frac{n}{2} c^*)$.
+ znaša torej $\mathcal{O}(\Gamma n c)$.
  \par
- V tabeli je prikazana časovna zahtevnost algoritma v odvisnosti od $\Gamma$, $c$ in $n$, čas pa je merjen v sekundah.
- Meritve sva izvedla na naključno generiranih podatkih, dobljenih s funkcijo \textit{naredi\_podatke}. Vse meritve sva opravila 
- s prenosnim računalnikom Macbook (early 2016) s procesorjem 1,2 GHz Dual-Core Intel Core m5 in 8GB spomina.
+ V tabeli $($\ref{tab:tab1}$)$ je prikazana časovna zahtevnost algoritma v odvisnosti od $\Gamma$, $c$ in $n$, čas pa je merjen v sekundah.
+ Vse meritve sva opravila s prenosnim računalnikom MacBook (early 2016) s procesorjem 1,2 GHz Dual-Core Intel Core m5 in 8GB spomina.
+  Meritve sva izvedla na naključno generiranih podatkih, dobljenih s funkcijo \textit{naredi\_podatke}.
  Podatki se nahajajo v mapi \textit{podatki\_za\_merjenje\_časa}.
  
      
  
- \begin{table}[]
+ \begin{table}[h]
     \centering
     \begin{tabular}{c|c|c|c|c|}
     \cline{3-5}
@@ -308,7 +308,7 @@ $N_2$, ki porabi $\mathcal{O}(\frac{n}{2} c^*)$ časa. V primeru,
     \multicolumn{1}{|c|}{}                          & $\Gamma$ = 10 & 14.2596 & 52.3112  & 195.0519 \\ \cline{2-5} 
     \multicolumn{1}{|c|}{}                          & $\Gamma$ = 50 & 26.1064 & 106.8547 & 700.8570 \\ \hline
     \end{tabular}
-    \caption{\label{tab:Tabela 1}Časovna zahtevnost algortima v odvisnosti od $n$, $\Gamma$ in $c$.}
+    \caption{\label{tab:tab1}Časovna zahtevnost algortima v odvisnosti od $n$, $\Gamma$ in $c$.}
 \end{table}
 
 \section{Optimizacija portfeljev s pomočjo RKP}
@@ -344,9 +344,9 @@ funkcije \textit{preberi\_podatke\_za\_delnice},
 \textit{resitev\_za\_delnice} in \textit{doloci\_gamo}. Prva funkcija prebere
 datoteko, v kateri so za vsako delnico podatki o imenu,
 nominalni ceni, maksimalni ceni ter pričakovanem donosu.
-Funkcija nato za vsako delnico izračnua največ koliko enakih
-delnic po njihovi maksimalni ceni ob danem proračunu lahko kupimo in temu prilagdi sezname $p$,
-$maks_p$ in $r$. Recimo da je naš proračun enak $10$ in maksimalna cena delnice $i$ enaka
+Funkcija nato za vsako delnico izračuna največ koliko enakih
+delnic po njihovi maksimalni ceni ob danem proračunu lahko kupimo in temu prilagodi sezname $p$,
+$maks\_p$ in $r$. Recimo, da je naš proračun enak $10$ in maksimalna cena delnice $i$ enaka
 $5$, bomo torej delnico $i$ šteli dvakrat, prav tako pa bomo v zgoraj omenjenih seznamih
 podvojili tudi njene vrednosti. Funkcija \textit{resitev\_za\_delnice} pa pokliče funkcijo \textit{rekurzija}
 in nato poišče katere delnice pripadajo dobljeni optimalni rešitvi.
@@ -358,23 +358,23 @@ binomsko porazdeljena. Najina ideja je bila torej ugotoviti, kdaj bo trenutna ce
 $\overline{P_j}$. Sklepala sva, da večji pričakovani donos $R_j$ pomeni večjo verjetnost, da
 bo cena delnice v danem trenutku narasla na $\overline{P_j}$, zato sva izračunala povprečen $\overline{R}$. 
 Predpostavila sva, da je $\overline{R}$ kar enak verjetnosti $p$, ki predstavlja verjetnost,
-da bo vrednost opazovanih delnic narasla. Nato sva s pomočjo funcije $random.binomial(stevilo_delnic, p)$ 
+da bo vrednost opazovanih delnic narasla. Nato sva s pomočjo funkcije $random.binomial(stevilo\_delnic, p)$ 
 simulirala vrednosti slučajne spremenljivke $\Gamma$.
 
 \subsection{Uporaba RKP na delnicah $S\&P$ $500$}
 Z zgoraj opisanim finančnim RKP modelom sva nato izračunala optimalni portfelj na podlagi 
-o cenah in donosih delnic \textit{S\&P 500}, kjer gre za 500 največjih in najbolj likvidnih
+o cenah in donosih delnic \textit{S}\&\textit{P 500}, kjer gre za 500 največjih in najbolj likvidnih
 ameriških podjetij, kjer sva iskala maksimalni donos portfelja glede na različne proračune $B$.
-Ob tem je potrebno poudariti, da veva, da dobljene rešitve niso najbolj optimalne, saj
+Ob tem je potrebno poudariti, da se zavedava, da dobljene rešitve niso najbolj optimalne, saj
 ostalih dejavnikov, ki močno vplivajo na sestavo optimalnega portfelja (kot je npr. tveganje), 
 sploh nisva upoštevala. V rezultatu dobimo zelo nerazpršen portfelj,
 kar ni idealno, saj ravno z diverzifikacijo zmanjšujemo tveganje. 
 \par
-Optimalne portfelje za delnice $S\&P 500$ sva izračunala za proračune $B = 50$, $B = 100$, $B = 500$,
-$B = 1000$ in $B = 2000$. V tabeli je prikazana časovna zahtevnost za posamezne 
-primere ter sestava optimalnega portfelja, pri čemer so imena podjetji zapisana z njihovimi
+Optimalne portfelje za delnice \textit{S}\&\textit{P 500} sva izračunala za proračune $B = 50$, $B = 100$, $B = 500$,
+$B = 1000$ in $B = 2000$. V tabeli $($\ref{tab:tab2}$)$ je prikazana časovna zahtevnost za posamezne 
+primere v sekundah ter sestava optimalnega portfelja, pri čemer so imena podjetji zapisana z njihovimi
 kraticami. 
-\begin{table}[]
+\begin{table}[h]
     \resizebox{\textwidth}{!}{
     \begin{tabular}{c|c|c|c|c|c|}
     \cline{2-6}
@@ -383,7 +383,7 @@ kraticami.
     \multicolumn{1}{|c|}{\begin{tabular}[c]{@{}c@{}}Sestava optimalnega\\ portfelja\end{tabular}} & \begin{tabular}[c]{@{}c@{}}CARR: 1, AMCR: 1,\\ HBAN: 1\end{tabular} & \begin{tabular}[c]{@{}c@{}}CARR: 2, ZION: 1,\\ HWM: 1, HFC: 1\end{tabular} & \begin{tabular}[c]{@{}c@{}}Carr: 4, Etsy: 2\\ Nwsa: 1, Intc: 1\end{tabular} & \begin{tabular}[c]{@{}c@{}}Etsy: 5, Carr: 4,\\ Vtrs: 1\end{tabular} & \begin{tabular}[c]{@{}c@{}}Wts: 7, Wrk: 1,\\ Xyl: 1\end{tabular} \\ \hline
     \multicolumn{1}{|c|}{Dobiček}                                                                 & 123                                                                 & 272                                                                        & 1583                                                                        & 3246                                                                & 3477                                                             \\ \hline
     \end{tabular}}
-    \caption{\label{tab: Tabela 2} Časovna zahtevnost finančnega RKP modela in dobljeni rezultati}
+    \caption{\label{tab:tab2} Časovna zahtevnost finančnega RKP modela in dobljeni rezultati}
     
     \end{table}
 
