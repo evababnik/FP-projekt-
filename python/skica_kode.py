@@ -43,17 +43,15 @@ def rekurzija(N, z*, k*, c*, gama, w, maks_w, p, vstavljeni_predmeti=None):
     if vstavljeni_predmeti is None:
         vstavljeni_predmeti = []
     if len(N) == 1 and vstavljeni_predmeti == []:
-        return [N if gama != 0 and maks_w[0] <= c* or if gama == 0 and w[0] <= c*]
+        return [N if (gama != 0 and maks_w[0] <= c*) or (gama == 0 and w[0] <= c*)]
     elif len(N) == 1 and vstavljeni_predmeti != []:
         if gama != 0 and maks_w[0] <= c*:
-                vstavljeni_predmeti.append(N[0])
-                return(vstavljeni_predmeti)
+            return(vstavljeni_predmeti.append(N[0]))
         elif gama != 0 and maks_w[0] > c*: 
-                return(vstavljeni_predmeti)
+            return(vstavljeni_predmeti)
         else:
-            if w[0] <= c*:
-                vstavljeni_predmeti.append(N[0])
-                return(vstavljeni_predmeti)
+            if w[0] <= c*:    
+            return(vstavljeni_predmeti.append(N[0]))
     else:
         uredi predmete po padajoči vrednosti (maks_w - w)
         polovica =(len(N) / 2 )
@@ -73,8 +71,8 @@ def rekurzija(N, z*, k*, c*, gama, w, maks_w, p, vstavljeni_predmeti=None):
             dobimo kot:
             z1(c1) = RKP(N1, c1, w1, p1, gama, maks_w1)[0] 
             z2(c2) = solve_KP(N2, c2, w2, p2)[1]
-            solution_set_kp = solve_KP(N2, c2, w2, p2)[0]
-            vstavljeni_predmeti.append(solution_set_kp)
+            seznam_stvari_ki_jih_dobimo_s_KP = solve_KP(N2, c2, w2, p2)[0]
+            vstavljeni_predmeti.append(seznam_stvari__ki_jih_dobimo_s_KP)
             k1* = RKP(N1, c1, w1, p1, gama, maks_w1)[3]
             return rekurzija(N1, z1(c1) , k1*, c1, gama, w1, maks_w1, p1, vstavljeni_predmeti)        
         else: 
@@ -83,6 +81,7 @@ def rekurzija(N, z*, k*, c*, gama, w, maks_w, p, vstavljeni_predmeti=None):
             dobimo kot:    
             z1(c1) = solve_eKkP(N1, c1, maks_w1, p1, k*)[1]
             z2(c2) = RKP(N2, c* - c1, w2, p2, gama - k*, maks_w2)[0]
-            solution_set_eKkP = solve_eKkP(N1, c1, maks_w1, p1, k*)[0]
+            seznam_stvari_ki_jih_dobimo_z_eKkP = solve_eKkP(N1, c1, maks_w1, p1, k*)[0]
+            vstavljeni_predmeti.append(seznam_stvari_ki_jih_dobimo_z_eKkP)
             k2* = RKP(N2, c2, w2, p2, gama - k*, maks_w2)[3]
             return rekurzija(N2, z2(c2), k2*, c2,gama - k*, w2, maks_w2, p2, vstavljeni_predmeti)

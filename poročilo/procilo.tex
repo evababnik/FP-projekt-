@@ -55,9 +55,9 @@ tudi robustni problem nahrbtnika in za rešitev vrne optimalni seznam predmetov,
 optimalno vrednost le-teh. Sestavila pa sva tudi enostavnejši grafični prikaz, ki omogoča, da lahko problem reši tudi posameznik, 
 ki nima nikakršnega predznanja v programiranju.
 \paragraph{}
-Nato sva kodo malo modificirala in jo uporabila na malo poenostavljenem finančnem modelu. 
+Nato sva kodo malo modificirala in jo uporabila na poenostavljenem finančnem modelu. 
 Program prebere datoteko s podatki, ki zajemajo ceno delnice, najvišjo možno ceno delnice in letno stopnjo donosa, vrne pa 
-optimalni portfelj, ki si ga lahko izberemo če imamo na voljo za investicije določeno vsoto denarja.
+optimalni portfelj, ki si ga lahko izberemo, če imamo za investicije na voljo  določeno vsoto denarja.
 
 
 
@@ -66,10 +66,10 @@ optimalni portfelj, ki si ga lahko izberemo če imamo na voljo za investicije do
 \section{Problem nahrbtnika}
 \medskip
 Klasični problem nahrbtinka (angl. \textit{classical Knapsack Problem}) je računalniški problem, s katerim poskusimo zapolniti 
-nahrbtnik z danimi predmeti, ki ima vsak svojo ceno in težo. Bodisi gre za dejansko polnjenje nahrbtnika, polnjenje 
+nahrbtnik z danimi predmeti, pri čem ima svojo ceno in težo. Bodisi gre za dejansko polnjenje nahrbtnika, polnjenje 
 nakupovalne vreče ali morda zlaganje predmetov v avto. V nadaljevanju poročila bova za klasični problem uporabljala kar kratico KP. 
-Na voljo imamo množico n-tih predmetov, ki jo označimo z $N = \{1, \dots, n\}$ in nahrbtnik s kapaciteto $c$. Vsak predmet ima 
-pozitivno vrednost $p_{j}$ in pozitivno utež $w_{j}$. Problem nahrbtnika nas sprašuje, katero podmnožico predmetov iz N moramo 
+Na voljo imamo množico $n$-tih predmetov, ki jo označimo z $N = \{1, \dots, n\}$ in nahrbtnik s kapaciteto $c$. Vsak predmet ima 
+pozitivno vrednost $p_{j}$ in pozitivno utež $w_{j}$. Problem nahrbtnika nas sprašuje, katero podmnožico predmetov iz $N$ moramo 
 položiti v nahrbtnik, da bo skupna vrednost le teh čim večja možna in da ne bo presegla nahrbtnikove kapacitete. 
 Torej maksimiziramo skupno vrednost predmetov pri pogoju, da seštevek izbranih uteži ne presega nahrbtinkove zmogljivosti.
 Problem lahko predstavimo kot celoštevilski linearni program (CLP):
@@ -89,7 +89,7 @@ Problem lahko predstavimo kot celoštevilski linearni program (CLP):
 \end{equation}
 
 \medskip
-\noindent Kjer $x_{j}$ zavzame vrednost 1, če j-ti predmet položimo v nahrbtnik,
+\noindent Kjer $x_{j}$ zavzame vrednost 1, če $j$-ti predmet položimo v nahrbtnik,
  sicer zavzame vrednost 0. 
 
 \section{Robustni problem nahrbtnika}
@@ -109,8 +109,7 @@ $J \subseteq N$ lahko formuliramo na naslednji način:
     \tag*{}
     \sum_{j \in J}w_{j} + \sum_{j \in \hat{J}}\overline{w}_{j} \leq c,\quad \forall \hat{J} \subseteq J \; \text{in}\; |\hat{J}| \leq \Gamma 
 \end{equation}
-
-
+Zaradi lažje notacije v nadaljevanju definirajmo povečano težo kot $\hat{w}_j = w_j + \overline{w}_{j}$ za vsak $j$.
 \section{Pristop z dinamičnim programiranjem}   %pobravano rumeno ker je č noter :/
 \medskip
 Naj bo $ \bar{z}(d, s, j) $ najvišji dobiček za dopustno rešitev s skupno težo $d$, kjer so upoštevani 
@@ -118,7 +117,7 @@ samo elementi iz množice $\{1, \dots,j\} \in N$ in samo $s$ izmed njih doseže 
 Naj bo $z(d, j)$ največji dobiček za dopustno rešitev s skupno težo $d$, kjer so upoštevani samo elementi 
 iz množice $\{ 1,\dots,j \} \in N $ in naj jih le $\Gamma $ spremeni težo iz nominalne na zgornjo mejo $\hat{w}_j$. 
 Torej velja $d = 0, 1, \dots, c$; $s = 0, 1, \dots, \Gamma$ in $ j = 0, 1, \dots, n$.
-Ključna lastnost pravilnosti tega pristopa je predpostavka, da so predmeti razvrščeni po padajoči teži $\hat{w}_j$. 
+Ključna lastnost pravilnosti tega pristopa je predpostavka, da so predmeti razvrščeni po padajoči teži $\overline{w}_j$. 
 Problem lahko zapišemo z naslednjimi rekurzivnimi zvezami: 
 \begin{equation}  
     \tag*{}
@@ -167,7 +166,7 @@ za izračun RKP. Kot je že bilo omenjeno je zelo pomembno, da so predmeti razvr
 \paragraph{}
 \noindent Funkcija \textit{solve\_RKP} sprejme štiri obvezne argumente: množico predmetov $N$ oblike
 $\{1, \dots, n\}$, kjer je $n$ število predmetov; kapaciteto nahrbtnika $c$; teže predmetov $w$; vrednosti predmetov $p$ in dva neobvezna
-argumenta $\Gamma$, ki označuje maksimalno število predmetov s spremenjeno težo ter $max\_w := \bar{w}$, ki prikazuje robustne teže predmetov. 
+argumenta $\Gamma$, ki označuje maksimalno število predmetov s spremenjeno težo ter $max\_w := \hat{w}$, ki prikazuje robustne teže predmetov. 
 Vrne nam sledeče podatke: $z^{*}$ (optimalna vrednost predmetov, ki bodo v nahrbtniku), $c^{*}$ (optimalno težo predmetov v nahrbtniku), $g^{*}$ (število 
 predmetov, ki jih damo v nahrbtnik) ter $k^{*}$ (število predmetov iz prve polovice množice $N$, ki jih dodamo v nahrbtnik). Vse te optimalne 
 vrednosti potrebujemo kasneje v funkciji \textit{rekurzija}, da lahko dobimo seznam predmetov, ki jih bomo položili v nahrbtnik. V primeru ko 
@@ -202,14 +201,14 @@ rešimo s funkcjo \textit{Solve\_RKP} dobimo naslednjo rešitev:
 \end{figure}
 
 Optimalni seznam stvari, ki jih vstavimo v nahrbtnik sva dobila s pomočjo funkcije $rekurzija$,
-ki sprejme argumente $N, z^*, k^*, c^*,  \Gamma, w, \overline{w}, p$ in neobvezen argument 
+ki sprejme argumente $N, z^*, k^*, c^*,  \Gamma, w, \hat{w}, p$ in neobvezen argument 
 $rešitev$,  pri čemer sva množico stvari $N$ razdelila na dva dela: $N = N_1 \cup N_2$ , za 
 katera velja $N_1 = \{1, ..., n / 2\} $ in $N_2 = \{n / 2 + 1, ..., n\}$. Za primer ko je $n$ 
 liho število, pa sva za elemente množice $N_1$ vzela prvih $\frac{n +1}{2} $ predmetov. Po izračunu
-optimalne vrednosti s pomočjo funkcije $RKP$ sva optimalni seznam stvari dobila rekurzivno za 
+optimalne vrednosti s pomočjo funkcije $solve_RKP$ sva optimalni seznam stvari dobila rekurzivno za 
 vsako množico stvari $N_i$, pri čemer sva si pomagala še z dvema funkcijama, pri katerih gre 
 za različici problema nahrbtnika; s funkcijo \textit{Solve\_KP}, ki reši navadni problem
-nahrbtnika, ki je opisan na začetku poročila in s funkcijo \textit{Solve\_EkKP}, ki reši 
+nahrbtnika, ki je opisan na začetku poročila in s funkcijo \textit{Solve\_eKkP}, ki reši 
 problem nahrbtnika z omejenim številom predmetov, ki je podoben navadnemu problemu nahrbtnika, 
 le da tu dodamo še omejitev:
 \begin{equation}
@@ -221,8 +220,8 @@ Najina delitev problema na dva dela temelji na naslednji lemi:
 Če je $k^* \geq \Gamma$, potem je optimalna rešitev sestavljena iz rešitve za robustni problem 
 nahrbtnika s parametrom $\Gamma$ za predmete iz množice $N_1$ in iz rešitve za navadni problem 
 nahrbtnika za predmete iz množice $N_2$, pri čemer upoštevamo njihove nominalne teže. 
-V primeru ko  je $k* < \Gamma$, pa je optimalna rešitev sestavljena iz rešitev za
-\textit{E\-kKp} s parametrom $k^*$ za predmete iz množice $N_1$ z njihovimi maksimalnimi 
+V primeru ko  je $k^* < \Gamma$, pa je optimalna rešitev sestavljena iz rešitev za
+\textit{eKkP} s parametrom $k^*$ za predmete iz množice $N_1$ z njihovimi maksimalnimi 
 težami in iz rešitve za robustni problem nahrbtnika s parametrom   $\Gamma - k^*$ za predmete 
 iz množice $N_2$.
 \end{definition}
@@ -271,8 +270,8 @@ seznam predmetov, ki jih položimo v nahrbtnik.
 Pogledali si bomo časovni zahtevnosti zgoraj opisanih funkcij, torej \textit{solve\_RKP}
 in \textit{rekurzija}. 
 Pri oceni časovne zahtevnosti funkcije \textit{solve\_RKP} 
-si najprej poglejmo matrike $Z$, $K$, $G$. Ker se nahajajo v istih 
-zankah, je dovolj da si pogledamo, kaj se med izvajajem algoritma
+si najprej poglejmo matrike $Z$, $K$, $G$. Ker se nahajajo v enakih 
+zankah, je dovolj, da si pogledamo, kaj se med izvajanjem algoritma
 dogaja z matriko $Z$, kjer gremo v zunanji zanki skozi vse elemente $j = 1, ...,n$.
 Za vsak $j$ upoštevamo vse $s \leq \Gamma$, v notranji zanki pa gremo še
 skozi vse možne kapacitete nahrbtinka $d = 0, ..., c$. Tako dobimo časovno zahtevnost
@@ -317,11 +316,12 @@ Kodo za robustni problem nahrbtinka sva nato uporabila na poenostavljenem finan�
 kjer naju je zanimalo iz katerih delnic sestaviti optimalni portelj, pri čemer so cene delnic
 negotove. 
 \par
-Recimo, da imamo M delnic, pri čemer imamo za vsako delnico $j$ na voljo ceno $P_j$, visoko ceno 
-$\overline{P}_{j}$ in nizko ceno $\underline{P}_{j}$, ter pričakovani donos delnice $R_j$. Zanima 
+Recimo, da imamo M podjetij pri čemer imamo za vsako delnico podjetja $j$ na voljo nominalno ceno $P_j$,
+interval [$P_j$ - $\underline{P}_{j}$, $P_j$ + $\overline{P}_{j}$], na katerem se cena delnice $p_j$  
+nahaja in pričakovani donos delnice $R_j$. Zanima 
 nas koliko delnic posameznega podjetja $j$ kupiti, da bo pričakovani dobiček čim višji in da ob tem nakupu
 ne bomo presegli količine denarja $B$, namenjenega investiranju. Ob tem pa je potrebno tudi upoštevati,
-da največ $\Gamma$ delnic spremeni svojo vrednost iz nominalne na maksimalno.Opisani primer lahko
+da največ $\Gamma$ delnic spremeni svojo vrednost iz nominalne na maksimalno. Opisani primer lahko
 formuliramo na naslednji način:
 \begin{equation}
 \tag*{}
@@ -329,7 +329,7 @@ formuliramo na naslednji način:
 \end{equation}
 \begin{equation}
 \tag*{}
-    \sum_{j \in J}p_{j}N_{j}x_{j} + \sum_{j \in \hat{J}}\overline{P}_{j}N_{j}x_{j} \leq B,\quad \forall \hat{J} \subseteq J \; \text{in}\; |\hat{J}| \leq \Gamma    
+    \sum_{j \in M}P_{j}N_{j}x_{j} + \sum_{j \in \hat{M}}\overline{P}_{j}N_{j}x_{j} \leq B,\quad \forall \hat{M} \subseteq M \; \text{in}\; |\hat{M}| \leq \Gamma    
 \end{equation}
 \begin{equation}
 \tag*{}
@@ -339,14 +339,19 @@ formuliramo na naslednji način:
 \tag*{}
     x_{j} \in \{0,1\}, j \in M
 \end{equation}
+\begin{equation}
+    \tag*{}
+    N_j \in \{0, ..., \frac{B}{(P_j + \overline{P}_{j})} \}, j \in M
+\end{equation}
+Zaradi lažje notacije v nadaljevanju označimo $\hat{P}_j = P_j + \overline{P}_j$
 Da bi dobila rešitev tega modela sva kodi dodala
 funkcije \textit{preberi\_podatke\_za\_delnice},
 \textit{resitev\_za\_delnice} in \textit{doloci\_gamo}. Prva funkcija prebere
 datoteko, v kateri so za vsako delnico podatki o imenu,
 nominalni ceni, maksimalni ceni ter pričakovanem donosu.
 Funkcija nato za vsako delnico izračuna največ koliko enakih
-delnic po njihovi maksimalni ceni ob danem proračunu lahko kupimo in temu prilagodi sezname $p$,
-$maks\_p$ in $r$. Recimo, da je naš proračun enak $10$ in maksimalna cena delnice $i$ enaka
+delnic po njihovi maksimalni ceni ob danem proračunu $B$ lahko kupimo in temu prilagodi sezname $P$,
+$\hat{P}$ in $r$. Recimo, da je naš proračun enak $10$ in maksimalna cena delnice $i$ enaka
 $5$, bomo torej delnico $i$ šteli dvakrat, prav tako pa bomo v zgoraj omenjenih seznamih
 podvojili tudi njene vrednosti. Funkcija \textit{resitev\_za\_delnice} pa pokliče funkcijo \textit{rekurzija}
 in nato poišče katere delnice pripadajo dobljeni optimalni rešitvi.
@@ -355,16 +360,19 @@ $\Gamma$ tu ni podana skupaj s podatki, ampak jo iz podatkov izračunamo s pomo�
 V tem modelu je $\Gamma$ namreč slučajna spremenljivka in jo lahko ob nekaterih predpostavkah (ki 
 sicer v realnosti ne držijo popolnoma) dobimo verjetnostno, pri čemer sva predpostavila, da je $\Gamma$
 binomsko porazdeljena. Najina ideja je bila torej ugotoviti, kdaj bo trenutna cena delnice $P_j$ narasla na 
-$\overline{P_j}$. Sklepala sva, da večji pričakovani donos $R_j$ pomeni večjo verjetnost, da
-bo cena delnice v danem trenutku narasla na $\overline{P_j}$, zato sva izračunala povprečen $\overline{R}$. 
-Predpostavila sva, da je $\overline{R}$ kar enak verjetnosti $p$, ki predstavlja verjetnost,
-da bo vrednost opazovanih delnic narasla. Nato sva s pomočjo funkcije $random.binomial(stevilo\_delnic, p)$ 
+$\hat{P}_j$. Sklepala sva, da večji pričakovani donos $R_j$ pomeni večjo verjetnost, da
+bo cena delnice v danem trenutku narasla na $\hat{P}_j$, zato sva izračunala povprečen $R_j$, ki
+sva ga označila z $\overline{R}$. 
+Predpostavila sva, da je $\overline{R}$ kar enak verjetnosti $q$, ki predstavlja verjetnost,
+da bo vrednost opazovanih delnic narasla. Nato sva s pomočjo funkcije $random.binomial(stevilo\_delnic, q)$ 
 simulirala vrednosti slučajne spremenljivke $\Gamma$.
 
 \subsection{Uporaba RKP na delnicah $S\&P$ $500$}
 Z zgoraj opisanim finančnim RKP modelom sva nato izračunala optimalni portfelj na podlagi 
 o cenah in donosih delnic \textit{S}\&\textit{P 500}, kjer gre za 500 največjih in najbolj likvidnih
-ameriških podjetij, kjer sva iskala maksimalni donos portfelja glede na različne proračune $B$.
+ameriških podjetij.  Najini 
+podatki so vsebovali nominalno in najvišjo ceno ter pričakovani letni donos za delnice posameznih podjetij.
+Iskala sva maksimalni donos portfelja glede na različne proračune $B$.
 Ob tem je potrebno poudariti, da se zavedava, da dobljene rešitve niso najbolj optimalne, saj
 ostalih dejavnikov, ki močno vplivajo na sestavo optimalnega portfelja (kot je npr. tveganje), 
 sploh nisva upoštevala. V rezultatu dobimo zelo nerazpršen portfelj,
@@ -380,7 +388,7 @@ kraticami.
     \cline{2-6}
                                                                                                   & B = 50                                                              & B = 100                                                                    & B = 500                                                                     & B = 1000                                                            & B = 2000                                                         \\ \hline
     \multicolumn{1}{|c|}{Čas}                                                                     & 3.9939                                                              & 8.0711                                                                     & 259.5398                                                                    & 931.2960                                                            & 5063.1349                                                        \\ \hline
-    \multicolumn{1}{|c|}{\begin{tabular}[c]{@{}c@{}}Sestava optimalnega\\ portfelja\end{tabular}} & \begin{tabular}[c]{@{}c@{}}CARR: 1, AMCR: 1,\\ HBAN: 1\end{tabular} & \begin{tabular}[c]{@{}c@{}}CARR: 2, ZION: 1,\\ HWM: 1, HFC: 1\end{tabular} & \begin{tabular}[c]{@{}c@{}}Carr: 4, Etsy: 2\\ Nwsa: 1, Intc: 1\end{tabular} & \begin{tabular}[c]{@{}c@{}}Etsy: 5, Carr: 4,\\ Vtrs: 1\end{tabular} & \begin{tabular}[c]{@{}c@{}}Wts: 7, Wrk: 1,\\ Xyl: 1\end{tabular} \\ \hline
+    \multicolumn{1}{|c|}{\begin{tabular}[c]{@{}c@{}}Sestava optimalnega\\ portfelja\end{tabular}} & \begin{tabular}[c]{@{}c@{}}Carr: 1, Amcr: 1,\\ Hban: 1\end{tabular} & \begin{tabular}[c]{@{}c@{}}Carr: 2, Zion: 1,\\ Hwm: 1, Hfc: 1\end{tabular} & \begin{tabular}[c]{@{}c@{}}Carr: 4, Etsy: 2\\ Nwsa: 1, Intc: 1\end{tabular} & \begin{tabular}[c]{@{}c@{}}Etsy: 5, Carr: 4,\\ Vtrs: 1\end{tabular} & \begin{tabular}[c]{@{}c@{}}Wts: 7, Wrk: 1,\\ Xyl: 1\end{tabular} \\ \hline
     \multicolumn{1}{|c|}{Dobiček}                                                                 & 123                                                                 & 272                                                                        & 1583                                                                        & 3246                                                                & 3477                                                             \\ \hline
     \end{tabular}}
     \caption{\label{tab:tab2} Časovna zahtevnost finančnega RKP modela in dobljeni rezultati}
@@ -399,7 +407,13 @@ kraticami.
     Michele Monaci, Ulrich Pferschy, Paolo Serafini 
     \\\texttt{https://www.sciencedirect.com/science/article/pii/S0305054813001342}
 
+     \bibitem{podatki}
+     Barchart. 
+     \\\texttt{https://www.barchart.com/stocks/indices/sp/sp500}
 
+     \bibitem{letni_donosi}
+     Slickcharts.
+     \\\texttt{https://www.slickcharts.com/sp500/performance}
 \end{thebibliography}
 
 
