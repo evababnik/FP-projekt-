@@ -1,16 +1,31 @@
-490 "WRK" "WestRock Company" 44.16 45.21 3.75
-491 "WST" "West Pharmaceutical Services 265.54 268.6 78.31
-492 "WU" "The Western Union Company" 21.53 21.8 -18.86
-493 "WY" "Weyerhaeuser Company" 29.885 31.01 0.1
-494 "WYNN" "Wynn Resorts 110.27 113.1 -19.84
-495 "XEL" "Xcel Energy Inc" 65.805 66.7 4.91
-496 "XLNX" "Xilinx 144.76 149.11 51.65
-497 "XOM" "Exxon Mobil Corporation" 40.46 42.59 -41.39
-498 "XRAY" "DENTSPLY SIRONA Inc" 53.22 54.46 -5.28
-499 "XRX" "Xerox Holdings Corporation" 22.74 23.16 -37.67
-500 "XYL" "Xylem Inc" 97.81 99.3 24.64
-501 "YUM" "YUM! Brands 104.53 105.61 4.48
-502 "ZBH" "Zimmer Biomet Holdings 144.1 146.9 -2.75
-503 "ZBRA" "Zebra Technologies Corporation" 371.29 377.17 46.35
-504 "ZION" "Zions Bancorporation 42.27 43.18 -17.35
-505 "ZTS" "Zoetis Inc" 156.47 159.515 19.72
+100 "CMCSA" "Comcast Corporation" 51.215 51.79 15.48
+101 "CME" "CME Group Inc" 179.61 184.22 -8.74
+102 "CMG" "Chipotle Mexican Grill 1322.41 1348.37 60.92
+103 "CMI" "Cummins Inc" 219.135 222.66 22.42
+104 "CMS" "CMS Energy Corporation" 59.75 60.69 -3.41
+105 "CNC" "Centene Corporation" 63.97 65.525 2.7
+106 "CNP" "CenterPoint Energy 22.455 23.08 -15.14
+107 "COF" "Capital One Financial Corporation" 91.65 93.17 -9.66
+108 "COG" "Cabot Oil & Gas Corporation" 16.1 16.725 -5.05
+109 "COO" "The Cooper Companies 340.855 345.82 6.46
+110 "COP" "ConocoPhillips" 41.74 43.43 -34.15
+111 "COST" "Costco Wholesale Corporation" 370.85 379.47 31.49
+112 "CPB" "Campbell Soup Company" 47.61 48.56 -2.25
+113 "CPRT" "Copart 113.34 116.17 26.03
+114 "CRM" "salesforce.com 225.79 229.415 40.0
+115 "CSCO" "Cisco Systems 43.93 44.525 -7.53
+116 "CSX" "CSX Corporation" 91.01 91.85 27.19
+117 "CTAS" "Cintas Corporation" 351.04 360.53 31.24
+119 "CTSH" "Cognizant Technology Solutions Corporation" 78.93 80.57 29.85
+120 "CTVA" "Corteva 37.66 38.425 28.35
+121 "CTXS" "Citrix Systems 129.34 131.79 18.46
+122 "CVS" "CVS Health Corporation" 72.715 73.81 -0.89
+123 "CVX" "Chevron Corporation" 90.245 92.46 -24.69
+124 "CXO" "Concho Resources Inc" 60.99 63.26 -28.8
+125 "D" "Dominion Energy 74.62 75.63 -8.07
+126 "DAL" "Delta Air Lines 41.78 42.865 -27.58
+127 "DD" "DuPont de Nemours 65.25 67.15 1.92
+128 "DE" "Deere & Company" 251.27 254.79 45.45
+132 "DHI" "D.R. Horton 70.46 73.14 39.91
+133 "DHR" "Danaher Corporation" 223.32 226.805 47.35
+134 "DIS" "The Walt Disney Company" 152.25 154.83 6.26
