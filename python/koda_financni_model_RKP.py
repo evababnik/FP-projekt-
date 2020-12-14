@@ -13,7 +13,7 @@ import time
 start_time = time.time()
 
 def matrika(m,n):
-    return [[0] * (m+1) for _ in range(n+1)] #funkcija, ki naredi ničelno matriko (m+1) X (n+1)
+    return [[0] * (m+1) for _ in range(n+1)] #funkcija, ki naredi ničelno matriko 
 
 def v_seznam(N):
     N0 = []
@@ -113,20 +113,24 @@ def solve_RKP(N, c, w, p, gama = None,  maks_w = None):
             for s in range(gama + 1): #kapaciteti nahbrnika d, pri čemer največ s predmetov
                 g[d][s] = 0 #spremeni svojo težo na maks_w
         k[0][0] = 0
-        
+
+
+        zadnji_elemnt = 0        
         for j in range(len(N)): # izberemo j-ti predmet 
             for d in range(c, w[j]-1, -1):  # in ga poskusimo dodati v svoji nominalni teži 
-                if z[d - w[j]][gama] + p[j] > z[d][gama]: #pri pogoju, da smo že vstavili 
-                    z[d][gama] = z[d - w[j]][gama] + p[j]  #gama predmetov
-                    g[d][gama] = 1 + g[d - w[j]][gama]
-                    if j  >= ((len(N) / 2)):
-                        k[d][gama] = 1 + k[d - w[j]][gama]
+                if p[j] != p[zadnji_elemnt] and w[j] != w[zadnji_elemnt]: #če smo že vzeli delnico katerega podjetja v robustni teži, nemoremo vzeti še kakšne delnice istega podjetja v njeni nominalni teži
+                    if z[d - w[j]][gama] + p[j] > z[d][gama]: #pri pogoju, da smo že vstavili 
+                        z[d][gama] = z[d - w[j]][gama] + p[j]  #gama predmetov
+                        g[d][gama] = 1 + g[d - w[j]][gama]
+                        if j  >= ((len(N) / 2)):
+                            k[d][gama] = 1 + k[d - w[j]][gama]
                       
             for s in range(gama, 0, -1): # poskusimo ga dodati v svoji robustni teži
                 for d in range(c, maks_w[j] - 1, -1):
                     if z[d - maks_w[j]][s - 1] + p[j] > z[d][s]:
                         z[d][s] = z[d - maks_w[j]][s - 1] + p[j]
-                        g[d][s] = 1 + g[d - maks_w[j]][s-1] 
+                        g[d][s] = 1 + g[d - maks_w[j]][s-1]
+                        zadnji_elemnt = j #zapomnemo si zadnji element, ki smo ga dodali v robustni teži
                         if j  >= ((len(N) / 2)):
                             k[d][s] = 1 + k[d - maks_w[j]][s - 1]
 
@@ -177,7 +181,7 @@ def solve_KP(N, c, w, p):
                 c_zvezdica += w[i - 1]
                 z_zvezdica1 -= p[i - 1]
                 c -= w[i - 1]
-        return [seznam_stvari, z_zvezdica]
+        return [seznam_stvari, z_zvezdica, c_zvezdica]
 
 # solve_eKkP vrne seznam vseh predmetov in optimalno vrednost, če dodatno omejimo maksimalno števio uporabljenih predmetov 
 def solve_eKkP(N, c, w, p, k):   #algoritem je tu podoben kot pri Solve_KP, le da je matrika k tridimenzionalna, saj zraven
@@ -320,26 +324,34 @@ def rekurzija(N, z_zvezdica, k_zvezdica, c_zvezdica, gama, w, maks_w, p, resitev
  
 # rekurzija({1,2,3,4,5,6,7,8,9,10},66,3,20,4,[4,2,6,5,2,1,7,3,5,2],[5,4,6,7,4,4,7,4,5,3], [8,5,17,10,14,4,6,8,9,25])
 
-def resitev(N, c, w, p, gama = None, maks_w = None): #funkcija nam vrne končno rešitev: 
+def resitev(N, c, w, p, imena_delnic, gama = None, maks_w = None): #funkcija nam vrne končno rešitev: 
     n = len(N)
-    k_zvezdica = solve_RKP(N, c, w, p, gama, maks_w)[3]     #seznam vstavljenih predmetov in vrednost
-    z_zvezdica = solve_RKP(N, c, w, p, gama, maks_w)[0]
-    c_zvezdica = solve_RKP(N, c, w, p, gama, maks_w)[1]
-    resitev = rekurzija(N, z_zvezdica, k_zvezdica, c_zvezdica, gama, w, maks_w, p)
-    while resitev != naredi_pravi_seznam(resitev):
+    if gama is None or gama == 0:
+        resitev = solve_KP(N, c, w, p)[0]
+        z_zvedica = solve_KP(N, c, w, p)[1]
+        c_zvezdica = solve_KP(N, c, w, p)[2]
+        return resitev, z_zvedica, c_zvezdica
+    else:
+        k_zvezdica = solve_RKP(N, c, w, p, gama, maks_w)[3]     #seznam vstavljenih predmetov in vrednost
+        z_zvezdica = solve_RKP(N, c, w, p, gama, maks_w)[0]
+        c_zvezdica = solve_RKP(N, c, w, p, gama, maks_w)[1]
+        resitev = rekurzija(N, z_zvezdica, k_zvezdica, c_zvezdica, gama, w, maks_w, p)
+        nova_resitev = []
         resitev = naredi_pravi_seznam(resitev)
-    mnozica = set()
-    if resitev != []:
-        for i in resitev:       #če je slučajno v seznamu predmetov tudi element 0,
-            mnozica.add(i)       #ga odstranimo, saj se v funkciji rekurzija zaradi lažjega
-        resitev = v_seznam(mnozica)  #poteka v primeru, da ne vstavimo nobenega elementa v seznam
-        if resitev[0] == 0:          #vstavi 0
-            resitev = resitev[1:]
-    resitev = sorted(resitev)
-    with open('resitev' "%s" % n +'-' "%s" % c + '-' "%s.txt" % gama, 'w', encoding='utf-8') as izhodna:
         for el in resitev:
+            if el != 0:
+                nova_resitev.append(el)
+        
+    #če je slučajno v seznamu predmetov tudi element 0,
+    #ga odstranimo, saj se v funkciji rekurzija zaradi lažjega
+    #poteka v primeru, da ne vstavimo nobenega elementa v seznam
+    #vstavi 0 
+    delnice = []  
+    with open('resitev' "%s" % n +'-' "%s" % c + '-' "%s.txt" % gama, 'w', encoding='utf-8') as izhodna:
+        for el in nova_resitev:
             izhodna.write("{} {} {} {}\n".format(N[el - 1], p[el - 1], w[el - 1], maks_w[el - 1]))
-    return(resitev, z_zvezdica, c_zvezdica)
+            delnice.append(imena_delnic[el - 1])
+    return(nova_resitev, z_zvezdica, c_zvezdica, delnice)
 
 # ta funkcija prebere podatke iz S&P 500.txt in jih prilagodi, tako da potem dela program preberi_podatke_za_delnice() 
 def popravi_podatke(dat, kodna_tabela="utf-8"):
@@ -371,7 +383,6 @@ def popravi_podatke(dat, kodna_tabela="utf-8"):
                     w.append(float(x[3]))
                     maks_w.append(float((x[4])))
                     r.append((x[5]))
-                #print(ime_podjetja)
     with open("Robust-knapsack-problem/podatki/podatki za delnice/popravljeni_podatki.txt","w") as nova_datoteka:
         for i in range(len(N)):
             nova_datoteka.write("{} {} {} {} {} {}\n".format(int(N[i].strip('""')), kratica_podjetja[i], ime_podjetja[i], w[i], maks_w[i], float(r[i].strip('""'))))
@@ -393,21 +404,23 @@ def preberi_podatke_za_delnice(dat, budget, kodna_tabela='utf-8'): #funkcija pre
         for vrstica in datoteka:
             x = []
             x = vrstica.split() #najprej vsako vrstico razdelimo na seznam            
-            R.append(float(x[-1]))
-            if float(x[-1]) > 0:
-                imena_delnic.append(x[1]) #prvi element vsake vrstice predstavlja ime delnice
+            st = int(budget / float(x[-2]))
+            R.append(float(st))
+            if float(x[-1]) > 0: #če je donos delnice negativen, teh delnic sploh ne upoštevamo, saj nima smisla
+                                          #prvi element vsake vrstice predstavlja ime delnice
                 stevilo_delnic = int(budget / float(x[-2])) #maksimalno število delnic posameznega podjetja, ki jih lahko kupimo (budget / maks cena delnice)
                 seznam_kolicine_delnic.append(stevilo_delnic) #seznam, ki predstavlja največ koliko delnic posameznega podjetja lahko kupimo
                 for delnica in range(vse_delnice + 1, vse_delnice + stevilo_delnic + 1): #naredimo nov seznam delnic, cen, maks cen in donosov
                     N.append(delnica)                                                   #tu se vsaka posamezna delnica vsakega podjetja steje kot en element
+                    imena_delnic.append(x[1])
                     p.append(int(float(x[-3])))
                     maks_p.append(int(float(x[-2])))
                     r.append(int(float(x[-3]) * (1 + 0.01 * (float(x[-1])))))
                     vse_delnice += 1
-    return(N, p, maks_p, r, seznam_kolicine_delnic, imena_delnic, R)
+    return(N, p, maks_p, r, imena_delnic, R)
 
 from numpy import random
-def doloci_gamo(R_popravljen):
+def doloci_gamo(R_popravljen): #iz podatkov določimo gamo (podroben opis v poročilu)
     stevilo_delnic = len(R_popravljen) 
     R_skupen = sum(R_popravljen)/100 
     R_povprecen = (R_skupen / stevilo_delnic)   
@@ -422,28 +435,15 @@ def doloci_gamo(R_popravljen):
 from collections import Counter
 
 def resitev_za_delnice(datoteka, budget):
-    N, p, maks_p, r, seznam_kolicine_delnic, imena_delnic, R = preberi_podatke_za_delnice(datoteka, budget)
-    gama = 1
-    resitev1 = resitev(N,budget,p, r,gama,maks_p)[0]
-    z_zvezdica = resitev(N,budget, p, r,gama, maks_p)[1]
-    c_zvezdica = resitev(N,budget, p, r,gama, maks_p)[2]
-    nov_seznam = []
-    seznam_delnic = []
-    for i in range(1, len(seznam_kolicine_delnic) + 1):  #iz seznama, ki ga dobimo pri rekurziji je potrebno 
-        a = seznam_kolicine_delnic[i - 1]              #še razbrati za delnice katerih podjetij gre in koliko 
-        nov_seznam += ([i] * a)                        #delnic imamo za vsako podjetje
-    for delnica in resitev1:
-        seznam_delnic.append(nov_seznam[int(delnica) - 1])
+    N, p, maks_p, r, delnice, R = preberi_podatke_za_delnice(datoteka, budget)
+    gama = 2
+    z_zvezdica = resitev(N,budget, p, r, delnice, gama, maks_p)[1]
+    c_zvezdica = resitev(N,budget, p, r,delnice, gama, maks_p)[2]
+    seznam_delnic = resitev(N,budget, p, r,delnice, gama, maks_p)[-1]
     stevec = Counter()
-    seznam_imen = []
-    for delnica in seznam_delnic:
-        seznam_imen.append(imena_delnic[delnica - 1])
-    for delnica in seznam_imen:
-        stevec[delnica] += 1 
+    for el in seznam_delnic: #pogledamo kolikokrat se v rešitvi pojavi posamezna delnica
+        stevec[el] += 1 
 
-    dobicek = z_zvezdica - c_zvezdica
+    return(stevec, z_zvezdica - c_zvezdica) #v rezultatu dobimo optimalno sestavo portfelja in dobiček
 
-    return(stevec, z_zvezdica, dobicek)
-
-
-#print(resitev_za_delnice("Robust-knapsack-problem/podatki/podatki_za_delnice/popravljeni_podatki.txt", 2000))
+print(resitev_za_delnice('Robust-knapsack-problem/podatki/podatki_za_delnice/popravljeni_podatki.txt', 1000))

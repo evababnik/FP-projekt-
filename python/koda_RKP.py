@@ -176,7 +176,6 @@ def solve_KP(N, c, w, p):
             else:                           #če pa se ta vrednost razlikuje od optimalne vrednosti, potem element i
                 N = v_seznam(N)            #dodamo v seznam stvari, zmanjšamo optimalno vrednost za vrednost 
                 element = N[i - 1]         #tega elementa in nadaljujemo dokler optimalna vrednost ne pride do 0
-                #set_stvari.append([element, w[i - 1], p[i - 1]])
                 seznam_stvari.append(element)
                 c_zvezdica += w[i - 1]
                 z_zvezdica1 -= p[i - 1]
@@ -326,22 +325,27 @@ def rekurzija(N, z_zvezdica, k_zvezdica, c_zvezdica, gama, w, maks_w, p, resitev
 
 def resitev(N, c, w, p, gama = None, maks_w = None): #funkcija nam vrne končno rešitev: 
     n = len(N)
-    k_zvezdica = solve_RKP(N, c, w, p, gama, maks_w)[3]     #seznam vstavljenih predmetov in vrednost
-    z_zvezdica = solve_RKP(N, c, w, p, gama, maks_w)[0]
-    c_zvezdica = solve_RKP(N, c, w, p, gama, maks_w)[1]
-    resitev = rekurzija(N, z_zvezdica, k_zvezdica, c_zvezdica, gama, w, maks_w, p)
-    while resitev != naredi_pravi_seznam(resitev):
-        resitev = naredi_pravi_seznam(resitev)
-    mnozica = set()
-    if resitev != []:
-        for i in resitev:       #če je slučajno v seznamu predmetov tudi element 0,
-            mnozica.add(i)       #ga odstranimo, saj se v funkciji rekurzija zaradi lažjega
-        resitev = v_seznam(mnozica)  #poteka v primeru, da ne vstavimo nobenega elementa v seznam
-        if resitev[0] == 0:          #vstavi 0
-            resitev = resitev[1:]
-    resitev = sorted(resitev)
+    if gama is None or gama == 0:
+        resitev = solve_KP(N, c, w, p)[0]
+        z_zvedica = solve_KP(N, c, w, p)[1]
+        return resitev, z_zvedica
+    else:
+        k_zvezdica = solve_RKP(N, c, w, p, gama, maks_w)[3]    
+        z_zvezdica = solve_RKP(N, c, w, p, gama, maks_w)[0]
+        c_zvezdica = solve_RKP(N, c, w, p, gama, maks_w)[1]
+        resitev = rekurzija(N, z_zvezdica, k_zvezdica, c_zvezdica, gama, w, maks_w, p)
+        while resitev != naredi_pravi_seznam(resitev):
+            resitev = naredi_pravi_seznam(resitev)
+        mnozica = set()
+        if resitev != []:
+            for i in resitev:       #če je slučajno v seznamu predmetov tudi element 0,
+                mnozica.add(i)       #ga odstranimo, saj se v funkciji rekurzija zaradi lažjega
+            resitev = v_seznam(mnozica)  #poteka v primeru, da ne vstavimo nobenega elementa v seznam
+            if resitev[0] == 0:          #vstavi 0
+                resitev = resitev[1:]
+        resitev = sorted(resitev)
     with open('resitev' "%s" % n +'-' "%s" % c + '-' "%s.txt" % gama, 'w', encoding='utf-8') as izhodna:
-        for el in resitev:
+        for el in resitev: #seznam predmetov vstavljenih v nahrbtnik shranimo v novo tesktovno datoteko
             izhodna.write("{} {} {} {}\n".format(N[el - 1], p[el - 1], w[el - 1], maks_w[el - 1]))
     return(resitev, z_zvezdica)
 
@@ -360,7 +364,8 @@ def preberi_podatke(dat, kodna_tabela='utf-8'): #prebere podatke iz mape GENERIR
             maks_w.append(int(x[3]))
     
     return(N, w, p, maks_w)
-
+N, w, p, maks_w = preberi_podatke('podatki\RKP_instances\Instances\RKP_00100_00100_5_06.txt')
+print(resitev(N, 100, w, p, 0, maks_w))
 import random
 def naredi_podatke(stevilo, teza, max_cena): #funkcija zgenerira naključne podatke
     n = random.randint(1, stevilo)
