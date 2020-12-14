@@ -8,12 +8,12 @@
 \contentsline {section}{\numberline {5}Pristop z dinamičnim programiranjem}{5}{section.5}%
 \contentsline {section}{\numberline {6}Opis kode}{6}{section.6}%
 \contentsline {subsection}{\numberline {6.1}Solve\_RKP}{6}{subsection.6.1}%
-\contentsline {paragraph}{}{6}{section*.13}%
+\contentsline {paragraph}{}{6}{section*.14}%
 \contentsline {subsubsection}{\numberline {6.1.1}Primer Solve\_RKP}{7}{subsubsection.6.1.1}%
-\contentsline {subsection}{\numberline {6.2}Rekurzija}{7}{subsection.6.2}%
+\contentsline {subsection}{\numberline {6.2}Rekurzija}{8}{subsection.6.2}%
 \contentsline {subsubsection}{\numberline {6.2.1}Primer \textit {rekurzije}}{9}{subsubsection.6.2.1}%
-\contentsline {section}{\numberline {7}Grafični vmesnik}{9}{section.7}%
+\contentsline {section}{\numberline {7}Grafični vmesnik}{10}{section.7}%
 \contentsline {section}{\numberline {8}Časovna zahtevnost}{10}{section.8}%
 \contentsline {section}{\numberline {9}Optimizacija portfeljev s pomočjo RKP}{11}{section.9}%
-\contentsline {subsection}{\numberline {9.1}Uporaba RKP na delnicah $S\&P$ $500$}{12}{subsection.9.1}%
+\contentsline {subsection}{\numberline {9.1}Uporaba RKP na delnicah $S\&P$ $500$}{13}{subsection.9.1}%
 \contentsline {section}{\numberline {10}Viri in literatura}{14}{section.10}%

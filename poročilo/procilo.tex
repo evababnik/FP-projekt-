@@ -118,6 +118,24 @@ Naj bo $z(d, j)$ največji dobiček za dopustno rešitev s skupno težo $d$, kje
 iz množice $\{ 1,\dots,j \} \in N $ in naj jih le $\Gamma $ spremeni težo iz nominalne na zgornjo mejo $\hat{w}_j$. 
 Torej velja $d = 0, 1, \dots, c$; $s = 0, 1, \dots, \Gamma$ in $ j = 0, 1, \dots, n$.
 Ključna lastnost pravilnosti tega pristopa je predpostavka, da so predmeti razvrščeni po padajoči teži $\overline{w}_j$. 
+To predpostavko nakazuje naslednja lema. Za podmnožico elementov
+ $J \subseteq N$ z $j_\Gamma$ označimo indeks $\Gamma$-tega elementa v $J$, če
+ je $|J| \geq \Gamma$, v nasprotnem primeru pa $j_\Gamma$ predstavlja indeks 
+ zadnjega elementa v $J$. 
+\begin{definition}\label{lema1}
+Podmnožica $J \subseteq N$ je dopustna rešitev natanko tedaj ko velja:
+\begin{equation}
+    \tag*{}
+    $\sum_{j \in J|j \leq j_\Gamma} \hat{w}_j + \sum_{j \in J|j > j_\Gamma}w_j \geq c$
+\end{equation}
+\end{definition}
+\begin{proof}
+    Največja rast vsote nominalnih tež vseh predmetov iz $J$, ki jo
+    povzročijo predmeti, ki dosežejo svojo zgornjo težo, se zgodi zaradi 
+    podmnožice stvari $\Gamma$, v kateri je $\overline{w}_j$ najvišji. Če je
+    $J$ dopustna rešitev glede na to podmnožico, bo dopustna za katerokoli drugo
+    podmnožico $J$.
+\end{proof}
 Problem lahko zapišemo z naslednjimi rekurzivnimi zvezami: 
 \begin{equation}  
     \tag*{}
@@ -195,7 +213,7 @@ rešimo s funkcjo \textit{Solve\_RKP} dobimo naslednjo rešitev:
 \medskip
 
 \begin{figure}[h!]
-    \includegraphics[width=13cm]{rekurzija_cela.png}
+    \includegraphics[width=13cm]{rekurzija.JPG}
     \caption{Skica kode \textit{rekurzija}}
     \label{fig:koda4}    
 \end{figure}
@@ -225,7 +243,22 @@ V primeru ko  je $k^* < \Gamma$, pa je optimalna rešitev sestavljena iz rešite
 težami in iz rešitve za robustni problem nahrbtnika s parametrom   $\Gamma - k^*$ za predmete 
 iz množice $N_2$.
 \end{definition}
-
+\begin{proof}
+    V \ref{lema1} je bilo povedano, da v vsaki dopustni rešitvi
+    in torej tudi v optimalni rešitvi $\Gamma$ stvari z najnižjimi
+    indeksi do $j_\Gamma$, so to tisti indeksi, ki h kapaciteti prispevajo
+    njihovo najvišjo težo, vsi ostali predmeti z višjimi indeksi
+    pa v nahrbtinku zavzemajo svojo nominalno težo. 
+    \par
+    Če je $k^* \geq \Gamma$, potem je $j_\Gamma \in N_1$ in vsi predmeti
+    iz optimalne rešitve, ki pripadajo $N_2$, h kapaciteti prispevajo
+    svojo nominalno težo.
+    Če je $k^* < \Gamma$, potem je $j_\Gamma \in N_2$ in $k^*$
+    predmetov v optimalni rešitvi pripada mmnožici $N_1$ 
+    ter h kapaciteti prispeva najvišjo težo. Ostalih največ
+    $\Gamma - k^*$ predmetov, ki se jim poveča teža, pa se nahaja
+    v množici $N_2$.
+\end{proof}
 \subsubsection{Primer \textit{rekurzije}}
 
 Recimo, da imamo iste podatke kot v primeru 6.1.1 in vrednosti $z^{*}$, $c^{*}$ ter $k^{*}$, ki jih dobimo 
