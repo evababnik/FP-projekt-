@@ -403,7 +403,7 @@ def preberi_podatke_za_delnice(dat, budget, kodna_tabela='utf-8'): #funkcija pre
             x = []
             x = vrstica.split() #najprej vsako vrstico razdelimo na seznam            
             st = int(budget / float(x[-2]))
-            R.append(float(st))
+            R.append(float(x[-1]) * st )
             if float(x[-1]) > 0: #če je donos delnice negativen, teh delnic sploh ne upoštevamo, saj nima smisla
                                           #prvi element vsake vrstice predstavlja ime delnice
                 stevilo_delnic = int(budget / float(x[-2])) #maksimalno število delnic posameznega podjetja, ki jih lahko kupimo (budget / maks cena delnice)
@@ -444,4 +444,4 @@ def resitev_za_delnice(datoteka, budget):
 
     return(stevec, z_zvezdica - c_zvezdica) #v rezultatu dobimo optimalno sestavo portfelja in dobiček
 
-print(resitev_za_delnice('podatki\podatki_za_delnice\popravljeni_podatki.txt', 250))
+print(resitev_za_delnice('podatki\podatki_za_delnice\popravljeni_podatki.txt', 1000))
