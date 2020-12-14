@@ -113,22 +113,20 @@ def solve_RKP(N, c, w, p, gama = None,  maks_w = None):
             for s in range(gama + 1): #kapaciteti nahbrnika d, pri čemer največ s predmetov
                 g[d][s] = 0 #spremeni svojo težo na maks_w
         k[0][0] = 0
-        zadnji_elemnt = 0
+        
         for j in range(len(N)): # izberemo j-ti predmet 
             for d in range(c, w[j]-1, -1):  # in ga poskusimo dodati v svoji nominalni teži 
-                if p[j] != p[zadnji_elemnt] and w[j] != w[zadnji_elemnt]:
-                    if z[d - w[j]][gama] + p[j] > z[d][gama]: #pri pogoju, da smo že vstavili 
-                        z[d][gama] = z[d - w[j]][gama] + p[j]  #gama predmetov
-                        g[d][gama] = 1 + g[d - w[j]][gama]
-                        if j  >= ((len(N) / 2)):
-                            k[d][gama] = 1 + k[d - w[j]][gama]
+                if z[d - w[j]][gama] + p[j] > z[d][gama]: #pri pogoju, da smo že vstavili 
+                    z[d][gama] = z[d - w[j]][gama] + p[j]  #gama predmetov
+                    g[d][gama] = 1 + g[d - w[j]][gama]
+                    if j  >= ((len(N) / 2)):
+                        k[d][gama] = 1 + k[d - w[j]][gama]
                       
             for s in range(gama, 0, -1): # poskusimo ga dodati v svoji robustni teži
                 for d in range(c, maks_w[j] - 1, -1):
                     if z[d - maks_w[j]][s - 1] + p[j] > z[d][s]:
                         z[d][s] = z[d - maks_w[j]][s - 1] + p[j]
-                        g[d][s] = 1 + g[d - maks_w[j]][s-1]
-                        zadnji_elemnt = j 
+                        g[d][s] = 1 + g[d - maks_w[j]][s-1] 
                         if j  >= ((len(N) / 2)):
                             k[d][s] = 1 + k[d - maks_w[j]][s - 1]
 
@@ -425,7 +423,7 @@ from collections import Counter
 
 def resitev_za_delnice(datoteka, budget):
     N, p, maks_p, r, seznam_kolicine_delnic, imena_delnic, R = preberi_podatke_za_delnice(datoteka, budget)
-    gama = doloci_gamo(r)
+    gama = 1
     resitev1 = resitev(N,budget,p, r,gama,maks_p)[0]
     z_zvezdica = resitev(N,budget, p, r,gama, maks_p)[1]
     c_zvezdica = resitev(N,budget, p, r,gama, maks_p)[2]
@@ -443,4 +441,9 @@ def resitev_za_delnice(datoteka, budget):
     for delnica in seznam_imen:
         stevec[delnica] += 1 
 
-    return(stevec, z_zvezdica)
+    dobicek = z_zvezdica - c_zvezdica
+
+    return(stevec, z_zvezdica, dobicek)
+
+
+#print(resitev_za_delnice("Robust-knapsack-problem/podatki/podatki_za_delnice/popravljeni_podatki.txt", 2000))
