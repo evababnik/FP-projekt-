@@ -436,7 +436,7 @@ from collections import Counter
 
 def resitev_za_delnice(datoteka, budget):
     N, p, maks_p, r, delnice, R = preberi_podatke_za_delnice(datoteka, budget)
-    gama = 2
+    gama = doloci_gamo(R)
     z_zvezdica = resitev(N,budget, p, r, delnice, gama, maks_p)[1]
     c_zvezdica = resitev(N,budget, p, r,delnice, gama, maks_p)[2]
     seznam_delnic = resitev(N,budget, p, r,delnice, gama, maks_p)[-1]
@@ -446,4 +446,4 @@ def resitev_za_delnice(datoteka, budget):
 
     return(stevec, z_zvezdica - c_zvezdica) #v rezultatu dobimo optimalno sestavo portfelja in dobiček
 
-print(resitev_za_delnice('Robust-knapsack-problem/podatki/podatki_za_delnice/popravljeni_podatki.txt', 1000))
+#print(resitev_za_delnice('Robust-knapsack-problem/podatki/podatki_za_delnice/popravljeni_podatki.txt', 500))
