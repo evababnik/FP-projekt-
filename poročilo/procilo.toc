@@ -13,7 +13,7 @@
 \contentsline {subsection}{\numberline {6.2}Rekurzija}{8}{subsection.6.2}%
 \contentsline {subsubsection}{\numberline {6.2.1}Primer \textit {rekurzije}}{10}{subsubsection.6.2.1}%
 \contentsline {section}{\numberline {7}Grafični vmesnik}{10}{section.7}%
-\contentsline {section}{\numberline {8}Časovna zahtevnost in generirani podatki}{10}{section.8}%
+\contentsline {section}{\numberline {8}Časovna zahtevnost in generirani podatki}{11}{section.8}%
 \contentsline {section}{\numberline {9}Optimizacija portfeljev s pomočjo RKP}{12}{section.9}%
-\contentsline {subsection}{\numberline {9.1}Uporaba RKP na delnicah $S\&P$ $500$}{13}{subsection.9.1}%
+\contentsline {subsection}{\numberline {9.1}Uporaba RKP na delnicah $S\&P$ $500$}{14}{subsection.9.1}%
 \contentsline {section}{\numberline {10}Viri in literatura}{15}{section.10}%
