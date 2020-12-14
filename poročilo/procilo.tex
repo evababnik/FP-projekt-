@@ -66,7 +66,7 @@ optimalni portfelj, ki si ga lahko izberemo, če imamo za investicije na voljo  
 \section{Problem nahrbtnika}
 \medskip
 Klasični problem nahrbtinka (angl. \textit{classical Knapsack Problem}) je računalniški problem, s katerim poskusimo zapolniti 
-nahrbtnik z danimi predmeti, pri čem ima svojo ceno in težo. Bodisi gre za dejansko polnjenje nahrbtnika, polnjenje 
+nahrbtnik z danimi predmeti, pri čem ima vsak svojo ceno in težo. Bodisi gre za dejansko polnjenje nahrbtnika, polnjenje 
 nakupovalne vreče ali morda zlaganje predmetov v avto. V nadaljevanju poročila bova za klasični problem uporabljala kar kratico KP. 
 Na voljo imamo množico $n$-tih predmetov, ki jo označimo z $N = \{1, \dots, n\}$ in nahrbtnik s kapaciteto $c$. Vsak predmet ima 
 pozitivno vrednost $p_{j}$ in pozitivno utež $w_{j}$. Problem nahrbtnika nas sprašuje, katero podmnožico predmetov iz $N$ moramo 
@@ -126,7 +126,7 @@ To predpostavko nakazuje naslednja lema. Za podmnožico elementov
 Podmnožica $J \subseteq N$ je dopustna rešitev natanko tedaj ko velja:
 \begin{equation}
     \tag*{}
-    $\sum_{j \in J|j \leq j_\Gamma} \hat{w}_j + \sum_{j \in J|j > j_\Gamma}w_j \geq c$
+        \sum_{j \in J|j \leq j_\Gamma} \hat{w}_j + \sum_{j \in J|j > j_\Gamma}w_j \leq c
 \end{equation}
 \end{definition}
 \begin{proof}
@@ -169,9 +169,9 @@ elementi z najmanjšimi indeksi (torej tisti, ki so bili v nahrbtnik položeni p
 dosegli večjo težo.
 
 \section{Opis kode}
-V prilogi sva dodala kodo napisano v \textit{pythonu}, ki je ustrezno komentirana pri vseh bolj zapletenih 
+V mapo \textit{python}, natančneje v \textit{koda\_RKP.py} na repozitoriju sva dodala kodo, napisano v \textit{pythonu}, ki je ustrezno komentirana pri vseh bolj zapletenih 
 funkcijah, tukaj pa bova še podrobneje prikazala funkciji \textit{solve\_RKP} in \textit{rekurzija}, ki sta glavni komponenti
-za izračun RKP. Kot je že bilo omenjeno je zelo pomembno, da so predmeti razvrščeni po padajoči teži $\bar{w}_j$, zato je najlažje 
+za izračun RKP. Kot je že bilo omenjeno, je zelo pomembno, da so predmeti razvrščeni po padajoči teži $\bar{w}_j$, zato je najlažje 
 če napišemo dodatno funkcijo, ki sama razporedi podatke v pravilni vrstni red, da nam to ni potrebno delati ročno. 
 \medskip
 \subsection{Solve\_RKP}
@@ -238,7 +238,7 @@ Najina delitev problema na dva dela temelji na naslednji lemi:
 Če je $k^* \geq \Gamma$, potem je optimalna rešitev sestavljena iz rešitve za robustni problem 
 nahrbtnika s parametrom $\Gamma$ za predmete iz množice $N_1$ in iz rešitve za navadni problem 
 nahrbtnika za predmete iz množice $N_2$, pri čemer upoštevamo njihove nominalne teže. 
-V primeru ko  je $k^* < \Gamma$, pa je optimalna rešitev sestavljena iz rešitev za
+V primeru ko  je $k^* < \Gamma$, pa je optimalna rešitev sestavljena iz rešitve za
 \textit{eKkP} s parametrom $k^*$ za predmete iz množice $N_1$ z njihovimi maksimalnimi 
 težami in iz rešitve za robustni problem nahrbtnika s parametrom   $\Gamma - k^*$ za predmete 
 iz množice $N_2$.
@@ -263,7 +263,7 @@ iz množice $N_2$.
 
 Recimo, da imamo iste podatke kot v primeru 6.1.1 in vrednosti $z^{*}$, $c^{*}$ ter $k^{*}$, ki jih dobimo 
 iz rešitve \textit{solve\_RKP}. Podatke vstavimo v funkcijo \textit{rekurzija} in dobimo seznam predmetov, 
-ki ji položimo v nahrbtink: 
+ki ji položimo v nahrbtnik: 
 
 \begin{figure}[h]
     \includegraphics[width=14cm, height = 1cm]{primer_rekurzija.png}
@@ -273,7 +273,7 @@ ki ji položimo v nahrbtink:
 
 \section{Grafični vmesnik}
 
-V prilogi, natančneje v \textit{koda\_RKP} sva s pomočjo \textit{pythonove} knjižnice \textit{tkinter}
+V mapi \textit{python}, natančneje v \textit{koda\_RKP} sva s pomočjo \textit{pythonove} knjižnice \textit{tkinter}
 naredila aplikacijo z grafičnim vmesnikom. Ta vas najprej vpraša, kakšen tip problema imate, torej ali 
 je to KP ali RKP in vam nato izbrani problem na kratko predstavi in vam pove, kako pravilno vnesti podatke 
 na naslednji strani.
@@ -298,7 +298,7 @@ postavimo v nahrbtnik in optimalno vrednost predmetov, kot je razvidno iz slike 
 iste podatke še v okno navadni problem nahrbtnika s to razliko, da je $\Gamma = 0$ dobimo optimalno vrednost 81 in 
 seznam predmetov, ki jih položimo v nahrbtnik.
 
-\section{Časovna zahtevnost}
+\section{Časovna zahtevnost in generirani podatki}
 \medskip
 Pogledali si bomo časovni zahtevnosti zgoraj opisanih funkcij, torej \textit{solve\_RKP}
 in \textit{rekurzija}. 
@@ -314,7 +314,7 @@ ko je $k^* \geq \Gamma$ največ
 časa porabi pri klicanju funkcije \textit{solve\_RKP($c^*, \Gamma, N_1$)},
 ki porabi $\mathcal{O}(\Gamma \frac{n}{2} c^*)$ časa in pri klicanju funkcije \textit{solve\_KP} s predmeti iz množice 
 $N_2$, ki porabi $\mathcal{O}(\frac{n}{2} c^*)$ časa. V primeru,
- ko je $k^* < \Gamma$ pa funkcija največ časa porabi ko pokliče funkcijo \textit{solve\_EkKP} v času $\mathcal{O}(\Gamma \frac{n}{2} c*)$
+ ko je $k^* < \Gamma$ pa funkcija največ časa porabi ko pokliče funkcijo \textit{solve\_EkKP} v času $\mathcal{O}(\Gamma \frac{n}{2} c^*)$
  in funckijo \textit{solve\_RKP} v času $\mathcal{O}(\Gamma \frac{n}{2} c^*)$. Časovna zahtevnost funkcije \textit{rekurzija}
  znaša torej $\mathcal{O}(\Gamma n c)$.
  \par
@@ -342,7 +342,10 @@ $N_2$, ki porabi $\mathcal{O}(\frac{n}{2} c^*)$ časa. V primeru,
     \end{tabular}
     \caption{\label{tab:tab1}Časovna zahtevnost algortima v odvisnosti od $n$, $\Gamma$ in $c$.}
 \end{table}
-
+\par
+S pomočjo funkcije \textit{naredi\_podatke} sva zgenerirala nekaj naključnih podatkov, ki se nahajajo
+v mapi \textit{generirani\_podatki}. Ime datoteke je sestavljeno kot \textit{podatki\_število\_predmetov\_c\_}$\Gamma$.txt.
+Seznami stvari, ki jih vstavimo v nahrbtnik, se nahajajo v mapi \textit{resitve\_generiranih\_podatkov}.
 \section{Optimizacija portfeljev s pomočjo RKP}
 \medskip
 Kodo za robustni problem nahrbtinka sva nato uporabila na poenostavljenem finančnem modelu,
@@ -354,7 +357,7 @@ interval [$P_j$ - $\underline{P}_{j}$, $P_j$ + $\overline{P}_{j}$], na katerem s
 nahaja in pričakovani donos delnice $R_j$. Zanima 
 nas koliko delnic posameznega podjetja $j$ kupiti, da bo pričakovani dobiček čim višji in da ob tem nakupu
 ne bomo presegli količine denarja $B$, namenjenega investiranju. Ob tem pa je potrebno tudi upoštevati,
-da največ $\Gamma$ delnic spremeni svojo vrednost iz nominalne na maksimalno. Opisani primer lahko
+da največ $\Gamma$ delnic podjetij spremeni svojo vrednost iz nominalne na maksimalno. Opisani primer lahko
 formuliramo na naslednji način:
 \begin{equation}
 \tag*{}
@@ -376,7 +379,7 @@ formuliramo na naslednji način:
     \tag*{}
     N_j \in \{0, ..., \frac{B}{(P_j + \overline{P}_{j})} \}, j \in M
 \end{equation}
-Zaradi lažje notacije v nadaljevanju označimo $\hat{P}_j = P_j + \overline{P}_j$
+Zaradi lažje notacije v nadaljevanju označimo $\hat{P}_j = P_j + \overline{P}_j$.
 Da bi dobila rešitev tega modela sva kodi dodala
 funkcije \textit{preberi\_podatke\_za\_delnice},
 \textit{resitev\_za\_delnice} in \textit{doloci\_gamo}. Prva funkcija prebere
@@ -399,7 +402,13 @@ sva ga označila z $\overline{R}$.
 Predpostavila sva, da je $\overline{R}$ kar enak verjetnosti $q$, ki predstavlja verjetnost,
 da bo vrednost opazovanih delnic narasla. Nato sva s pomočjo funkcije $random.binomial(stevilo\_delnic, q)$ 
 simulirala vrednosti slučajne spremenljivke $\Gamma$.
-
+\par
+Zaradi lažje preglednosti sva poosodobljeno kodo za finančni RKP model dala v datoteko
+\textit{koda\_financni\_model\_RKP}, ki se nahaja v mapi \textit{python}. 
+Za rešitev finančnega RKP modela potrebujemo dva argumenta; datoteko tipa \textit{.txt} (v kateri
+so po vrsti v stolpcih napisani podatki: simbol podjetja, ime podjetja, nominalna cena delnice, 
+najvišja cena delnice in pričakovani donos) ter znesek denarja, ki ga nameravamo nameniti investiranju.
+Optimalni portelj dobimo tako, da pokličemo funkcijo \textit{resitev\_za\_delnice}(datoteka, budget)
 \subsection{Uporaba RKP na delnicah $S\&P$ $500$}
 Z zgoraj opisanim finančnim RKP modelom sva nato izračunala optimalni portfelj na podlagi 
 o cenah in donosih delnic \textit{S}\&\textit{P 500}, kjer gre za 500 največjih in najbolj likvidnih

@@ -176,7 +176,6 @@ def solve_KP(N, c, w, p):
             else:                           #če pa se ta vrednost razlikuje od optimalne vrednosti, potem element i
                 N = v_seznam(N)            #dodamo v seznam stvari, zmanjšamo optimalno vrednost za vrednost 
                 element = N[i - 1]         #tega elementa in nadaljujemo dokler optimalna vrednost ne pride do 0
-                #set_stvari.append([element, w[i - 1], p[i - 1]])
                 seznam_stvari.append(element)
                 c_zvezdica += w[i - 1]
                 z_zvezdica1 -= p[i - 1]
@@ -331,7 +330,7 @@ def resitev(N, c, w, p, gama = None, maks_w = None): #funkcija nam vrne končno 
         z_zvedica = solve_KP(N, c, w, p)[1]
         return resitev, z_zvedica
     else:
-        k_zvezdica = solve_RKP(N, c, w, p, gama, maks_w)[3]     #seznam vstavljenih predmetov in vrednost
+        k_zvezdica = solve_RKP(N, c, w, p, gama, maks_w)[3]    
         z_zvezdica = solve_RKP(N, c, w, p, gama, maks_w)[0]
         c_zvezdica = solve_RKP(N, c, w, p, gama, maks_w)[1]
         resitev = rekurzija(N, z_zvezdica, k_zvezdica, c_zvezdica, gama, w, maks_w, p)
@@ -346,7 +345,7 @@ def resitev(N, c, w, p, gama = None, maks_w = None): #funkcija nam vrne končno 
                 resitev = resitev[1:]
         resitev = sorted(resitev)
     with open('resitev' "%s" % n +'-' "%s" % c + '-' "%s.txt" % gama, 'w', encoding='utf-8') as izhodna:
-        for el in resitev:
+        for el in resitev: #seznam predmetov vstavljenih v nahrbtnik shranimo v novo tesktovno datoteko
             izhodna.write("{} {} {} {}\n".format(N[el - 1], p[el - 1], w[el - 1], maks_w[el - 1]))
     return(resitev, z_zvezdica)
 

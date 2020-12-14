@@ -13,7 +13,7 @@ import time
 start_time = time.time()
 
 def matrika(m,n):
-    return [[0] * (m+1) for _ in range(n+1)] #funkcija, ki naredi ničelno matriko (m+1) X (n+1)
+    return [[0] * (m+1) for _ in range(n+1)] #funkcija, ki naredi ničelno matriko 
 
 def v_seznam(N):
     N0 = []
@@ -116,7 +116,7 @@ def solve_RKP(N, c, w, p, gama = None,  maks_w = None):
         zadnji_elemnt = 0
         for j in range(len(N)): # izberemo j-ti predmet 
             for d in range(c, w[j]-1, -1):  # in ga poskusimo dodati v svoji nominalni teži 
-                if p[j] != p[zadnji_elemnt] and w[j] != w[zadnji_elemnt]:
+                if p[j] != p[zadnji_elemnt] and w[j] != w[zadnji_elemnt]: #če smo že vzeli delnico katerega podjetja v robustni teži, nemoremo vzeti še kakšne delnice istega podjetja v njeni nominalni teži
                     if z[d - w[j]][gama] + p[j] > z[d][gama]: #pri pogoju, da smo že vstavili 
                         z[d][gama] = z[d - w[j]][gama] + p[j]  #gama predmetov
                         g[d][gama] = 1 + g[d - w[j]][gama]
@@ -128,7 +128,7 @@ def solve_RKP(N, c, w, p, gama = None,  maks_w = None):
                     if z[d - maks_w[j]][s - 1] + p[j] > z[d][s]:
                         z[d][s] = z[d - maks_w[j]][s - 1] + p[j]
                         g[d][s] = 1 + g[d - maks_w[j]][s-1]
-                        zadnji_elemnt = j 
+                        zadnji_elemnt = j #zapomnemo si zadnji element, ki smo ga dodali v robustni teži
                         if j  >= ((len(N) / 2)):
                             k[d][s] = 1 + k[d - maks_w[j]][s - 1]
 
@@ -404,7 +404,7 @@ def preberi_podatke_za_delnice(dat, budget, kodna_tabela='utf-8'): #funkcija pre
             x = vrstica.split() #najprej vsako vrstico razdelimo na seznam            
             st = int(budget / float(x[-2]))
             R.append(float(st))
-            if float(x[-1]) > 0:
+            if float(x[-1]) > 0: #če je donos delnice negativen, teh delnic sploh ne upoštevamo, saj nima smisla
                                           #prvi element vsake vrstice predstavlja ime delnice
                 stevilo_delnic = int(budget / float(x[-2])) #maksimalno število delnic posameznega podjetja, ki jih lahko kupimo (budget / maks cena delnice)
                 seznam_kolicine_delnic.append(stevilo_delnic) #seznam, ki predstavlja največ koliko delnic posameznega podjetja lahko kupimo
@@ -418,7 +418,7 @@ def preberi_podatke_za_delnice(dat, budget, kodna_tabela='utf-8'): #funkcija pre
     return(N, p, maks_p, r, imena_delnic, R)
 
 from numpy import random
-def doloci_gamo(R_popravljen):
+def doloci_gamo(R_popravljen): #iz podatkov določimo gamo (podroben opis v poročilu)
     stevilo_delnic = len(R_popravljen) 
     R_skupen = sum(R_popravljen)/100 
     R_povprecen = (R_skupen / stevilo_delnic)   
@@ -439,9 +439,9 @@ def resitev_za_delnice(datoteka, budget):
     c_zvezdica = resitev(N,budget, p, r,delnice, gama, maks_p)[2]
     seznam_delnic = resitev(N,budget, p, r,delnice, gama, maks_p)[-1]
     stevec = Counter()
-    for el in seznam_delnic:
+    for el in seznam_delnic: #pogledamo kolikokrat se v rešitvi pojavi posamezna delnica
         stevec[el] += 1 
 
-    return(stevec, z_zvezdica, z_zvezdica - c_zvezdica)
+    return(stevec, z_zvezdica - c_zvezdica) #v rezultatu dobimo optimalno sestavo portfelja in dobiček
 
 print(resitev_za_delnice('podatki\podatki_za_delnice\popravljeni_podatki.txt', 250))
