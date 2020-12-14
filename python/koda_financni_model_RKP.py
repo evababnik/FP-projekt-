@@ -113,7 +113,9 @@ def solve_RKP(N, c, w, p, gama = None,  maks_w = None):
             for s in range(gama + 1): #kapaciteti nahbrnika d, pri čemer največ s predmetov
                 g[d][s] = 0 #spremeni svojo težo na maks_w
         k[0][0] = 0
-        zadnji_elemnt = 0
+
+
+        zadnji_elemnt = 0        
         for j in range(len(N)): # izberemo j-ti predmet 
             for d in range(c, w[j]-1, -1):  # in ga poskusimo dodati v svoji nominalni teži 
                 if p[j] != p[zadnji_elemnt] and w[j] != w[zadnji_elemnt]: #če smo že vzeli delnico katerega podjetja v robustni teži, nemoremo vzeti še kakšne delnice istega podjetja v njeni nominalni teži
@@ -444,4 +446,4 @@ def resitev_za_delnice(datoteka, budget):
 
     return(stevec, z_zvezdica - c_zvezdica) #v rezultatu dobimo optimalno sestavo portfelja in dobiček
 
-print(resitev_za_delnice('podatki\podatki_za_delnice\popravljeni_podatki.txt', 1000))
+#print(resitev_za_delnice('Robust-knapsack-problem/podatki/podatki_za_delnice/popravljeni_podatki.txt', 500))
